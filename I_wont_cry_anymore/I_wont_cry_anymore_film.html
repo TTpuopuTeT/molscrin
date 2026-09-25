@@ -732,8 +732,8 @@
       height:88vh;
       max-height:none;
     }
-    /* === ФОН СМЕЩЁН ПРАВЕЕ, ЧТОБЫ ВИДЕТЬ ЛИЦО === */
-    .film-hero-bg img{ object-position:80% center; }
+    /* === ФОН: 60% — сдвинут вправо === */
+    .film-hero-bg img{ object-position:60% center; }
 
     .film-hero-overlay{
       background:
@@ -836,9 +836,7 @@
 </head>
 <body>
 
-<!-- ======================= ШАПКА ======================= -->
 <header>
-
   <a href="../index.html" class="close-btn" aria-label="Закрыть">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
       <line x1="6" y1="6" x2="18" y2="18"/>
@@ -873,7 +871,6 @@
     <span></span>
     <span></span>
   </button>
-
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
@@ -884,7 +881,6 @@
   <a href="#">Биография</a>
 </div>
 
-<!-- ======================= ОБЛОЖКА ======================= -->
 <section class="film-hero">
   <div class="film-hero-bg">
     <img src="I_wont_cry_anymore.jpg" alt="Я больше не буду плакать">
@@ -904,7 +900,6 @@
   </div>
 </section>
 
-<!-- ======================= ИНФО ======================= -->
 <section class="film-info">
 
   <div class="film-meta">
@@ -968,7 +963,6 @@
 
 </section>
 
-<!-- ======================= ПЛЕЕР ======================= -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
@@ -976,7 +970,6 @@
   </div>
 </div>
 
-<!-- ======================= ПРОСМОТР КАДРОВ ======================= -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
