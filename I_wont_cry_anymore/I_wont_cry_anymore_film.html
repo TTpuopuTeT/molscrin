@@ -360,6 +360,34 @@
     50%    { transform:scale(1.12); }
   }
 
+  /* мягкое «дыхание» свечения поверх картинки */
+  .hero-glow{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    background:
+      radial-gradient(ellipse 60% 55% at 30% 40%,
+        rgba(160,80,255,.28) 0%,
+        transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 70%,
+        rgba(80,120,255,.22) 0%,
+        transparent 65%);
+    mix-blend-mode:screen;
+    opacity:.75;
+    animation:glowBreath 8s ease-in-out infinite;
+  }
+  @keyframes glowBreath{
+    0%,100%{
+      opacity:.55;
+      transform:scale(1);
+    }
+    50%{
+      opacity:.95;
+      transform:scale(1.08);
+    }
+  }
+
   /* светящиеся частицы */
   .particles{
     position:absolute;
@@ -526,7 +554,6 @@
     margin:0 auto;
   }
 
-  /* reveal-анимация при скролле */
   .reveal{
     opacity:0;
     transform:translateY(34px);
@@ -605,7 +632,6 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -663,7 +689,6 @@
   .frame-item:hover img{ transform:scale(1.06); }
   .frame-item:active{ transform:translateY(-2px) scale(.99); }
 
-  /* --- Актёры --- */
   .actors-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -815,7 +840,7 @@
     animation:shimmer 4s ease-in-out infinite;
   }
 
-  /* ================= ПРОСМОТР КАДРОВ ================= */
+  /* ================= ЛАЙТБОКС ================= */
   .lightbox{
     position:fixed;
     inset:0;
@@ -962,7 +987,36 @@
       height:88vh;
       max-height:none;
     }
-    .film-hero-bg img{ object-position:60% center; }
+
+    /* ===== УСИЛЕННЫЙ ФОН НА ТЕЛЕФОНЕ ===== */
+    .film-hero-bg img{
+      object-position:60% center;
+      /* Ken Burns усилен: зум + сдвиг по кругу */
+      animation:heroKenBurns 18s ease-in-out infinite;
+    }
+    @keyframes heroKenBurns{
+      0%{
+        transform:scale(1.08) translate(0, 0);
+      }
+      25%{
+        transform:scale(1.18) translate(-1.5%, -1.5%);
+      }
+      50%{
+        transform:scale(1.22) translate(1.5%, -1%);
+      }
+      75%{
+        transform:scale(1.15) translate(1%, 1.5%);
+      }
+      100%{
+        transform:scale(1.08) translate(0, 0);
+      }
+    }
+
+    /* свечение ярче */
+    .hero-glow{
+      opacity:.9;
+      animation:glowBreath 6s ease-in-out infinite;
+    }
 
     .film-hero-overlay{
       background:
@@ -1062,7 +1116,6 @@
     .actors-grid{ grid-template-columns:repeat(3, 1fr); }
   }
 
-  /* доступность — уважаем «меньше движения» */
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{
       animation-duration:.001ms !important;
@@ -1123,6 +1176,7 @@
   <div class="film-hero-bg" id="heroBg">
     <img src="I_wont_cry_anymore.jpg" alt="Я больше не буду плакать">
   </div>
+  <div class="hero-glow"></div>
   <div class="particles" id="particles"></div>
   <div class="film-hero-overlay"></div>
 
@@ -1250,7 +1304,6 @@
   const lightboxNext    = document.getElementById('lightboxNext');
   const lightboxCounter = document.getElementById('lightboxCounter');
 
-  /* ---------- шапка при скролле ---------- */
   const siteHeader = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => {
     siteHeader.classList.toggle('scrolled', window.scrollY > 30);
@@ -1258,13 +1311,16 @@
 
   /* ---------- параллакс фона обложки ---------- */
   const heroBg = document.getElementById('heroBg');
+  const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
   if(heroBg && window.matchMedia('(prefers-reduced-motion: no-preference)').matches){
     let ticking = false;
     window.addEventListener('scroll', () => {
       if(!ticking){
         requestAnimationFrame(() => {
           const y = Math.min(window.scrollY, 700);
-          heroBg.style.transform = 'translateY(' + (y * 0.35) + 'px)';
+          /* на мобильном параллакс усилен */
+          const strength = isMobile() ? 0.55 : 0.35;
+          heroBg.style.transform = 'translateY(' + (y * strength) + 'px)';
           ticking = false;
         });
         ticking = true;
@@ -1275,17 +1331,18 @@
   /* ---------- плавающие частицы ---------- */
   const particlesBox = document.getElementById('particles');
   if(particlesBox && window.matchMedia('(prefers-reduced-motion: no-preference)').matches){
-    const count = window.innerWidth < 700 ? 14 : 26;
+    /* на мобильном больше частиц — «живее» */
+    const count = window.innerWidth < 700 ? 22 : 26;
     for(let i = 0; i < count; i++){
       const p = document.createElement('span');
       p.className = 'particle';
       p.style.left = Math.random() * 100 + '%';
       p.style.bottom = (-10 - Math.random() * 20) + '%';
-      p.style.animationDuration = (14 + Math.random() * 18) + 's';
+      p.style.animationDuration = (12 + Math.random() * 16) + 's';
       p.style.animationDelay = (-Math.random() * 20) + 's';
-      const scale = 0.6 + Math.random() * 1.6;
+      const scale = 0.8 + Math.random() * 1.8;
       p.style.transform = 'scale(' + scale + ')';
-      p.style.opacity = (0.25 + Math.random() * 0.5).toFixed(2);
+      p.style.opacity = (0.3 + Math.random() * 0.55).toFixed(2);
       particlesBox.appendChild(p);
     }
   }
