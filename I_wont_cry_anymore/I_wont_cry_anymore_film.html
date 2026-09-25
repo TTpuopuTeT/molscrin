@@ -76,7 +76,6 @@
     transform:rotate(90deg);
   }
 
-  /* --- Поиск --- */
   .search-wrap{
     position:relative;
     justify-self:center;
@@ -446,7 +445,6 @@
     color:var(--text);
   }
 
-  /* --- Кадры --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -486,7 +484,6 @@
     transform:translateY(-1px) scale(.99);
   }
 
-  /* --- Актёры --- */
   .actors-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -735,7 +732,9 @@
       height:88vh;
       max-height:none;
     }
-    .film-hero-bg img{ object-position:55% center; }
+    /* === ФОН СМЕЩЁН ПРАВЕЕ, ЧТОБЫ ВИДЕТЬ ЛИЦО === */
+    .film-hero-bg img{ object-position:80% center; }
+
     .film-hero-overlay{
       background:
         linear-gradient(to right,
@@ -987,7 +986,6 @@
 </div>
 
 <script>
-  /* ---------- данные фильмов (для поиска) ---------- */
   const TITLES = [
     'Раскол','Весна','Элли','Изумрудный город','Я больше не буду плакать',
     'Красный кролик','Красный кролик: первая жертва','Красный кролик: грехи',
@@ -996,7 +994,6 @@
     'Любовь','Страницы усталости','Mors certa, Vita incert','Последний глоток'
   ];
 
-  /* пути — от корня репозитория, для поиска со страницы фильма добавим ../ */
   const FILM_DATA = {
     'Я больше не буду плакать': {
       link:   'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
@@ -1004,7 +1001,6 @@
     }
   };
 
-  /* ---------- элементы ---------- */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
   const searchInput = document.getElementById('searchInput');
@@ -1023,7 +1019,6 @@
   const lightboxNext    = document.getElementById('lightboxNext');
   const lightboxCounter = document.getElementById('lightboxCounter');
 
-  /* ---------- бургер ---------- */
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
     mobileMenu.classList.toggle('open', open);
@@ -1037,7 +1032,6 @@
     });
   });
 
-  /* ---------- плеер ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1052,7 +1046,6 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
@@ -1086,7 +1079,6 @@
     if(e.target === lightbox) closeLightbox();
   });
 
-  /* ---------- клавиатура ---------- */
   document.addEventListener('keydown', e => {
     if(lightbox.classList.contains('open')){
       if(e.key === 'Escape')     closeLightbox();
@@ -1099,7 +1091,6 @@
     }
   });
 
-  /* ---------- свайпы ---------- */
   let touchX = 0;
   lightbox.addEventListener('touchstart', e => {
     touchX = e.changedTouches[0].clientX;
@@ -1111,7 +1102,6 @@
     }
   });
 
-  /* ---------- поиск ---------- */
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -1119,8 +1109,6 @@
   }
   function openResults(){ resultsBox.classList.add('open'); }
   function closeResults(){ resultsBox.classList.remove('open'); }
-
-  /* мы внутри папки — добавляем ../ ко всем ссылкам */
   function fixPath(p){ return '../' + p; }
 
   function renderResults(query){
