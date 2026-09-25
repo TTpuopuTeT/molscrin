@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#05060d">
+<title>МОЛСКРИН</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:      #05060d;
+    --blue:    #4d7cff;
+    --violet:  #a04dff;
+    --text:    #e6e8ff;
+    --muted:   #9aa0c8;
+    --header-h: 86px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    overflow-x:hidden;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /* ================= ШАПКА ================= */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:var(--header-h);
+    z-index:100;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    gap:22px;
+    padding:0 34px;
+    background:rgba(8,10,22,.6);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(120,110,255,.12);
+  }
+
+  /* --- Лого --- */
+  .logo{
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+    line-height:0;
+    flex-shrink:0;
+  }
+  .logo svg{
+    width:54px;
+    height:54px;
+    overflow:visible;
+    display:block;
+    filter:drop-shadow(0 0 10px rgba(110,80,255,.55));
+    transition:filter .3s ease;
+  }
+  .logo:hover svg,
+  .logo:active svg{
+    filter:drop-shadow(0 0 18px rgba(150,90,255,.95));
+  }
+
+  /* --- Поиск --- */
+  .search-wrap{
+    position:relative;
+    justify-self:center;
+    width:min(480px, 100%);
+    z-index:120;
+  }
+  .search{
+    position:relative;
+  }
+  .search input{
+    width:100%;
+    height:48px;
+    border-radius:24px;
+    padding:0 50px 0 22px;
+    font-family:inherit;
+    font-size:16px;
+    color:var(--text);
+    background:rgba(20,22,45,.7);
+    border:1px solid rgba(120,110,255,.25);
+    outline:none;
+    transition:border-color .25s, box-shadow .25s, background .25s;
+  }
+  .search input::placeholder{ color:#6b72a3; }
+  .search input:focus{
+    background:rgba(24,26,52,.9);
+    border-color:rgba(140,110,255,.75);
+    box-shadow:0 0 0 3px rgba(120,80,255,.14), 0 0 28px rgba(90,60,255,.28);
+  }
+  .search .icon-search{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    width:17px; height:17px;
+    opacity:.45;
+    pointer-events:none;
+  }
+
+  /* --- Панель результатов --- */
+  .search-results{
+    position:absolute;
+    top:calc(100% + 10px);
+    left:0; right:0;
+    max-height:min(70vh, 560px);
+    overflow-y:auto;
+    background:rgba(10,12,26,.97);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(120,110,255,.22);
+    border-radius:18px;
+    padding:14px;
+    opacity:0;
+    transform:translateY(-6px);
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 40px rgba(90,60,255,.15);
+  }
+  .search-results.open{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .search-results::-webkit-scrollbar{ width:6px; }
+  .search-results::-webkit-scrollbar-thumb{
+    background:rgba(120,110,255,.3);
+    border-radius:3px;
+  }
+
+  .results-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+  }
+
+  /* --- Карточка фильма --- */
+  .film-card{
+    display:block;
+    text-decoration:none;
+    color:inherit;
+    border-radius:12px;
+    overflow:hidden;
+    background:rgba(20,22,45,.6);
+    border:1px solid rgba(120,110,255,.12);
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .film-card.link:hover{
+    transform:translateY(-2px);
+    border-color:rgba(140,110,255,.6);
+    box-shadow:0 8px 24px rgba(90,60,255,.25);
+  }
+  .film-card.disabled{
+    cursor:not-allowed;
+    opacity:.7;
+  }
+
+  .film-card-poster{
+    position:relative;
+    width:100%;
+    aspect-ratio:2/3;
+    background:
+      linear-gradient(135deg, rgba(60,40,120,.5), rgba(20,22,45,.9)),
+      radial-gradient(circle at 30% 30%, rgba(120,80,255,.25), transparent 60%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .film-card-poster img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .film-card-poster .soon{
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:rgba(180,170,255,.55);
+    border:1px solid rgba(120,110,255,.3);
+    padding:5px 10px;
+    border-radius:20px;
+  }
+
+  .film-card-title{
+    padding:10px 12px;
+    font-size:13px;
+    font-weight:500;
+    line-height:1.3;
+    color:var(--text);
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .film-card.disabled .film-card-title{ color:var(--muted); }
+
+  .no-results{
+    padding:24px 12px;
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  /* --- Навигация (desktop) --- */
+  nav.desktop-nav{
+    display:flex;
+    align-items:center;
+    gap:24px;
+  }
+  nav.desktop-nav a{
+    position:relative;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:.04em;
+    white-space:nowrap;
+    transition:color .2s, text-shadow .2s;
+  }
+  nav.desktop-nav a::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:-6px;
+    height:1px;
+    background:linear-gradient(90deg, var(--blue), var(--violet));
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .28s ease;
+  }
+  nav.desktop-nav a:hover{
+    color:#fff;
+    text-shadow:0 0 14px rgba(150,110,255,.9);
+  }
+  nav.desktop-nav a:hover::after{ transform:scaleX(1); }
+
+  /* --- Бургер (mobile) --- */
+  .burger{
+    display:none;
+    width:44px; height:44px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    position:relative;
+    flex-shrink:0;
+  }
+  .burger span{
+    position:absolute;
+    left:10px; right:10px;
+    height:2px;
+    background:var(--text);
+    border-radius:2px;
+    transition:transform .3s ease, opacity .3s ease, top .3s ease;
+  }
+  .burger span:nth-child(1){ top:15px; }
+  .burger span:nth-child(2){ top:21px; }
+  .burger span:nth-child(3){ top:27px; }
+
+  .burger.open span:nth-child(1){ top:21px; transform:rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ top:21px; transform:rotate(-45deg); }
+
+  .mobile-menu{
+    display:none;
+    position:fixed;
+    top:var(--header-h);
+    left:0; right:0;
+    z-index:99;
+    background:rgba(8,10,22,.96);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(120,110,255,.18);
+    padding:8px 0 16px;
+    transform:translateY(-8px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease, transform .22s ease;
+  }
+  .mobile-menu.open{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .mobile-menu a{
+    display:block;
+    padding:14px 24px;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:16px;
+    font-weight:500;
+    letter-spacing:.04em;
+    border-bottom:1px solid rgba(120,110,255,.07);
+    transition:color .2s, background .2s;
+  }
+  .mobile-menu a:last-child{ border-bottom:none; }
+  .mobile-menu a:active{
+    color:#fff;
+    background:rgba(120,80,255,.12);
+  }
+
+  /* ================= ГЛАВНЫЙ ЭКРАН ================= */
+  .hero{
+    position:relative;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    overflow:hidden;
+  }
+
+  .columns{
+    position:absolute;
+    inset:0;
+    display:flex;
+    pointer-events:none;
+    user-select:none;
+    -webkit-user-select:none;
+    -webkit-mask-image:linear-gradient(to bottom,
+        transparent 0%, #000 16%, #000 84%, transparent 100%);
+    mask-image:linear-gradient(to bottom,
+        transparent 0%, #000 16%, #000 84%, transparent 100%);
+  }
+
+  .column{
+    flex:1 1 0;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .column-track{
+    display:flex;
+    flex-direction:column;
+    will-change:transform;
+    animation-name:revolve;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+  }
+
+  @keyframes revolve{
+    from{ transform:translateY(-50%); }
+    to  { transform:translateY(0);    }
+  }
+
+  .column-track span{
+    display:block;
+    padding:13px 12px;
+    font-size:15px;
+    font-weight:500;
+    line-height:1.35;
+    letter-spacing:.01em;
+    text-align:center;
+    color:rgba(160,170,235,.60);
+    transition:color .4s ease;
+  }
+
+  .hero-overlay{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 55% at 50% 50%,
+        rgba(5,6,13,.30) 0%,
+        rgba(5,6,13,.80) 55%,
+        rgba(5,6,13,.97) 100%),
+      linear-gradient(to bottom,
+        rgba(5,6,13,.92) 0%,
+        rgba(5,6,13,.15) 28%,
+        rgba(5,6,13,.15) 72%,
+        rgba(5,6,13,.95) 100%);
+  }
+
+  .hero-content{
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:calc(var(--header-h) + 12px) 20px 20px;
+  }
+
+  .studio{
+    font-family:'Unbounded',sans-serif;
+    font-weight:800;
+    font-size:clamp(42px, 9vw, 138px);
+    letter-spacing:.06em;
+    line-height:1;
+    white-space:nowrap;
+    background:linear-gradient(180deg,
+      #ffffff 0%,
+      #c3cbff 42%,
+      #7a5cff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 0 44px rgba(90,70,255,.5));
+    animation:fadeUp 1.3s cubic-bezier(.2,.7,.3,1) both;
+  }
+
+  .hero-desc{
+    margin-top:32px;
+    width:min(760px, 92%);
+    min-height:64px;
+    animation:fadeUp 1.3s .35s cubic-bezier(.2,.7,.3,1) both;
+  }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(22px); }
+    to  { opacity:1; transform:translateY(0);    }
+  }
+
+  /* ================= ПЛАНШЕТ ================= */
+  @media (max-width:1100px){
+    header{ padding:0 20px; gap:16px; }
+    nav.desktop-nav{ gap:16px; }
+    nav.desktop-nav a{ font-size:14px; }
+    .logo svg{ width:46px; height:46px; }
+  }
+
+  /* ================= МОБИЛЬНЫЙ ================= */
+  @media (max-width:900px){
+    :root{ --header-h: 66px; }
+
+    header{
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      padding:0 14px;
+    }
+
+    nav.desktop-nav{ display:none; }
+    .burger{ display:block; }
+    .mobile-menu{ display:block; }
+
+    .logo svg{ width:40px; height:40px; }
+
+    .search input{
+      height:42px;
+      border-radius:21px;
+      padding:0 42px 0 18px;
+      font-size:16px;
+    }
+    .search .icon-search{
+      right:15px;
+      width:16px; height:16px;
+    }
+
+    .results-grid{
+      grid-template-columns:repeat(2, 1fr);
+      gap:10px;
+    }
+
+    .column-track span{
+      font-size:13px;
+      padding:11px 6px;
+      line-height:1.3;
+    }
+
+    .hero-content{
+      padding:calc(var(--header-h) + 8px) 12px 16px;
+    }
+
+    .studio{
+      font-size:clamp(28px, 9.5vw, 56px);
+      letter-spacing:.03em;
+      white-space:nowrap;
+    }
+
+    .hero-desc{
+      margin-top:24px;
+      min-height:48px;
+    }
+  }
+
+  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
+  @media (max-width:480px){
+    :root{ --header-h: 60px; }
+
+    header{ padding:0 12px; gap:10px; }
+
+    .logo svg{ width:36px; height:36px; }
+
+    .search input{
+      height:40px;
+      border-radius:20px;
+      padding:0 38px 0 16px;
+    }
+    .search .icon-search{
+      right:13px;
+      width:15px; height:15px;
+    }
+
+    .column-track span{
+      font-size:12px;
+      padding:10px 4px;
+    }
+
+    .hero-content{
+      padding:calc(var(--header-h) + 6px) 10px 14px;
+    }
+
+    .studio{
+      font-size:clamp(24px, 9vw, 42px);
+      letter-spacing:.02em;
+    }
+
+    .burger{ width:40px; height:40px; }
+    .burger span{ left:9px; right:9px; }
+    .burger span:nth-child(1){ top:13px; }
+    .burger span:nth-child(2){ top:19px; }
+    .burger span:nth-child(3){ top:25px; }
+    .burger.open span:nth-child(1),
+    .burger.open span:nth-child(3){ top:19px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================= ШАПКА ======================= -->
+<header>
+
+  <a href="#" class="logo" aria-label="МОЛСКРИН">
+    <svg viewBox="0 0 64 64" fill="none"
+         stroke="url(#logoGrad)"
+         stroke-width="3.5"
+         stroke-linecap="round">
+      <defs>
+        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stop-color="#a04dff"/>
+          <stop offset="100%" stop-color="#4d7cff"/>
+        </linearGradient>
+      </defs>
+      <line x1="12" y1="6"  x2="12" y2="58"/>
+      <line x1="4"  y1="4"  x2="32" y2="42"/>
+      <line x1="60" y1="4"  x2="32" y2="42"/>
+      <line x1="52" y1="6"  x2="52" y2="58"/>
+    </svg>
+  </a>
+
+  <div class="search-wrap">
+    <div class="search">
+      <input type="text" id="searchInput" placeholder="Поиск фильмов..." autocomplete="off">
+      <svg class="icon-search" viewBox="0 0 24 24" fill="none" stroke="#9aa0c8" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <line x1="21" y1="21" x2="16.7" y2="16.7"/>
+      </svg>
+    </div>
+
+    <!-- Панель результатов -->
+    <div class="search-results" id="searchResults">
+      <div class="results-grid" id="resultsGrid"></div>
+    </div>
+  </div>
+
+  <nav class="desktop-nav">
+    <a href="#">Главная</a>
+    <a href="#">Смотреть</a>
+    <a href="#">Актёры</a>
+    <a href="#">Анонсы</a>
+    <a href="#">Биография</a>
+  </nav>
+
+  <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#">Главная</a>
+  <a href="#">Смотреть</a>
+  <a href="#">Актёры</a>
+  <a href="#">Анонсы</a>
+  <a href="#">Биография</a>
+</div>
+
+<!-- ======================= ГЛАВНЫЙ ЭКРАН ======================= -->
+<main class="hero">
+
+  <div class="columns" id="columns"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1 class="studio">МОЛСКРИН</h1>
+    <div class="hero-desc"></div>
+  </div>
+
+</main>
+
+<script>
+  /* ---------- данные фильмов ---------- */
+  const TITLES = [
+    'Раскол',
+    'Весна',
+    'Элли',
+    'Изумрудный город',
+    'Я больше не буду плакать',
+    'Красный кролик',
+    'Красный кролик: первая жертва',
+    'Красный кролик: грехи',
+    'Красный кролик: искупление',
+    'Око за око',
+    'Нашедший',
+    'Нашедший: принятие',
+    'Наказание',
+    'Первый ход',
+    'Scappa di casa',
+    'Не улетай',
+    'Пыль',
+    'Помощь',
+    'Любовь',
+    'Страницы усталости',
+    'Mors certa, Vita incert',
+    'Последний глоток'
+  ];
+
+  /* какие фильмы уже готовы: ключ = название, значение = {link, poster} */
+  const FILM_DATA = {
+    'Я больше не буду плакать': {
+      link:   'I_wont_cry_anymore_film.html',
+      poster: 'I_wont_cry_anymore1.jpg'
+    }
+  };
+
+  /* ---------- колонны ---------- */
+  const columnsEl   = document.getElementById('columns');
+  const burger      = document.getElementById('burger');
+  const mobileMenu  = document.getElementById('mobileMenu');
+  const searchInput = document.getElementById('searchInput');
+  const resultsBox  = document.getElementById('searchResults');
+  const resultsGrid = document.getElementById('resultsGrid');
+
+  function shuffle(arr){
+    for(let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function columnCount(){
+    const w = window.innerWidth;
+    if (w < 480)  return 2;
+    if (w < 700)  return 3;
+    if (w < 1100) return 4;
+    if (w < 1600) return 5;
+    return 6;
+  }
+
+  function buildColumns(){
+    columnsEl.innerHTML = '';
+    const count = columnCount();
+
+    for(let i = 0; i < count; i++){
+      const col   = document.createElement('div');
+      col.className = 'column';
+
+      const track = document.createElement('div');
+      track.className = 'column-track';
+
+      const seq = shuffle([...TITLES]);
+      seq.concat(seq).forEach(title => {
+        const s = document.createElement('span');
+        s.textContent = title;
+        track.appendChild(s);
+      });
+
+      const dur = 26 + Math.random() * 24;
+      track.style.animationDuration = dur + 's';
+      track.style.animationDelay    = (-Math.random() * dur) + 's';
+
+      col.appendChild(track);
+      columnsEl.appendChild(col);
+    }
+  }
+
+  buildColumns();
+
+  /* ---------- поиск ---------- */
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function openResults(){ resultsBox.classList.add('open'); }
+  function closeResults(){ resultsBox.classList.remove('open'); }
+
+  function renderResults(query){
+    const q = query.trim().toLowerCase();
+
+    if(!q){
+      closeResults();
+      resultsGrid.innerHTML = '';
+      return;
+    }
+
+    const matches = TITLES.filter(t => t.toLowerCase().includes(q));
+
+    if(matches.length === 0){
+      resultsGrid.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+      openResults();
+      return;
+    }
+
+    resultsGrid.innerHTML = matches.map(title => {
+      const data = FILM_DATA[title];
+
+      if(data){
+        /* готовый фильм — кликабельная карточка */
+        return `
+          <a href="${data.link}" class="film-card link">
+            <div class="film-card-poster">
+              <img src="${data.poster}" alt="${escapeHtml(title)}"
+                   onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>СКОРО</span>')">
+            </div>
+            <div class="film-card-title">${escapeHtml(title)}</div>
+          </a>
+        `;
+      } else {
+        /* заглушка */
+        return `
+          <div class="film-card disabled">
+            <div class="film-card-poster">
+              <span class="soon">Скоро</span>
+            </div>
+            <div class="film-card-title">${escapeHtml(title)}</div>
+          </div>
+        `;
+      }
+    }).join('');
+
+    openResults();
+  }
+
+  searchInput.addEventListener('input', e => {
+    renderResults(e.target.value);
+  });
+
+  searchInput.addEventListener('focus', e => {
+    if(e.target.value.trim()) renderResults(e.target.value);
+  });
+
+  /* закрытие: клик вне */
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.search-wrap')) closeResults();
+  });
+
+  /* закрытие: Esc */
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){
+      closeResults();
+      searchInput.blur();
+    }
+  });
+
+  /* ---------- бургер ---------- */
+  burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ---------- resize ---------- */
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildColumns, 250);
+  });
+  window.addEventListener('orientationchange', () => {
+    setTimeout(buildColumns, 300);
+  });
+</script>
+
+</body>
+</html>
