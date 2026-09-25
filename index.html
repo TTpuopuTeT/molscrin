@@ -77,9 +77,7 @@
     width:min(480px, 100%);
     z-index:120;
   }
-  .search{
-    position:relative;
-  }
+  .search{ position:relative; }
   .search input{
     width:100%;
     height:48px;
@@ -560,7 +558,6 @@
       </svg>
     </div>
 
-    <!-- Панель результатов -->
     <div class="search-results" id="searchResults">
       <div class="results-grid" id="resultsGrid"></div>
     </div>
@@ -633,12 +630,12 @@
   /* какие фильмы уже готовы: ключ = название, значение = {link, poster} */
   const FILM_DATA = {
     'Я больше не буду плакать': {
-      link:   'I_wont_cry_anymore_film.html',
-      poster: 'I_wont_cry_anymore1.jpg'
+      link:   'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
+      poster: 'I_wont_cry_anymore/I_wont_cry_anymore1.jpg'
     }
   };
 
-  /* ---------- колонны ---------- */
+  /* ---------- элементы ---------- */
   const columnsEl   = document.getElementById('columns');
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
@@ -646,6 +643,7 @@
   const resultsBox  = document.getElementById('searchResults');
   const resultsGrid = document.getElementById('resultsGrid');
 
+  /* ---------- колонны ---------- */
   function shuffle(arr){
     for(let i = arr.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
@@ -723,7 +721,6 @@
       const data = FILM_DATA[title];
 
       if(data){
-        /* готовый фильм — кликабельная карточка */
         return `
           <a href="${data.link}" class="film-card link">
             <div class="film-card-poster">
@@ -733,17 +730,16 @@
             <div class="film-card-title">${escapeHtml(title)}</div>
           </a>
         `;
-      } else {
-        /* заглушка */
-        return `
-          <div class="film-card disabled">
-            <div class="film-card-poster">
-              <span class="soon">Скоро</span>
-            </div>
-            <div class="film-card-title">${escapeHtml(title)}</div>
-          </div>
-        `;
       }
+
+      return `
+        <div class="film-card disabled">
+          <div class="film-card-poster">
+            <span class="soon">Скоро</span>
+          </div>
+          <div class="film-card-title">${escapeHtml(title)}</div>
+        </div>
+      `;
     }).join('');
 
     openResults();
@@ -757,12 +753,10 @@
     if(e.target.value.trim()) renderResults(e.target.value);
   });
 
-  /* закрытие: клик вне */
   document.addEventListener('click', e => {
     if(!e.target.closest('.search-wrap')) closeResults();
   });
 
-  /* закрытие: Esc */
   document.addEventListener('keydown', e => {
     if(e.key === 'Escape'){
       closeResults();
