@@ -76,6 +76,7 @@
     transform:rotate(90deg);
   }
 
+  /* --- Поиск --- */
   .search-wrap{
     position:relative;
     justify-self:center;
@@ -445,7 +446,7 @@
     color:var(--text);
   }
 
-  /* --- Кадры: сетка --- */
+  /* --- Кадры --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -468,14 +469,24 @@
     font-weight:600;
     letter-spacing:.16em;
     text-transform:uppercase;
+    cursor:zoom-in;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
   }
   .frame-item img{
     width:100%; height:100%;
     object-fit:cover;
     display:block;
   }
+  .frame-item:hover{
+    transform:translateY(-3px);
+    border-color:rgba(140,110,255,.55);
+    box-shadow:0 12px 36px rgba(90,60,255,.3);
+  }
+  .frame-item:active{
+    transform:translateY(-1px) scale(.99);
+  }
 
-  /* --- Актёры: сетка --- */
+  /* --- Актёры --- */
   .actors-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -578,6 +589,103 @@
     opacity:.85;
   }
 
+  /* ================= ПРОСМОТР КАДРОВ ================= */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    z-index:400;
+    background:rgba(2,3,10,.94);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    animation:fadeIn .2s ease both;
+    -webkit-user-select:none;
+    user-select:none;
+  }
+  .lightbox.open{ display:flex; }
+
+  .lightbox img{
+    max-width:100%;
+    max-height:90vh;
+    border-radius:14px;
+    border:1px solid rgba(120,110,255,.28);
+    box-shadow:
+      0 30px 90px rgba(0,0,0,.85),
+      0 0 60px rgba(90,60,255,.25);
+    display:block;
+    animation:zoomIn .28s cubic-bezier(.2,.7,.3,1) both;
+  }
+  @keyframes zoomIn{
+    from{ opacity:0; transform:scale(.94); }
+    to  { opacity:1; transform:scale(1);   }
+  }
+
+  .lightbox-close{
+    position:absolute;
+    top:20px; right:20px;
+    width:46px; height:46px;
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.16);
+    color:#fff;
+    font-size:24px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .2s, transform .2s;
+    z-index:2;
+  }
+  .lightbox-close:hover{
+    background:rgba(255,255,255,.22);
+    transform:rotate(90deg);
+  }
+
+  .lightbox-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:54px; height:54px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff;
+    font-size:26px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .2s, transform .2s;
+    z-index:2;
+  }
+  .lightbox-nav:hover{
+    background:rgba(120,80,255,.35);
+  }
+  .lightbox-nav.prev{ left:20px; }
+  .lightbox-nav.next{ right:20px; }
+  .lightbox-nav.prev:hover{ transform:translateY(-50%) translateX(-2px); }
+  .lightbox-nav.next:hover{ transform:translateY(-50%) translateX(2px); }
+
+  .lightbox-counter{
+    position:absolute;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:14px;
+    font-weight:500;
+    color:rgba(200,205,255,.75);
+    letter-spacing:.08em;
+    padding:8px 18px;
+    border-radius:20px;
+    background:rgba(10,12,26,.7);
+    border:1px solid rgba(120,110,255,.2);
+  }
+
   /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
@@ -675,6 +783,24 @@
 
     .modal-inner{ border-radius:12px; }
     .modal-close{ width:38px; height:38px; top:10px; right:10px; }
+
+    .lightbox{ padding:14px; }
+    .lightbox-close{
+      width:40px; height:40px;
+      top:12px; right:12px;
+      font-size:20px;
+    }
+    .lightbox-nav{
+      width:44px; height:44px;
+      font-size:22px;
+    }
+    .lightbox-nav.prev{ left:8px; }
+    .lightbox-nav.next{ right:8px; }
+    .lightbox-counter{
+      bottom:14px;
+      font-size:12px;
+      padding:6px 14px;
+    }
   }
 
   /* ================= УЗКИЙ ТЕЛЕФОН ================= */
@@ -714,7 +840,6 @@
 <!-- ======================= ШАПКА ======================= -->
 <header>
 
-  <!-- назад на главную (на уровень выше) -->
   <a href="../index.html" class="close-btn" aria-label="Закрыть">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
       <line x1="6" y1="6" x2="18" y2="18"/>
@@ -763,7 +888,6 @@
 <!-- ======================= ОБЛОЖКА ======================= -->
 <section class="film-hero">
   <div class="film-hero-bg">
-    <!-- файл лежит рядом, поэтому просто имя -->
     <img src="I_wont_cry_anymore.jpg" alt="Я больше не буду плакать">
   </div>
 
@@ -800,17 +924,17 @@
   </p>
 
   <h2 class="section-title">Кадры</h2>
-  <div class="frames-grid">
-    <div class="frame-item">
+  <div class="frames-grid" id="framesGrid">
+    <div class="frame-item" data-src="I_wont_cry_anymore_k1.jpg">
       <img src="I_wont_cry_anymore_k1.jpg" alt="Кадр 1">
     </div>
-    <div class="frame-item">
+    <div class="frame-item" data-src="I_wont_cry_anymore_k2.jpg">
       <img src="I_wont_cry_anymore_k2.jpg" alt="Кадр 2">
     </div>
-    <div class="frame-item">
+    <div class="frame-item" data-src="I_wont_cry_anymore_k3.jpg">
       <img src="I_wont_cry_anymore_k3.jpg" alt="Кадр 3">
     </div>
-    <div class="frame-item">
+    <div class="frame-item" data-src="I_wont_cry_anymore_k4.jpg">
       <img src="I_wont_cry_anymore_k4.jpg" alt="Кадр 4">
     </div>
   </div>
@@ -853,6 +977,15 @@
   </div>
 </div>
 
+<!-- ======================= ПРОСМОТР КАДРОВ ======================= -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
+  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
+  <img src="" alt="" id="lightboxImg">
+  <button class="lightbox-nav next" id="lightboxNext" aria-label="Вперёд">›</button>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
+</div>
+
 <script>
   /* ---------- данные фильмов (для поиска) ---------- */
   const TITLES = [
@@ -863,7 +996,7 @@
     'Любовь','Страницы усталости','Mors certa, Vita incert','Последний глоток'
   ];
 
-  /* пути на уровень выше — мы внутри папки фильма */
+  /* пути — от корня репозитория, для поиска со страницы фильма добавим ../ */
   const FILM_DATA = {
     'Я больше не буду плакать': {
       link:   'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
@@ -871,6 +1004,7 @@
     }
   };
 
+  /* ---------- элементы ---------- */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
   const searchInput = document.getElementById('searchInput');
@@ -881,6 +1015,15 @@
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
 
+  const framesGrid      = document.getElementById('framesGrid');
+  const lightbox        = document.getElementById('lightbox');
+  const lightboxImg     = document.getElementById('lightboxImg');
+  const lightboxClose   = document.getElementById('lightboxClose');
+  const lightboxPrev    = document.getElementById('lightboxPrev');
+  const lightboxNext    = document.getElementById('lightboxNext');
+  const lightboxCounter = document.getElementById('lightboxCounter');
+
+  /* ---------- бургер ---------- */
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
     mobileMenu.classList.toggle('open', open);
@@ -894,6 +1037,7 @@
     });
   });
 
+  /* ---------- плеер ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -907,9 +1051,63 @@
   playerModal.addEventListener('click', e => {
     if(e.target === playerModal) closePlayer();
   });
+
+  /* ---------- просмотр кадров ---------- */
+  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
+  const frameSrcs = frames.map(f => f.dataset.src);
+  let currentFrame = 0;
+
+  function openLightbox(index){
+    currentFrame = index;
+    lightboxImg.src = frameSrcs[currentFrame];
+    lightboxCounter.textContent = (currentFrame + 1) + ' / ' + frameSrcs.length;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function showFrame(offset){
+    if(!frameSrcs.length) return;
+    currentFrame = (currentFrame + offset + frameSrcs.length) % frameSrcs.length;
+    lightboxImg.src = frameSrcs[currentFrame];
+    lightboxCounter.textContent = (currentFrame + 1) + ' / ' + frameSrcs.length;
+  }
+
+  frames.forEach((f, i) => {
+    f.addEventListener('click', () => openLightbox(i));
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxPrev.addEventListener('click', e => { e.stopPropagation(); showFrame(-1); });
+  lightboxNext.addEventListener('click', e => { e.stopPropagation(); showFrame(1);  });
+  lightbox.addEventListener('click', e => {
+    if(e.target === lightbox) closeLightbox();
+  });
+
+  /* ---------- клавиатура ---------- */
   document.addEventListener('keydown', e => {
-    if(e.key === 'Escape' && playerModal.classList.contains('open')){
-      closePlayer();
+    if(lightbox.classList.contains('open')){
+      if(e.key === 'Escape')     closeLightbox();
+      if(e.key === 'ArrowLeft')  showFrame(-1);
+      if(e.key === 'ArrowRight') showFrame(1);
+      return;
+    }
+    if(playerModal.classList.contains('open')){
+      if(e.key === 'Escape') closePlayer();
+    }
+  });
+
+  /* ---------- свайпы ---------- */
+  let touchX = 0;
+  lightbox.addEventListener('touchstart', e => {
+    touchX = e.changedTouches[0].clientX;
+  }, { passive:true });
+  lightbox.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 50){
+      showFrame(dx < 0 ? 1 : -1);
     }
   });
 
@@ -922,10 +1120,8 @@
   function openResults(){ resultsBox.classList.add('open'); }
   function closeResults(){ resultsBox.classList.remove('open'); }
 
-  /* при клике по результату — переходим на уровень выше к index.html */
-  function fixLinkForSearch(link){
-    return '../' + link;
-  }
+  /* мы внутри папки — добавляем ../ ко всем ссылкам */
+  function fixPath(p){ return '../' + p; }
 
   function renderResults(query){
     const q = query.trim().toLowerCase();
@@ -944,9 +1140,9 @@
       const data = FILM_DATA[title];
       if(data){
         return `
-          <a href="${fixLinkForSearch(data.link)}" class="film-card link">
+          <a href="${fixPath(data.link)}" class="film-card link">
             <div class="film-card-poster">
-              <img src="${fixLinkForSearch(data.poster)}" alt="${escapeHtml(title)}"
+              <img src="${fixPath(data.poster)}" alt="${escapeHtml(title)}"
                    onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>СКОРО</span>')">
             </div>
             <div class="film-card-title">${escapeHtml(title)}</div>
@@ -969,12 +1165,6 @@
   });
   document.addEventListener('click', e => {
     if(!e.target.closest('.search-wrap')) closeResults();
-  });
-  document.addEventListener('keydown', e => {
-    if(e.key === 'Escape'){
-      closeResults();
-      searchInput.blur();
-    }
   });
 </script>
 
