@@ -529,7 +529,6 @@
   }
   .btn-watch:hover svg{ transform:scale(1.15); }
 
-  /* серая кнопка трейлера */
   .btn-trailer{
     display:inline-flex;
     align-items:center;
@@ -1347,6 +1346,10 @@
     'Око за око': {
       link:   'An_eye_for_an_eye/An_eye_for_an_eye_film.html',
       poster: 'An_eye_for_an_eye/An_eye_for_an_eye.jpg'
+    },
+    'Не улетай': {
+      link:   'Dont_fly_away/Dont_fly_away_film.html',
+      poster: 'Dont_fly_away/Dont_fly_away1.jpg'
     }
   };
 
@@ -1442,7 +1445,6 @@
     });
   });
 
-  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1457,7 +1459,6 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  /* ---------- плеер трейлера ---------- */
   function openTrailer(){
     trailerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1472,7 +1473,6 @@
     if(e.target === trailerModal) closeTrailer();
   });
 
-  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
@@ -1528,7 +1528,6 @@
     }
   });
 
-  /* ---------- поиск ---------- */
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
