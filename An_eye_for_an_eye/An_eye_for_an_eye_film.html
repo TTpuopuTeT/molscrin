@@ -451,7 +451,6 @@
     50%    { background-position:100% 0; }
   }
 
-  /* --- кнопки --- */
   .hero-buttons{
     margin-top:34px;
     display:flex;
@@ -658,7 +657,6 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: 5 штук --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(5, 1fr);
@@ -863,6 +861,14 @@
     background-clip:text;
     color:transparent;
     animation:shimmer 4s ease-in-out infinite;
+  }
+
+  .modal-inner video{
+    width:100%; height:100%;
+    object-fit:contain;
+    background:#000;
+    display:block;
+    border-radius:16px;
   }
 
   /* ================= ЛАЙТБОКС ================= */
@@ -1084,6 +1090,7 @@
     .actor-name{ font-size:12px; }
 
     .modal-inner{ border-radius:12px; }
+    .modal-inner video{ border-radius:12px; }
     .modal-close{ width:38px; height:38px; top:10px; right:10px; }
 
     .lightbox{ padding:14px; }
@@ -1308,7 +1315,15 @@
 <div class="modal" id="trailerModal">
   <div class="modal-inner">
     <button class="modal-close" id="trailerClose" aria-label="Закрыть">✕</button>
-    <div class="player-placeholder">Скоро</div>
+    <video 
+      id="trailerVideo"
+      controls 
+      preload="metadata"
+      playsinline
+      style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
+      <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/v1.0/An_eye_for_an_eye_trailer.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
   </div>
 </div>
 
@@ -1366,6 +1381,7 @@
   const trailerModal = document.getElementById('trailerModal');
   const trailerBtn   = document.getElementById('trailerBtn');
   const trailerClose = document.getElementById('trailerClose');
+  const trailerVideo = document.getElementById('trailerVideo');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1445,6 +1461,7 @@
     });
   });
 
+  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1459,13 +1476,25 @@
     if(e.target === playerModal) closePlayer();
   });
 
+  /* ---------- плеер трейлера ---------- */
   function openTrailer(){
     trailerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    /* автозапуск трейлера */
+    if(trailerVideo){
+      trailerVideo.currentTime = 0;
+      const p = trailerVideo.play();
+      if(p && p.catch) p.catch(() => {});
+    }
   }
   function closeTrailer(){
     trailerModal.classList.remove('open');
     document.body.style.overflow = '';
+    /* стоп + сброс на начало */
+    if(trailerVideo){
+      trailerVideo.pause();
+      trailerVideo.currentTime = 0;
+    }
   }
   trailerBtn.addEventListener('click', openTrailer);
   trailerClose.addEventListener('click', closeTrailer);
@@ -1473,6 +1502,7 @@
     if(e.target === trailerModal) closeTrailer();
   });
 
+  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
@@ -1528,6 +1558,7 @@
     }
   });
 
+  /* ---------- поиск ---------- */
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
