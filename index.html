@@ -49,7 +49,6 @@
     border-bottom:1px solid rgba(120,110,255,.12);
   }
 
-  /* --- Лого --- */
   .logo{
     display:flex;
     align-items:center;
@@ -70,7 +69,6 @@
     filter:drop-shadow(0 0 18px rgba(150,90,255,.95));
   }
 
-  /* --- Поиск --- */
   .search-wrap{
     position:relative;
     justify-self:center;
@@ -107,7 +105,6 @@
     pointer-events:none;
   }
 
-  /* --- Панель результатов --- */
   .search-results{
     position:absolute;
     top:calc(100% + 10px);
@@ -143,7 +140,6 @@
     gap:12px;
   }
 
-  /* --- Карточка фильма --- */
   .film-card{
     display:block;
     text-decoration:none;
@@ -213,7 +209,6 @@
     font-size:14px;
   }
 
-  /* --- Навигация (desktop) --- */
   nav.desktop-nav{
     display:flex;
     align-items:center;
@@ -245,7 +240,6 @@
   }
   nav.desktop-nav a:hover::after{ transform:scaleX(1); }
 
-  /* --- Бургер (mobile) --- */
   .burger{
     display:none;
     width:44px; height:44px;
@@ -566,7 +560,7 @@
   <nav class="desktop-nav">
     <a href="#">Главная</a>
     <a href="#">Смотреть</a>
-    <a href="#">Актёры</a>
+    <a href="#">Команда</a>
     <a href="#">Анонсы</a>
     <a href="#">Биография</a>
   </nav>
@@ -582,7 +576,7 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="#">Главная</a>
   <a href="#">Смотреть</a>
-  <a href="#">Актёры</a>
+  <a href="#">Команда</a>
   <a href="#">Анонсы</a>
   <a href="#">Биография</a>
 </div>
@@ -636,6 +630,10 @@
     'Я больше не буду плакать': {
       link:   'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
       poster: 'I_wont_cry_anymore/I_wont_cry_anymore1.jpg'
+    },
+    'Око за око': {
+      link:   'An_eye_for_an_eye/An_eye_for_an_eye_film.html',
+      poster: 'An_eye_for_an_eye/An_eye_for_an_eye.jpg'
     }
   };
 
