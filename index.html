@@ -7,7 +7,7 @@
 <title>МОЛСКРИН</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:      #05060d;
@@ -403,10 +403,26 @@
     animation:fadeUp 1.3s cubic-bezier(.2,.7,.3,1) both;
   }
 
+  /* ===== ОПИСАНИЕ СТУДИИ — КАПСОМ ===== */
   .hero-desc{
-    margin-top:32px;
-    width:min(760px, 92%);
+    margin-top:38px;
+    width:min(780px, 92%);
     min-height:64px;
+    font-family:'Manrope',sans-serif;
+    font-size:17px;
+    font-weight:600;
+    line-height:1.55;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-align:center;
+    background:linear-gradient(180deg,
+      #ffffff 0%,
+      #d6dcff 40%,
+      #a98bff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 0 26px rgba(120,80,255,.45));
     animation:fadeUp 1.3s .35s cubic-bezier(.2,.7,.3,1) both;
   }
 
@@ -421,6 +437,7 @@
     nav.desktop-nav{ gap:16px; }
     nav.desktop-nav a{ font-size:14px; }
     .logo svg{ width:46px; height:46px; }
+    .hero-desc{ font-size:15px; letter-spacing:.07em; }
   }
 
   /* ================= МОБИЛЬНЫЙ ================= */
@@ -472,8 +489,11 @@
     }
 
     .hero-desc{
-      margin-top:24px;
+      margin-top:28px;
       min-height:48px;
+      font-size:13px;
+      line-height:1.5;
+      letter-spacing:.06em;
     }
   }
 
@@ -507,6 +527,13 @@
     .studio{
       font-size:clamp(24px, 9vw, 42px);
       letter-spacing:.02em;
+    }
+
+    .hero-desc{
+      font-size:11px;
+      margin-top:22px;
+      line-height:1.45;
+      letter-spacing:.05em;
     }
 
     .burger{ width:40px; height:40px; }
@@ -589,7 +616,9 @@
 
   <div class="hero-content">
     <h1 class="studio">МОЛСКРИН</h1>
-    <div class="hero-desc"></div>
+    <div class="hero-desc">
+      Творческое объединение людей, создающие любительское кино
+    </div>
   </div>
 
 </main>
@@ -621,7 +650,6 @@
     'Последний глоток'
   ];
 
-  /* какие фильмы уже готовы: ключ = название, значение = {link, poster} */
   const FILM_DATA = {
     'Весна': {
       link:   'Spring/Spring_film.html',
@@ -637,7 +665,6 @@
     }
   };
 
-  /* ---------- элементы ---------- */
   const columnsEl   = document.getElementById('columns');
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
@@ -645,7 +672,6 @@
   const resultsBox  = document.getElementById('searchResults');
   const resultsGrid = document.getElementById('resultsGrid');
 
-  /* ---------- колонны ---------- */
   function shuffle(arr){
     for(let i = arr.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
@@ -692,7 +718,6 @@
 
   buildColumns();
 
-  /* ---------- поиск ---------- */
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -766,7 +791,6 @@
     }
   });
 
-  /* ---------- бургер ---------- */
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
     mobileMenu.classList.toggle('open', open);
@@ -780,7 +804,6 @@
     });
   });
 
-  /* ---------- resize ---------- */
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
