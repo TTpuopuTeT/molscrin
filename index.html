@@ -487,12 +487,13 @@
       white-space:nowrap;
     }
 
+    /* === ОПИСАНИЕ УМЕНЬШЕНО === */
     .hero-desc{
-      margin-top:28px;
-      min-height:48px;
-      font-size:13px;
+      margin-top:24px;
+      min-height:40px;
+      font-size:11px;
       line-height:1.5;
-      letter-spacing:.06em;
+      letter-spacing:.04em;
     }
   }
 
@@ -528,11 +529,12 @@
       letter-spacing:.02em;
     }
 
+    /* === ЕЩЁ МЕНЬШЕ НА УЗКОМ === */
     .hero-desc{
-      font-size:11px;
-      margin-top:22px;
+      font-size:9px;
+      margin-top:18px;
       line-height:1.45;
-      letter-spacing:.05em;
+      letter-spacing:.03em;
     }
 
     .burger{ width:40px; height:40px; }
@@ -649,7 +651,6 @@
     'Последний глоток'
   ];
 
-  /* какие фильмы уже готовы: ключ = название, значение = {link, poster} */
   const FILM_DATA = {
     'Раскол': {
       link:   'Split/Split_film.html',
@@ -669,7 +670,6 @@
     }
   };
 
-  /* ---------- элементы ---------- */
   const columnsEl   = document.getElementById('columns');
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
@@ -677,7 +677,6 @@
   const resultsBox  = document.getElementById('searchResults');
   const resultsGrid = document.getElementById('resultsGrid');
 
-  /* ---------- колонны ---------- */
   function shuffle(arr){
     for(let i = arr.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
@@ -724,7 +723,6 @@
 
   buildColumns();
 
-  /* ---------- поиск ---------- */
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -798,7 +796,6 @@
     }
   });
 
-  /* ---------- бургер ---------- */
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
     mobileMenu.classList.toggle('open', open);
@@ -812,7 +809,6 @@
     });
   });
 
-  /* ---------- resize ---------- */
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
