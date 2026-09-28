@@ -500,7 +500,6 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: 7 штук --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -1104,10 +1103,19 @@
 
 </section>
 
+<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
-    <div class="player-placeholder">Скоро</div>
+    <video 
+      id="filmVideo"
+      controls 
+      preload="metadata"
+      playsinline
+      style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
+      <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/dont-fly-away-v1.0/Dont_fly_away_movie.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
   </div>
 </div>
 
@@ -1126,6 +1134,7 @@
   const playerModal = document.getElementById('playerModal');
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
+  const filmVideo   = document.getElementById('filmVideo');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1205,13 +1214,23 @@
     });
   });
 
+  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if(filmVideo){
+      filmVideo.currentTime = 0;
+      const p = filmVideo.play();
+      if(p && p.catch) p.catch(() => {});
+    }
   }
   function closePlayer(){
     playerModal.classList.remove('open');
     document.body.style.overflow = '';
+    if(filmVideo){
+      filmVideo.pause();
+      filmVideo.currentTime = 0;
+    }
   }
   watchBtn.addEventListener('click', openPlayer);
   playerClose.addEventListener('click', closePlayer);
@@ -1219,6 +1238,7 @@
     if(e.target === playerModal) closePlayer();
   });
 
+  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
