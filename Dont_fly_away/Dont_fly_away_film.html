@@ -1017,6 +1017,8 @@
     <span>Драма</span>
     <span class="dot"></span>
     <span class="age">12+</span>
+    <span class="dot"></span>
+    <span>29.01.2026</span>
   </div>
 
   <p class="film-desc reveal">
@@ -1181,8 +1183,7 @@
 
   /* ---------- просмотр кадров ----------
      у этого фильма кадров пока нет (заглушки),
-     клики по ним не сработают, лайтбокс откроется только
-     когда появятся реальные кадры с data-src */
+     лайтбокс откроется только когда появятся реальные кадры с data-src */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item[data-src]')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
