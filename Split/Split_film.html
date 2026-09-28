@@ -101,7 +101,6 @@
     box-shadow:0 0 22px rgba(140,90,255,.5);
   }
 
-  /* --- Название фильма в шапке (появляется при скролле) --- */
   .header-title{
     position:absolute;
     left:50%;
@@ -1041,6 +1040,8 @@
     <span>Боевик</span>
     <span class="dot"></span>
     <span class="age">18+</span>
+    <span class="dot"></span>
+    <span>21.12.2025</span>
   </div>
 
   <p class="film-desc reveal">
@@ -1092,10 +1093,19 @@
 
 </section>
 
+<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
-    <div class="player-placeholder">Скоро</div>
+    <video 
+      id="filmVideo"
+      controls 
+      preload="metadata"
+      playsinline
+      style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
+      <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/split-movie-v1.0/split_movie.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
   </div>
 </div>
 
@@ -1114,6 +1124,7 @@
   const playerModal = document.getElementById('playerModal');
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
+  const filmVideo   = document.getElementById('filmVideo');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1193,14 +1204,23 @@
     });
   });
 
-  /* ---------- плеер ---------- */
+  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if(filmVideo){
+      filmVideo.currentTime = 0;
+      const p = filmVideo.play();
+      if(p && p.catch) p.catch(() => {});
+    }
   }
   function closePlayer(){
     playerModal.classList.remove('open');
     document.body.style.overflow = '';
+    if(filmVideo){
+      filmVideo.pause();
+      filmVideo.currentTime = 0;
+    }
   }
   watchBtn.addEventListener('click', openPlayer);
   playerClose.addEventListener('click', closePlayer);
