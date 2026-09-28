@@ -42,8 +42,8 @@
     top:0; left:0; right:0;
     height:var(--header-h);
     z-index:100;
-    display:grid;
-    grid-template-columns:auto 1fr auto;
+    display:flex;
+    justify-content:space-between;
     align-items:center;
     gap:22px;
     padding:0 34px;
@@ -101,137 +101,25 @@
     box-shadow:0 0 22px rgba(140,90,255,.5);
   }
 
-  .search-wrap{
-    position:relative;
-    justify-self:center;
-    width:min(480px, 100%);
-    z-index:120;
-  }
-  .search{ position:relative; }
-  .search input{
-    width:100%;
-    height:48px;
-    border-radius:24px;
-    padding:0 50px 0 22px;
-    font-family:inherit;
-    font-size:16px;
-    color:var(--text);
-    background:rgba(20,22,45,.7);
-    border:1px solid rgba(120,110,255,.25);
-    outline:none;
-    transition:border-color .25s, box-shadow .25s, background .25s;
-  }
-  .search input::placeholder{ color:#6b72a3; }
-  .search input:focus{
-    background:rgba(24,26,52,.9);
-    border-color:rgba(140,110,255,.75);
-    box-shadow:0 0 0 3px rgba(120,80,255,.14), 0 0 28px rgba(90,60,255,.28);
-  }
-  .search .icon-search{
+  /* --- Название фильма в шапке (появляется при скролле) --- */
+  .header-title{
     position:absolute;
-    right:18px; top:50%;
-    transform:translateY(-50%);
-    width:17px; height:17px;
-    opacity:.45;
-    pointer-events:none;
-  }
-
-  .search-results{
-    position:absolute;
-    top:calc(100% + 10px);
-    left:0; right:0;
-    max-height:min(70vh, 560px);
-    overflow-y:auto;
-    background:rgba(10,12,26,.97);
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    border:1px solid rgba(120,110,255,.22);
-    border-radius:18px;
-    padding:14px;
-    opacity:0;
-    transform:translateY(-6px);
-    pointer-events:none;
-    transition:opacity .2s ease, transform .2s ease;
-    box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 40px rgba(90,60,255,.15);
-  }
-  .search-results.open{
-    opacity:1;
-    transform:translateY(0);
-    pointer-events:auto;
-  }
-  .search-results::-webkit-scrollbar{ width:6px; }
-  .search-results::-webkit-scrollbar-thumb{
-    background:rgba(120,110,255,.3);
-    border-radius:3px;
-  }
-  .results-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:12px;
-  }
-  .film-card{
-    display:block;
-    text-decoration:none;
-    color:inherit;
-    border-radius:12px;
-    overflow:hidden;
-    background:rgba(20,22,45,.6);
-    border:1px solid rgba(120,110,255,.12);
-    transition:transform .3s cubic-bezier(.2,.7,.3,1), border-color .3s, box-shadow .3s;
-  }
-  .film-card.link:hover{
-    transform:translateY(-3px);
-    border-color:rgba(140,110,255,.6);
-    box-shadow:0 10px 30px rgba(90,60,255,.35);
-  }
-  .film-card.disabled{ cursor:not-allowed; opacity:.7; }
-  .film-card-poster{
-    position:relative;
-    width:100%;
-    aspect-ratio:2/3;
-    background:
-      linear-gradient(135deg, rgba(60,40,120,.5), rgba(20,22,45,.9)),
-      radial-gradient(circle at 30% 30%, rgba(120,80,255,.25), transparent 60%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-  }
-  .film-card-poster img{
-    width:100%; height:100%;
-    object-fit:cover; display:block;
-    transition:transform .6s cubic-bezier(.2,.7,.3,1);
-  }
-  .film-card.link:hover .film-card-poster img{
-    transform:scale(1.08);
-  }
-  .film-card-poster .soon{
-    font-size:11px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    font-family:'Unbounded',sans-serif;
     font-weight:600;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:rgba(180,170,255,.55);
-    border:1px solid rgba(120,110,255,.3);
-    padding:5px 10px;
-    border-radius:20px;
+    font-size:16px;
+    letter-spacing:.04em;
+    color:#fff;
+    white-space:nowrap;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease;
+    text-shadow:0 0 20px rgba(120,80,255,.6);
   }
-  .film-card-title{
-    padding:10px 12px;
-    font-size:13px;
-    font-weight:500;
-    line-height:1.3;
-    color:var(--text);
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-  }
-  .film-card.disabled .film-card-title{ color:var(--muted); }
-  .no-results{
-    padding:24px 12px;
-    text-align:center;
-    color:var(--muted);
-    font-size:14px;
+  header.scrolled .header-title{
+    opacity:1;
   }
 
   nav.desktop-nav{
@@ -974,6 +862,7 @@
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
     nav.desktop-nav a{ font-size:14px; }
+    .header-title{ font-size:14px; }
     .film-hero-content{ max-width:min(600px, 65%); }
     .frames-grid{
       grid-template-columns:repeat(3, 1fr);
@@ -989,9 +878,8 @@
   @media (max-width:900px){
     :root{ --header-h: 66px; }
     header{
-      grid-template-columns:auto 1fr auto;
-      gap:12px;
       padding:0 12px;
+      gap:12px;
     }
     nav.desktop-nav{ display:none; }
     .burger{ display:block; }
@@ -1000,17 +888,12 @@
     .close-btn{ width:40px; height:40px; }
     .close-btn svg{ width:20px; height:20px; }
 
-    .search input{
-      height:42px;
-      border-radius:21px;
-      padding:0 42px 0 18px;
-      font-size:16px;
-    }
-    .search .icon-search{ right:15px; width:16px; height:16px; }
-
-    .results-grid{
-      grid-template-columns:repeat(2, 1fr);
-      gap:10px;
+    .header-title{
+      font-size:13px;
+      letter-spacing:.03em;
+      max-width:50%;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .film-hero{
@@ -1120,12 +1003,7 @@
     .close-btn{ width:36px; height:36px; }
     .close-btn svg{ width:18px; height:18px; }
 
-    .search input{
-      height:40px;
-      border-radius:20px;
-      padding:0 38px 0 16px;
-    }
-    .search .icon-search{ right:13px; width:15px; height:15px; }
+    .header-title{ font-size:11px; }
 
     .burger{ width:40px; height:40px; }
     .burger span{ left:9px; right:9px; }
@@ -1168,19 +1046,7 @@
     </svg>
   </a>
 
-  <div class="search-wrap">
-    <div class="search">
-      <input type="text" id="searchInput" placeholder="Поиск фильмов..." autocomplete="off">
-      <svg class="icon-search" viewBox="0 0 24 24" fill="none" stroke="#9aa0c8" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="7"/>
-        <line x1="21" y1="21" x2="16.7" y2="16.7"/>
-      </svg>
-    </div>
-    <div class="search-results" id="searchResults">
-      <div class="results-grid" id="resultsGrid"></div>
-    </div>
-  </div>
+  <div class="header-title">Око за око</div>
 
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
@@ -1337,46 +1203,12 @@
 </div>
 
 <script>
-  const TITLES = [
-    'Раскол','Весна','Элли','Изумрудный город','Я больше не буду плакать',
-    'Красный кролик','Красный кролик: первая жертва','Красный кролик: грехи',
-    'Красный кролик: искупление','Око за око','Нашедший','Нашедший: принятие',
-    'Наказание','Первый ход','Scappa di casa','Не улетай','Пыль','Помощь',
-    'Любовь','Страницы усталости','Mors certa, Vita incert','Последний глоток'
-  ];
-
-  const FILM_DATA = {
-    'Раскол': {
-      link:   'Split/Split_film.html',
-      poster: 'Split/Split.jpg'
-    },
-    'Весна': {
-      link:   'Spring/Spring_film.html',
-      poster: 'Spring/Spring.jpg'
-    },
-    'Я больше не буду плакать': {
-      link:   'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
-      poster: 'I_wont_cry_anymore/I_wont_cry_anymore1.jpg'
-    },
-    'Око за око': {
-      link:   'An_eye_for_an_eye/An_eye_for_an_eye_film.html',
-      poster: 'An_eye_for_an_eye/An_eye_for_an_eye.jpg'
-    },
-    'Не улетай': {
-      link:   'Dont_fly_away/Dont_fly_away_film.html',
-      poster: 'Dont_fly_away/Dont_fly_away1.jpg'
-    }
-  };
-
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
-  const searchInput = document.getElementById('searchInput');
-  const resultsBox  = document.getElementById('searchResults');
-  const resultsGrid = document.getElementById('resultsGrid');
 
-  const playerModal  = document.getElementById('playerModal');
-  const watchBtn     = document.getElementById('watchBtn');
-  const playerClose  = document.getElementById('playerClose');
+  const playerModal = document.getElementById('playerModal');
+  const watchBtn    = document.getElementById('watchBtn');
+  const playerClose = document.getElementById('playerClose');
 
   const trailerModal = document.getElementById('trailerModal');
   const trailerBtn   = document.getElementById('trailerBtn');
@@ -1480,7 +1312,6 @@
   function openTrailer(){
     trailerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
-    /* автозапуск трейлера */
     if(trailerVideo){
       trailerVideo.currentTime = 0;
       const p = trailerVideo.play();
@@ -1490,7 +1321,6 @@
   function closeTrailer(){
     trailerModal.classList.remove('open');
     document.body.style.overflow = '';
-    /* стоп + сброс на начало */
     if(trailerVideo){
       trailerVideo.pause();
       trailerVideo.currentTime = 0;
@@ -1556,60 +1386,6 @@
     if(Math.abs(dx) > 50){
       showFrame(dx < 0 ? 1 : -1);
     }
-  });
-
-  /* ---------- поиск ---------- */
-  function escapeHtml(s){
-    return s.replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[c]));
-  }
-  function openResults(){ resultsBox.classList.add('open'); }
-  function closeResults(){ resultsBox.classList.remove('open'); }
-  function fixPath(p){ return '../' + p; }
-
-  function renderResults(query){
-    const q = query.trim().toLowerCase();
-    if(!q){
-      closeResults();
-      resultsGrid.innerHTML = '';
-      return;
-    }
-    const matches = TITLES.filter(t => t.toLowerCase().includes(q));
-    if(matches.length === 0){
-      resultsGrid.innerHTML = '<div class="no-results">Ничего не найдено</div>';
-      openResults();
-      return;
-    }
-    resultsGrid.innerHTML = matches.map(title => {
-      const data = FILM_DATA[title];
-      if(data){
-        return `
-          <a href="${fixPath(data.link)}" class="film-card link">
-            <div class="film-card-poster">
-              <img src="${fixPath(data.poster)}" alt="${escapeHtml(title)}"
-                   onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>СКОРО</span>')">
-            </div>
-            <div class="film-card-title">${escapeHtml(title)}</div>
-          </a>
-        `;
-      }
-      return `
-        <div class="film-card disabled">
-          <div class="film-card-poster"><span class="soon">Скоро</span></div>
-          <div class="film-card-title">${escapeHtml(title)}</div>
-        </div>
-      `;
-    }).join('');
-    openResults();
-  }
-
-  searchInput.addEventListener('input', e => renderResults(e.target.value));
-  searchInput.addEventListener('focus', e => {
-    if(e.target.value.trim()) renderResults(e.target.value);
-  });
-  document.addEventListener('click', e => {
-    if(!e.target.closest('.search-wrap')) closeResults();
   });
 </script>
 
