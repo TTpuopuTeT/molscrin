@@ -649,6 +649,7 @@
     'Последний глоток'
   ];
 
+  /* какие фильмы уже готовы: ключ = название, значение = {link, poster} */
   const FILM_DATA = {
     'Раскол': {
       link:   'Split/Split_film.html',
@@ -657,6 +658,10 @@
     'Весна': {
       link:   'Spring/Spring_film.html',
       poster: 'Spring/Spring.jpg'
+    },
+    'Элли': {
+      link:   'Ellie/Ellie_film.html',
+      poster: 'Ellie/Ellie.jpg'
     },
     'Я больше не буду плакать': {
       link:   'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
@@ -672,6 +677,7 @@
     }
   };
 
+  /* ---------- элементы ---------- */
   const columnsEl   = document.getElementById('columns');
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
@@ -679,6 +685,7 @@
   const resultsBox  = document.getElementById('searchResults');
   const resultsGrid = document.getElementById('resultsGrid');
 
+  /* ---------- колонны ---------- */
   function shuffle(arr){
     for(let i = arr.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
@@ -725,6 +732,7 @@
 
   buildColumns();
 
+  /* ---------- поиск ---------- */
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -798,6 +806,7 @@
     }
   });
 
+  /* ---------- бургер ---------- */
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
     mobileMenu.classList.toggle('open', open);
@@ -811,6 +820,7 @@
     });
   });
 
+  /* ---------- resize ---------- */
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
