@@ -101,7 +101,6 @@
     box-shadow:0 0 22px rgba(140,90,255,.5);
   }
 
-  /* --- Название фильма в шапке (появляется при скролле) --- */
   .header-title{
     position:absolute;
     left:50%;
@@ -501,11 +500,11 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: заглушки --- */
+  /* --- Кадры: 7 штук --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
-    gap:16px;
+    gap:14px;
     margin-bottom:56px;
   }
   .frame-item{
@@ -519,22 +518,45 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    color:rgba(180,170,255,.55);
+    color:rgba(180,170,255,.45);
     font-size:12px;
     font-weight:600;
-    letter-spacing:.18em;
+    letter-spacing:.16em;
     text-transform:uppercase;
+    cursor:zoom-in;
+    position:relative;
+    transition:transform .35s cubic-bezier(.2,.7,.3,1),
+               border-color .35s,
+               box-shadow .35s;
+  }
+  .frame-item::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:linear-gradient(135deg,
+      transparent 40%,
+      rgba(160,90,255,.18) 50%,
+      transparent 60%);
+    opacity:0;
+    transition:opacity .4s;
+    pointer-events:none;
   }
   .frame-item img{
     width:100%; height:100%;
     object-fit:cover;
     display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
   }
-  .frame-item.soon-only{
-    cursor:default;
-    border-style:dashed;
-    border-color:rgba(120,110,255,.28);
+  .frame-item:hover{
+    transform:translateY(-5px);
+    border-color:rgba(160,120,255,.75);
+    box-shadow:0 16px 44px rgba(90,60,255,.45),
+               0 0 30px rgba(140,90,255,.35);
   }
+  .frame-item:hover::after{ opacity:1; }
+  .frame-item:hover img{ transform:scale(1.06); }
+  .frame-item:active{ transform:translateY(-2px) scale(.99); }
 
   .actors-grid{
     display:grid;
@@ -1029,10 +1051,27 @@
 
   <h2 class="section-title reveal">Кадры</h2>
   <div class="frames-grid reveal" id="framesGrid">
-    <div class="frame-item soon-only">Скоро</div>
-    <div class="frame-item soon-only">Скоро</div>
-    <div class="frame-item soon-only">Скоро</div>
-    <div class="frame-item soon-only">Скоро</div>
+    <div class="frame-item" data-src="Dont_fly_away_k1.jpg">
+      <img src="Dont_fly_away_k1.jpg" alt="Кадр 1">
+    </div>
+    <div class="frame-item" data-src="Dont_fly_away_k2.jpg">
+      <img src="Dont_fly_away_k2.jpg" alt="Кадр 2">
+    </div>
+    <div class="frame-item" data-src="Dont_fly_away_k3.jpg">
+      <img src="Dont_fly_away_k3.jpg" alt="Кадр 3">
+    </div>
+    <div class="frame-item" data-src="Dont_fly_away_k4.jpg">
+      <img src="Dont_fly_away_k4.jpg" alt="Кадр 4">
+    </div>
+    <div class="frame-item" data-src="Dont_fly_away_k5.jpg">
+      <img src="Dont_fly_away_k5.jpg" alt="Кадр 5">
+    </div>
+    <div class="frame-item" data-src="Dont_fly_away_k6.jpg">
+      <img src="Dont_fly_away_k6.jpg" alt="Кадр 6">
+    </div>
+    <div class="frame-item" data-src="Dont_fly_away_k7.jpg">
+      <img src="Dont_fly_away_k7.jpg" alt="Кадр 7">
+    </div>
   </div>
 
   <h2 class="section-title reveal">Актёры</h2>
@@ -1077,7 +1116,7 @@
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
   <img src="" alt="" id="lightboxImg">
   <button class="lightbox-nav next" id="lightboxNext" aria-label="Вперёд">›</button>
-  <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 7</div>
 </div>
 
 <script>
@@ -1181,15 +1220,12 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  /* ---------- просмотр кадров ----------
-     у этого фильма кадров пока нет (заглушки),
-     лайтбокс откроется только когда появятся реальные кадры с data-src */
-  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item[data-src]')) : [];
+  /* ---------- просмотр кадров ---------- */
+  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
 
   function openLightbox(index){
-    if(!frameSrcs.length) return;
     currentFrame = index;
     lightboxImg.src = frameSrcs[currentFrame];
     lightboxCounter.textContent = (currentFrame + 1) + ' / ' + frameSrcs.length;
