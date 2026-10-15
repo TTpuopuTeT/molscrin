@@ -525,7 +525,7 @@
     .filter-left{
       grid-template-columns:1fr;
     }
-    .filter-dropdown{ position:static; }
+    .filter-dropdown{ position:relative; }
     .filter-btn{
       width:100%;
       justify-content:space-between;
@@ -536,9 +536,7 @@
       left:0; right:0;
       min-width:0;
       width:100%;
-      position:absolute;
     }
-    .filter-dropdown{ position:relative; }
 
     .cards-grid{
       grid-template-columns:repeat(2, 1fr);
@@ -824,6 +822,16 @@
     },
     {
       ready: true,
+      title: 'Mors certa, vita incerta',
+      poster: 'mors_certa/mors_certa1.jpg',
+      link: 'mors_certa/mors_certa_film.html',
+      date: '27.10.2024',
+      dateKey: '2024-10-27',
+      genres: ['Драма','Романтика'],
+      age: 16
+    },
+    {
+      ready: true,
       title: 'Последний глоток',
       poster: 'the_last_sip/the_last_sip1.jpg',
       link: 'the_last_sip/the_last_sip_film.html',
@@ -840,8 +848,7 @@
     { ready: false, title: 'Пыль' },
     { ready: false, title: 'Помощь' },
     { ready: false, title: 'Любовь' },
-    { ready: false, title: 'Страницы усталости' },
-    { ready: false, title: 'Mors certa, Vita incert' }
+    { ready: false, title: 'Страницы усталости' }
   ];
 
   /* Список жанров и возрастов (только те, что реально есть) */
@@ -860,9 +867,9 @@
      СОСТОЯНИЕ
      ============================================================== */
   const state = {
-    sort:   null,   // null = случайный порядок
-    genres: [],     // выбранные жанры (мультивыбор)
-    ages:   []      // выбранные возраста (мультивыбор)
+    sort:   null,
+    genres: [],
+    ages:   []
   };
 
   /* ==============================================================
@@ -912,10 +919,9 @@
   function applyFiltersAndSort(){
     let list = FILMS.slice();
 
-    /* 1. Фильтр по жанрам (ИЛИ) + по возрастам (ИЛИ) + между группами И */
     if(state.genres.length > 0 || state.ages.length > 0){
       list = list.filter(film => {
-        if(!film.ready) return false;   /* заглушки выпадают при активном фильтре */
+        if(!film.ready) return false;
 
         const genreOk = state.genres.length === 0 ||
                         film.genres.some(g => state.genres.includes(g));
@@ -926,15 +932,12 @@
         return genreOk && ageOk;
       });
     } else if(state.sort === 'new' || state.sort === 'old'){
-      /* Сортировка по дате — заглушки без даты выпадают */
       list = list.filter(f => f.ready);
     }
 
-    /* 2. Разделяем готовые и заглушки */
     const ready = list.filter(f => f.ready);
     const stubs = list.filter(f => !f.ready);
 
-    /* 3. Сортируем каждую группу */
     function sortGroup(arr){
       if(state.sort === 'az'){
         return arr.sort((a,b) => a.title.localeCompare(b.title, 'ru'));
@@ -948,7 +951,6 @@
       if(state.sort === 'old'){
         return arr.sort((a,b) => a.dateKey.localeCompare(b.dateKey));
       }
-      /* случайный порядок */
       return shuffle(arr);
     }
 
@@ -1052,7 +1054,6 @@
      ОБНОВЛЕНИЕ ЛЕЙБЛОВ КНОПОК
      ============================================================== */
   function updateLabels(){
-    /* Сортировка */
     if(state.sort){
       const opt = SORT_OPTIONS.find(o => o.id === state.sort);
       sortLabel.textContent = opt ? opt.label : 'Сортировка';
@@ -1062,7 +1063,6 @@
       sortBtn.classList.remove('active');
     }
 
-    /* Жанры */
     if(state.genres.length > 0){
       genreLabel.textContent = `Жанры (${state.genres.length})`;
       genreBtn.classList.add('active');
@@ -1071,7 +1071,6 @@
       genreBtn.classList.remove('active');
     }
 
-    /* Возраст */
     if(state.ages.length > 0){
       ageLabel.textContent = `Возраст (${state.ages.length})`;
       ageBtn.classList.add('active');
