@@ -74,6 +74,15 @@ molscrin/
 
 ---
 
+## 📊 Статистика репозитория
+
+![GitHub stars](https://img.shields.io/github/stars/TTpuopuTeT/molscrin?style=social)
+![GitHub forks](https://img.shields.io/github/forks/TTpuopuTeT/molscrin?style=social)
+![GitHub last commit](https://img.shields.io/github/last-commit/TTpuopuTeT/molscrin)
+![GitHub repo size](https://img.shields.io/github/repo-size/TTpuopuTeT/molscrin)
+
+---
+
 ## 👤 Автор
 
 **TTpuopuTeT**
