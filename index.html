@@ -323,26 +323,30 @@
         transparent 0%, #000 16%, #000 84%, transparent 100%);
     mask-image:linear-gradient(to bottom,
         transparent 0%, #000 16%, #000 84%, transparent 100%);
+    contain:strict;
   }
 
   .column{
     flex:1 1 0;
     overflow:hidden;
     position:relative;
+    contain:layout paint;
   }
 
   .column-track{
     display:flex;
     flex-direction:column;
     will-change:transform;
+    transform:translate3d(0,0,0);
+    backface-visibility:hidden;
     animation-name:revolve;
     animation-timing-function:linear;
     animation-iteration-count:infinite;
   }
 
   @keyframes revolve{
-    from{ transform:translateY(-50%); }
-    to  { transform:translateY(0);    }
+    from{ transform:translate3d(0,-50%,0); }
+    to  { transform:translate3d(0,0,0);    }
   }
 
   .column-track span{
@@ -354,7 +358,6 @@
     letter-spacing:.01em;
     text-align:center;
     color:rgba(160,170,235,.60);
-    transition:color .4s ease;
   }
 
   .hero-overlay{
@@ -543,6 +546,14 @@
     .burger.open span:nth-child(1),
     .burger.open span:nth-child(3){ top:19px; }
   }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -623,7 +634,9 @@
 </main>
 
 <script>
-  /* ---------- данные фильмов ---------- */
+  /* ==================================================================
+     СПИСОК ВСЕХ ФИЛЬМОВ (для колонн на фоне)
+     ================================================================== */
   const TITLES = [
     'Раскол',
     'Весна',
@@ -649,7 +662,10 @@
     'Последний глоток'
   ];
 
-  /* какие фильмы уже готовы: ключ = название, значение = {link, poster} */
+  /* ==================================================================
+     ГОТОВЫЕ ФИЛЬМЫ (у которых есть страница + постер)
+     ключ = название,  link = путь к странице,  poster = путь к постеру
+     ================================================================== */
   const FILM_DATA = {
     'Раскол': {
       link:   'Split/Split_film.html',
@@ -691,6 +707,10 @@
       link:   'Finder_acceptance/Finder_acceptance_film.html',
       poster: 'Finder_acceptance/Finder_acceptance1.jpg'
     },
+    'Первый ход': {
+      link:   'the_first_move/the_first_move_film.html',
+      poster: 'the_first_move/the_first_move1.jpg'
+    },
     'Scappa de casa': {
       link:   'Scappa_de_casa/Scappa_de_casa_film.html',
       poster: 'Scappa_de_casa/Scappa_de_casa1.jpg'
@@ -698,13 +718,16 @@
     'Не улетай': {
       link:   'Dont_fly_away/Dont_fly_away_film.html',
       poster: 'Dont_fly_away/Dont_fly_away1.jpg'
+    },
+    'Последний глоток': {
+      link:   'the_last_sip/the_last_sip_film.html',
+      poster: 'the_last_sip/the_last_sip1.jpg'
     }
-    'Первый ход': {
-      link:   'the_first_move/the_first_move_film.html',
-      poster: 'the_first_move/the_first_move1.jpg'
-    }
+  };
 
-  /* ---------- элементы ---------- */
+  /* ==================================================================
+     ЭЛЕМЕНТЫ
+     ================================================================== */
   const columnsEl   = document.getElementById('columns');
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
@@ -712,7 +735,9 @@
   const resultsBox  = document.getElementById('searchResults');
   const resultsGrid = document.getElementById('resultsGrid');
 
-  /* ---------- колонны ---------- */
+  /* ==================================================================
+     КОЛОННЫ НА ФОНЕ
+     ================================================================== */
   function shuffle(arr){
     for(let i = arr.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
@@ -748,7 +773,7 @@
         track.appendChild(s);
       });
 
-      const dur = 26 + Math.random() * 24;
+      const dur = 28 + Math.random() * 24;
       track.style.animationDuration = dur + 's';
       track.style.animationDelay    = (-Math.random() * dur) + 's';
 
@@ -759,7 +784,9 @@
 
   buildColumns();
 
-  /* ---------- поиск ---------- */
+  /* ==================================================================
+     ПОИСК
+     ================================================================== */
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -833,7 +860,9 @@
     }
   });
 
-  /* ---------- бургер ---------- */
+  /* ==================================================================
+     БУРГЕР
+     ================================================================== */
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
     mobileMenu.classList.toggle('open', open);
@@ -847,7 +876,9 @@
     });
   });
 
-  /* ---------- resize ---------- */
+  /* ==================================================================
+     ПЕРЕСОБРАТЬ КОЛОННЫ ПРИ ИЗМЕНЕНИИ ОКНА (с задержкой)
+     ================================================================== */
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
