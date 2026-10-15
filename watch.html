@@ -102,9 +102,7 @@
     text-shadow:0 0 14px rgba(150,110,255,.9);
   }
   nav.desktop-nav a:hover::after{ transform:scaleX(1); }
-  nav.desktop-nav a.active{
-    color:#fff;
-  }
+  nav.desktop-nav a.active{ color:#fff; }
   nav.desktop-nav a.active::after{ transform:scaleX(1); }
 
   .burger{
@@ -267,7 +265,6 @@
     transform:rotate(-135deg) translate(-3px, -3px);
   }
 
-  /* --- выпадающий список --- */
   .filter-menu{
     position:absolute;
     top:calc(100% + 8px);
@@ -341,10 +338,7 @@
     transform:rotate(45deg) translate(-1px, -1px);
   }
 
-  /* сортировка — без чекбоксов, одиночный выбор */
-  .filter-item.radio .check{
-    border-radius:50%;
-  }
+  .filter-item.radio .check{ border-radius:50%; }
   .filter-item.radio.selected .check{
     background:linear-gradient(135deg, var(--violet), var(--blue));
     border-color:transparent;
@@ -358,7 +352,6 @@
     border:none;
   }
 
-  /* сбросить — ярче на оттенок */
   .filter-item.reset-item{
     color:#fff;
     background:rgba(160,140,255,.14);
@@ -391,9 +384,7 @@
                border-color .25s ease,
                box-shadow .25s ease;
   }
-  .card.link{
-    cursor:pointer;
-  }
+  .card.link{ cursor:pointer; }
   .card.link:hover{
     transform:translateY(-5px);
     border-color:rgba(150,120,255,.7);
@@ -506,7 +497,6 @@
     .logo svg{ width:40px; height:40px; }
 
     .page-inner{ padding:20px 16px 70px; }
-
     .page-title{ margin-bottom:18px; }
 
     .filters{
@@ -522,9 +512,7 @@
       grid-template-columns:1fr 1fr;
       gap:10px;
     }
-    .filter-left{
-      grid-template-columns:1fr;
-    }
+    .filter-left{ grid-template-columns:1fr; }
     .filter-dropdown{ position:relative; }
     .filter-btn{
       width:100%;
@@ -556,9 +544,7 @@
     .page-inner{ padding:16px 12px 60px; }
     .page-title{ font-size:24px; }
 
-    .filter-right{
-      grid-template-columns:1fr 1fr;
-    }
+    .filter-right{ grid-template-columns:1fr 1fr; }
     .filter-btn{
       font-size:13px;
       height:42px;
@@ -685,8 +671,6 @@
 <script>
   /* ==============================================================
      ДАННЫЕ ФИЛЬМОВ
-     ready: true  — есть страница, постер, дата, жанры, возраст
-     ready: false — заглушка (только название)
      ============================================================== */
   const FILMS = [
     // ---------- ГОТОВЫЕ ----------
@@ -749,6 +733,15 @@
       dateKey: '2025-01-24',
       genres: ['Детектив'],
       age: 16
+    },
+    {
+      /* пока без жанров и возраста — добавим позже */
+      ready: true,
+      title: 'Красный кролик: Грехи',
+      poster: 'Red_rabbit_sins/Red_rabbit_sins1.jpg',
+      link: 'Red_rabbit_sins/Red_rabbit_sins_film.html',
+      date: '14.07.2025',
+      dateKey: '2025-07-14'
     },
     {
       ready: true,
@@ -843,7 +836,6 @@
 
     // ---------- ЗАГЛУШКИ ----------
     { ready: false, title: 'Красный кролик: первая жертва' },
-    { ready: false, title: 'Красный кролик: грехи' },
     { ready: false, title: 'Наказание' },
     { ready: false, title: 'Пыль' },
     { ready: false, title: 'Помощь' },
@@ -851,11 +843,9 @@
     { ready: false, title: 'Страницы усталости' }
   ];
 
-  /* Список жанров и возрастов (только те, что реально есть) */
   const GENRES = ['Драма','Боевик','Мелодрама','Романтика','Триллер','Детектив'];
   const AGES   = [6, 12, 16, 18];
 
-  /* Опции сортировки */
   const SORT_OPTIONS = [
     { id: 'az',  label: 'А → Я' },
     { id: 'za',  label: 'Я → А' },
@@ -875,19 +865,19 @@
   /* ==============================================================
      ЭЛЕМЕНТЫ
      ============================================================== */
-  const cardsGrid   = document.getElementById('cardsGrid');
+  const cardsGrid    = document.getElementById('cardsGrid');
   const sortDropdown = document.getElementById('sortDropdown');
   const genreDropdown = document.getElementById('genreDropdown');
-  const ageDropdown = document.getElementById('ageDropdown');
-  const sortBtn     = document.getElementById('sortBtn');
-  const genreBtn    = document.getElementById('genreBtn');
-  const ageBtn      = document.getElementById('ageBtn');
-  const sortMenu    = document.getElementById('sortMenu');
-  const genreMenu   = document.getElementById('genreMenu');
-  const ageMenu     = document.getElementById('ageMenu');
-  const sortLabel   = document.getElementById('sortLabel');
-  const genreLabel  = document.getElementById('genreLabel');
-  const ageLabel    = document.getElementById('ageLabel');
+  const ageDropdown  = document.getElementById('ageDropdown');
+  const sortBtn      = document.getElementById('sortBtn');
+  const genreBtn     = document.getElementById('genreBtn');
+  const ageBtn       = document.getElementById('ageBtn');
+  const sortMenu     = document.getElementById('sortMenu');
+  const genreMenu    = document.getElementById('genreMenu');
+  const ageMenu      = document.getElementById('ageMenu');
+  const sortLabel    = document.getElementById('sortLabel');
+  const genreLabel   = document.getElementById('genreLabel');
+  const ageLabel     = document.getElementById('ageLabel');
 
   /* ==============================================================
      ВСПОМОГАТЕЛЬНОЕ
@@ -924,15 +914,15 @@
         if(!film.ready) return false;
 
         const genreOk = state.genres.length === 0 ||
-                        film.genres.some(g => state.genres.includes(g));
+                        (film.genres && film.genres.some(g => state.genres.includes(g)));
 
         const ageOk   = state.ages.length === 0 ||
-                        state.ages.includes(film.age);
+                        (film.age !== undefined && state.ages.includes(film.age));
 
         return genreOk && ageOk;
       });
     } else if(state.sort === 'new' || state.sort === 'old'){
-      list = list.filter(f => f.ready);
+      list = list.filter(f => f.dateKey);
     }
 
     const ready = list.filter(f => f.ready);
@@ -946,10 +936,24 @@
         return arr.sort((a,b) => b.title.localeCompare(a.title, 'ru'));
       }
       if(state.sort === 'new'){
-        return arr.sort((a,b) => b.dateKey.localeCompare(a.dateKey));
+        return arr.sort((a,b) => {
+          const da = a.dateKey || '';
+          const db = b.dateKey || '';
+          if(!da && !db) return 0;
+          if(!da) return 1;
+          if(!db) return -1;
+          return db.localeCompare(da);
+        });
       }
       if(state.sort === 'old'){
-        return arr.sort((a,b) => a.dateKey.localeCompare(b.dateKey));
+        return arr.sort((a,b) => {
+          const da = a.dateKey || '';
+          const db = b.dateKey || '';
+          if(!da && !db) return 0;
+          if(!da) return 1;
+          if(!db) return -1;
+          return da.localeCompare(db);
+        });
       }
       return shuffle(arr);
     }
@@ -975,7 +979,15 @@
 
     cardsGrid.innerHTML = list.map(film => {
       if(film.ready){
-        const meta = `${escapeHtml(film.date)}<span class="dot">·</span>${escapeHtml(film.genres.join(', '))}`;
+        let meta = '';
+        if(film.date && film.genres){
+          meta = `<div class="card-meta">${escapeHtml(film.date)}<span class="dot">·</span>${escapeHtml(film.genres.join(', '))}</div>`;
+        } else if(film.date){
+          meta = `<div class="card-meta">${escapeHtml(film.date)}</div>`;
+        } else if(film.genres){
+          meta = `<div class="card-meta">${escapeHtml(film.genres.join(', '))}</div>`;
+        }
+
         return `
           <a href="${film.link}" class="card link">
             <div class="card-poster">
@@ -984,7 +996,7 @@
             </div>
             <div class="card-info">
               <div class="card-title">${escapeHtml(film.title)}</div>
-              <div class="card-meta">${meta}</div>
+              ${meta}
             </div>
           </a>
         `;
@@ -1004,7 +1016,7 @@
   }
 
   /* ==============================================================
-     ПАНЕЛЬ ФИЛЬТРОВ — РЕНДЕР МЕНЮ
+     РЕНДЕР МЕНЮ ФИЛЬТРОВ
      ============================================================== */
   function renderSortMenu(){
     let html = '';
@@ -1051,7 +1063,7 @@
   }
 
   /* ==============================================================
-     ОБНОВЛЕНИЕ ЛЕЙБЛОВ КНОПОК
+     ОБНОВЛЕНИЕ ЛЕЙБЛОВ
      ============================================================== */
   function updateLabels(){
     if(state.sort){
@@ -1092,7 +1104,7 @@
   }
 
   /* ==============================================================
-     ОБРАБОТЧИКИ ДРОПДАУНОВ
+     ДРОПДАУНЫ
      ============================================================== */
   function closeAllDropdowns(){
     document.querySelectorAll('.filter-dropdown').forEach(d => d.classList.remove('open'));
