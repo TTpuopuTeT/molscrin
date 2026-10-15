@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#05060d">
+<title>Смотреть — МОЛСКРИН</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:      #05060d;
+    --blue:    #4d7cff;
+    --violet:  #a04dff;
+    --text:    #e6e8ff;
+    --muted:   #9aa0c8;
+    --header-h: 86px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  html{
+    width:100%;
+    background:var(--bg);
+    overflow-x:hidden;
+  }
+  body{
+    width:100%;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+
+  /* ================= ШАПКА ================= */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:var(--header-h);
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:22px;
+    padding:0 34px;
+    background:rgba(8,10,22,.75);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(120,110,255,.12);
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+    line-height:0;
+    flex-shrink:0;
+  }
+  .logo svg{
+    width:54px;
+    height:54px;
+    overflow:visible;
+    display:block;
+    filter:drop-shadow(0 0 10px rgba(110,80,255,.55));
+    transition:filter .3s ease;
+  }
+  .logo:hover svg{
+    filter:drop-shadow(0 0 18px rgba(150,90,255,.95));
+  }
+
+  nav.desktop-nav{
+    display:flex;
+    align-items:center;
+    gap:24px;
+  }
+  nav.desktop-nav a{
+    position:relative;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:.04em;
+    white-space:nowrap;
+    transition:color .2s, text-shadow .2s;
+  }
+  nav.desktop-nav a::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:-6px;
+    height:1px;
+    background:linear-gradient(90deg, var(--blue), var(--violet));
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .28s ease;
+  }
+  nav.desktop-nav a:hover{
+    color:#fff;
+    text-shadow:0 0 14px rgba(150,110,255,.9);
+  }
+  nav.desktop-nav a:hover::after{ transform:scaleX(1); }
+  nav.desktop-nav a.active{
+    color:#fff;
+  }
+  nav.desktop-nav a.active::after{ transform:scaleX(1); }
+
+  .burger{
+    display:none;
+    width:44px; height:44px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    position:relative;
+    flex-shrink:0;
+  }
+  .burger span{
+    position:absolute;
+    left:10px; right:10px;
+    height:2px;
+    background:var(--text);
+    border-radius:2px;
+    transition:transform .3s ease, opacity .3s ease, top .3s ease;
+  }
+  .burger span:nth-child(1){ top:15px; }
+  .burger span:nth-child(2){ top:21px; }
+  .burger span:nth-child(3){ top:27px; }
+  .burger.open span:nth-child(1){ top:21px; transform:rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ top:21px; transform:rotate(-45deg); }
+
+  .mobile-menu{
+    display:none;
+    position:fixed;
+    top:var(--header-h);
+    left:0; right:0;
+    z-index:99;
+    background:rgba(8,10,22,.96);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(120,110,255,.18);
+    padding:8px 0 16px;
+    transform:translateY(-8px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease, transform .22s ease;
+  }
+  .mobile-menu.open{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .mobile-menu a{
+    display:block;
+    padding:14px 24px;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:16px;
+    font-weight:500;
+    letter-spacing:.04em;
+    border-bottom:1px solid rgba(120,110,255,.07);
+    transition:color .2s, background .2s;
+  }
+  .mobile-menu a:last-child{ border-bottom:none; }
+  .mobile-menu a:active,
+  .mobile-menu a.active{
+    color:#fff;
+    background:rgba(120,80,255,.12);
+  }
+
+  /* ================= КОНТЕЙНЕР ================= */
+  .page{
+    padding-top:var(--header-h);
+    min-height:100vh;
+  }
+
+  .page-inner{
+    max-width:1480px;
+    margin:0 auto;
+    padding:28px 34px 90px;
+  }
+
+  /* ================= ЗАГОЛОВОК ================= */
+  .page-title{
+    font-family:'Unbounded',sans-serif;
+    font-weight:800;
+    font-size:clamp(28px, 4vw, 44px);
+    letter-spacing:.02em;
+    line-height:1.1;
+    margin-bottom:24px;
+    background:linear-gradient(180deg,
+      #ffffff 0%,
+      #c3cbff 55%,
+      #7a5cff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 0 24px rgba(90,70,255,.4));
+  }
+
+  /* ================= ПАНЕЛЬ ФИЛЬТРОВ ================= */
+  .filters{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+  }
+
+  .filter-left,
+  .filter-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+  .filter-dropdown{
+    position:relative;
+  }
+
+  .filter-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    height:42px;
+    padding:0 18px;
+    border-radius:21px;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:.02em;
+    color:var(--text);
+    background:rgba(20,22,45,.65);
+    border:1px solid rgba(120,110,255,.22);
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .2s, border-color .2s, box-shadow .2s, color .2s;
+  }
+  .filter-btn:hover{
+    background:rgba(28,30,55,.85);
+    border-color:rgba(140,110,255,.5);
+  }
+  .filter-dropdown.open .filter-btn{
+    background:rgba(28,30,55,.95);
+    border-color:rgba(140,110,255,.7);
+    box-shadow:0 0 20px rgba(90,60,255,.25);
+  }
+  .filter-btn.active{
+    border-color:rgba(160,120,255,.9);
+    color:#fff;
+    box-shadow:0 0 22px rgba(120,80,255,.35);
+  }
+  .filter-btn .arrow{
+    width:9px; height:9px;
+    border-right:1.8px solid currentColor;
+    border-bottom:1.8px solid currentColor;
+    transform:rotate(45deg) translate(-2px, -2px);
+    transition:transform .25s ease;
+    margin-left:2px;
+    opacity:.75;
+  }
+  .filter-dropdown.open .arrow{
+    transform:rotate(-135deg) translate(-3px, -3px);
+  }
+
+  /* --- выпадающий список --- */
+  .filter-menu{
+    position:absolute;
+    top:calc(100% + 8px);
+    left:0;
+    min-width:230px;
+    background:rgba(10,12,26,.98);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(120,110,255,.25);
+    border-radius:14px;
+    padding:8px;
+    z-index:50;
+    opacity:0;
+    transform:translateY(-6px);
+    pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+    box-shadow:0 24px 60px rgba(0,0,0,.7), 0 0 40px rgba(90,60,255,.18);
+    max-height:min(60vh, 440px);
+    overflow-y:auto;
+  }
+  .filter-dropdown.open .filter-menu{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .filter-menu::-webkit-scrollbar{ width:6px; }
+  .filter-menu::-webkit-scrollbar-thumb{
+    background:rgba(120,110,255,.3);
+    border-radius:3px;
+  }
+
+  .filter-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 14px;
+    border-radius:10px;
+    font-size:14px;
+    color:var(--muted);
+    cursor:pointer;
+    user-select:none;
+    transition:background .15s ease, color .15s ease;
+  }
+  .filter-item:hover{
+    background:rgba(120,80,255,.12);
+    color:#fff;
+  }
+  .filter-item.selected{
+    color:#fff;
+    background:rgba(120,80,255,.18);
+  }
+  .filter-item .check{
+    width:16px; height:16px;
+    border-radius:4px;
+    border:1.6px solid rgba(150,140,255,.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    transition:background .15s, border-color .15s;
+  }
+  .filter-item.selected .check{
+    background:linear-gradient(135deg, var(--violet), var(--blue));
+    border-color:transparent;
+  }
+  .filter-item.selected .check::after{
+    content:'';
+    width:4px; height:8px;
+    border-right:1.8px solid #fff;
+    border-bottom:1.8px solid #fff;
+    transform:rotate(45deg) translate(-1px, -1px);
+  }
+
+  /* сортировка — без чекбоксов, одиночный выбор */
+  .filter-item.radio .check{
+    border-radius:50%;
+  }
+  .filter-item.radio.selected .check{
+    background:linear-gradient(135deg, var(--violet), var(--blue));
+    border-color:transparent;
+  }
+  .filter-item.radio.selected .check::after{
+    content:'';
+    width:6px; height:6px;
+    background:#fff;
+    border-radius:50%;
+    transform:none;
+    border:none;
+  }
+
+  /* сбросить — ярче на оттенок */
+  .filter-item.reset-item{
+    color:#fff;
+    background:rgba(160,140,255,.14);
+    border:1px solid rgba(160,130,255,.35);
+    margin-bottom:6px;
+    font-weight:500;
+  }
+  .filter-item.reset-item:hover{
+    background:rgba(180,150,255,.22);
+    box-shadow:0 0 18px rgba(140,100,255,.35);
+  }
+
+  /* ================= СЕТКА КАРТОЧЕК ================= */
+  .cards-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:22px;
+  }
+
+  .card{
+    display:flex;
+    flex-direction:column;
+    border-radius:14px;
+    overflow:hidden;
+    background:rgba(20,22,45,.55);
+    border:1px solid rgba(120,110,255,.12);
+    text-decoration:none;
+    color:inherit;
+    transition:transform .25s cubic-bezier(.2,.7,.3,1),
+               border-color .25s ease,
+               box-shadow .25s ease;
+  }
+  .card.link{
+    cursor:pointer;
+  }
+  .card.link:hover{
+    transform:translateY(-5px);
+    border-color:rgba(150,120,255,.7);
+    box-shadow:0 18px 44px rgba(90,60,255,.4),
+               0 0 30px rgba(140,90,255,.28);
+  }
+
+  .card-poster{
+    position:relative;
+    width:100%;
+    aspect-ratio:2/3;
+    background:
+      linear-gradient(135deg, rgba(60,40,120,.5), rgba(20,22,45,.9)),
+      radial-gradient(circle at 30% 30%, rgba(120,80,255,.25), transparent 60%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .card-poster img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .card.link:hover .card-poster img{
+    transform:scale(1.06);
+  }
+  .card-poster .soon{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:rgba(180,170,255,.6);
+    border:1px solid rgba(120,110,255,.35);
+    padding:6px 14px;
+    border-radius:20px;
+  }
+
+  .card-info{
+    padding:12px 14px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .card-title{
+    font-size:14px;
+    font-weight:500;
+    line-height:1.3;
+    color:var(--text);
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .card-meta{
+    font-size:12px;
+    line-height:1.4;
+    color:var(--muted);
+  }
+  .card-meta .dot{
+    display:inline-block;
+    margin:0 6px;
+    opacity:.5;
+  }
+  .card.disabled .card-title{ color:var(--muted); }
+
+  /* ================= НИЧЕГО НЕ НАЙДЕНО ================= */
+  .empty{
+    grid-column:1 / -1;
+    padding:60px 20px;
+    text-align:center;
+    color:var(--muted);
+    font-size:15px;
+    letter-spacing:.02em;
+  }
+  .empty span{
+    display:block;
+    font-family:'Unbounded',sans-serif;
+    font-size:18px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+
+  /* ================= ПЛАНШЕТ ================= */
+  @media (max-width:1100px){
+    header{ padding:0 20px; gap:16px; }
+    nav.desktop-nav{ gap:16px; }
+    nav.desktop-nav a{ font-size:14px; }
+    .logo svg{ width:46px; height:46px; }
+    .page-inner{ padding:24px 20px 80px; }
+    .cards-grid{
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+  }
+
+  /* ================= МОБИЛЬНЫЙ ================= */
+  @media (max-width:900px){
+    :root{ --header-h: 66px; }
+
+    header{
+      padding:0 14px;
+      gap:12px;
+    }
+    nav.desktop-nav{ display:none; }
+    .burger{ display:block; }
+    .mobile-menu{ display:block; }
+    .logo svg{ width:40px; height:40px; }
+
+    .page-inner{ padding:20px 16px 70px; }
+
+    .page-title{ margin-bottom:18px; }
+
+    .filters{
+      flex-direction:column;
+      align-items:stretch;
+      gap:12px;
+      margin-bottom:22px;
+    }
+    .filter-left,
+    .filter-right{
+      width:100%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .filter-left{
+      grid-template-columns:1fr;
+    }
+    .filter-dropdown{ position:static; }
+    .filter-btn{
+      width:100%;
+      justify-content:space-between;
+      height:44px;
+      font-size:14px;
+    }
+    .filter-menu{
+      left:0; right:0;
+      min-width:0;
+      width:100%;
+      position:absolute;
+    }
+    .filter-dropdown{ position:relative; }
+
+    .cards-grid{
+      grid-template-columns:repeat(2, 1fr);
+      gap:14px;
+    }
+    .card-info{ padding:10px 12px 12px; }
+    .card-title{ font-size:13px; }
+    .card-meta{ font-size:11px; }
+  }
+
+  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
+  @media (max-width:480px){
+    :root{ --header-h: 60px; }
+    header{ padding:0 12px; gap:10px; }
+    .logo svg{ width:36px; height:36px; }
+
+    .page-inner{ padding:16px 12px 60px; }
+    .page-title{ font-size:24px; }
+
+    .filter-right{
+      grid-template-columns:1fr 1fr;
+    }
+    .filter-btn{
+      font-size:13px;
+      height:42px;
+      padding:0 14px;
+    }
+
+    .cards-grid{
+      grid-template-columns:repeat(2, 1fr);
+      gap:10px;
+    }
+
+    .burger{ width:40px; height:40px; }
+    .burger span{ left:9px; right:9px; }
+    .burger span:nth-child(1){ top:13px; }
+    .burger span:nth-child(2){ top:19px; }
+    .burger span:nth-child(3){ top:25px; }
+    .burger.open span:nth-child(1),
+    .burger.open span:nth-child(3){ top:19px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================= ШАПКА ======================= -->
+<header>
+
+  <a href="index.html" class="logo" aria-label="МОЛСКРИН">
+    <svg viewBox="0 0 64 64" fill="none"
+         stroke="url(#logoGrad)"
+         stroke-width="3.5"
+         stroke-linecap="round">
+      <defs>
+        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stop-color="#a04dff"/>
+          <stop offset="100%" stop-color="#4d7cff"/>
+        </linearGradient>
+      </defs>
+      <line x1="12" y1="6"  x2="12" y2="58"/>
+      <line x1="4"  y1="4"  x2="32" y2="42"/>
+      <line x1="60" y1="4"  x2="32" y2="42"/>
+      <line x1="52" y1="6"  x2="52" y2="58"/>
+    </svg>
+  </a>
+
+  <nav class="desktop-nav">
+    <a href="index.html">Главная</a>
+    <a href="watch.html" class="active">Смотреть</a>
+    <a href="#">Команда</a>
+    <a href="#">Анонсы</a>
+    <a href="#">Биография</a>
+  </nav>
+
+  <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Главная</a>
+  <a href="watch.html" class="active">Смотреть</a>
+  <a href="#">Команда</a>
+  <a href="#">Анонсы</a>
+  <a href="#">Биография</a>
+</div>
+
+<!-- ======================= КОНТЕНТ ======================= -->
+<div class="page">
+  <div class="page-inner">
+
+    <h1 class="page-title">Смотреть</h1>
+
+    <!-- ============ ФИЛЬТРЫ ============ -->
+    <div class="filters">
+
+      <div class="filter-left">
+        <div class="filter-dropdown" id="sortDropdown">
+          <button class="filter-btn" id="sortBtn">
+            <span id="sortLabel">Сортировка</span>
+            <span class="arrow"></span>
+          </button>
+          <div class="filter-menu" id="sortMenu"></div>
+        </div>
+      </div>
+
+      <div class="filter-right">
+
+        <div class="filter-dropdown" id="genreDropdown">
+          <button class="filter-btn" id="genreBtn">
+            <span id="genreLabel">Жанры</span>
+            <span class="arrow"></span>
+          </button>
+          <div class="filter-menu" id="genreMenu"></div>
+        </div>
+
+        <div class="filter-dropdown" id="ageDropdown">
+          <button class="filter-btn" id="ageBtn">
+            <span id="ageLabel">Возраст</span>
+            <span class="arrow"></span>
+          </button>
+          <div class="filter-menu" id="ageMenu"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ============ КАРТОЧКИ ============ -->
+    <div class="cards-grid" id="cardsGrid"></div>
+
+  </div>
+</div>
+
+<script>
+  /* ==============================================================
+     ДАННЫЕ ФИЛЬМОВ
+     ready: true  — есть страница, постер, дата, жанры, возраст
+     ready: false — заглушка (только название)
+     ============================================================== */
+  const FILMS = [
+    // ---------- ГОТОВЫЕ ----------
+    {
+      ready: true,
+      title: 'Раскол',
+      poster: 'Split/Split.jpg',
+      link: 'Split/Split_film.html',
+      date: '21.12.2025',
+      dateKey: '2025-12-21',
+      genres: ['Драма','Боевик'],
+      age: 18
+    },
+    {
+      ready: true,
+      title: 'Весна',
+      poster: 'Spring/Spring.jpg',
+      link: 'Spring/Spring_film.html',
+      date: '30.05.2026',
+      dateKey: '2026-05-30',
+      genres: ['Драма'],
+      age: 16
+    },
+    {
+      ready: true,
+      title: 'Элли',
+      poster: 'Ellie/Ellie.jpg',
+      link: 'Ellie/Ellie_film.html',
+      date: '13.10.2025',
+      dateKey: '2025-10-13',
+      genres: ['Драма','Мелодрама'],
+      age: 18
+    },
+    {
+      ready: true,
+      title: 'Изумрудный город',
+      poster: 'The_emerald_city/The_emerald_city1.jpg',
+      link: 'The_emerald_city/The_emerald_city_film.html',
+      date: '23.11.2024',
+      dateKey: '2024-11-23',
+      genres: ['Драма','Триллер'],
+      age: 18
+    },
+    {
+      ready: true,
+      title: 'Я больше не буду плакать',
+      poster: 'I_wont_cry_anymore/I_wont_cry_anymore1.jpg',
+      link: 'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
+      date: '14.02.2026',
+      dateKey: '2026-02-14',
+      genres: ['Драма','Романтика'],
+      age: 18
+    },
+    {
+      ready: true,
+      title: 'Красный кролик',
+      poster: 'Red_rabbit/Red_rabbit1.jpg',
+      link: 'Red_rabbit/Red_rabbit_film.html',
+      date: '24.01.2025',
+      dateKey: '2025-01-24',
+      genres: ['Детектив'],
+      age: 16
+    },
+    {
+      ready: true,
+      title: 'Красный кролик: Искупление',
+      poster: 'Red_rabbit_atonement/Red_rabbit_atonement1.jpg',
+      link: 'Red_rabbit_atonement/Red_rabbit_atonement_film.html',
+      date: '08.09.2025',
+      dateKey: '2025-09-08',
+      genres: ['Детектив','Драма'],
+      age: 16
+    },
+    {
+      ready: true,
+      title: 'Око за око',
+      poster: 'An_eye_for_an_eye/An_eye_for_an_eye.jpg',
+      link: 'An_eye_for_an_eye/An_eye_for_an_eye_film.html',
+      date: '07.09.2026',
+      dateKey: '2026-09-07',
+      genres: ['Драма','Детектив','Триллер'],
+      age: 18
+    },
+    {
+      ready: true,
+      title: 'Нашедший',
+      poster: 'The_finder/The_finder1.jpg',
+      link: 'The_finder/The_finder_film.html',
+      date: '11.08.2024',
+      dateKey: '2024-08-11',
+      genres: ['Драма'],
+      age: 6
+    },
+    {
+      ready: true,
+      title: 'Нашедший: Принятие',
+      poster: 'Finder_acceptance/Finder_acceptance1.jpg',
+      link: 'Finder_acceptance/Finder_acceptance_film.html',
+      date: '23.02.2025',
+      dateKey: '2025-02-23',
+      genres: ['Драма'],
+      age: 6
+    },
+    {
+      ready: true,
+      title: 'Первый ход',
+      poster: 'the_first_move/the_first_move1.jpg',
+      link: 'the_first_move/the_first_move_film.html',
+      date: '23.09.2024',
+      dateKey: '2024-09-23',
+      genres: ['Драма'],
+      age: 12
+    },
+    {
+      ready: true,
+      title: 'Scappa de casa',
+      poster: 'Scappa_de_casa/Scappa_de_casa1.jpg',
+      link: 'Scappa_de_casa/Scappa_de_casa_film.html',
+      date: '27.08.2024',
+      dateKey: '2024-08-27',
+      genres: ['Романтика'],
+      age: 12
+    },
+    {
+      ready: true,
+      title: 'Не улетай',
+      poster: 'Dont_fly_away/Dont_fly_away1.jpg',
+      link: 'Dont_fly_away/Dont_fly_away_film.html',
+      date: '29.01.2026',
+      dateKey: '2026-01-29',
+      genres: ['Драма'],
+      age: 12
+    },
+    {
+      ready: true,
+      title: 'Последний глоток',
+      poster: 'the_last_sip/the_last_sip1.jpg',
+      link: 'the_last_sip/the_last_sip_film.html',
+      date: '19.10.2024',
+      dateKey: '2024-10-19',
+      genres: ['Драма'],
+      age: 16
+    },
+
+    // ---------- ЗАГЛУШКИ ----------
+    { ready: false, title: 'Красный кролик: первая жертва' },
+    { ready: false, title: 'Красный кролик: грехи' },
+    { ready: false, title: 'Наказание' },
+    { ready: false, title: 'Пыль' },
+    { ready: false, title: 'Помощь' },
+    { ready: false, title: 'Любовь' },
+    { ready: false, title: 'Страницы усталости' },
+    { ready: false, title: 'Mors certa, Vita incert' }
+  ];
+
+  /* Список жанров и возрастов (только те, что реально есть) */
+  const GENRES = ['Драма','Боевик','Мелодрама','Романтика','Триллер','Детектив'];
+  const AGES   = [6, 12, 16, 18];
+
+  /* Опции сортировки */
+  const SORT_OPTIONS = [
+    { id: 'az',  label: 'А → Я' },
+    { id: 'za',  label: 'Я → А' },
+    { id: 'new', label: 'Сначала новые' },
+    { id: 'old', label: 'Сначала старые' }
+  ];
+
+  /* ==============================================================
+     СОСТОЯНИЕ
+     ============================================================== */
+  const state = {
+    sort:   null,   // null = случайный порядок
+    genres: [],     // выбранные жанры (мультивыбор)
+    ages:   []      // выбранные возраста (мультивыбор)
+  };
+
+  /* ==============================================================
+     ЭЛЕМЕНТЫ
+     ============================================================== */
+  const cardsGrid   = document.getElementById('cardsGrid');
+  const sortDropdown = document.getElementById('sortDropdown');
+  const genreDropdown = document.getElementById('genreDropdown');
+  const ageDropdown = document.getElementById('ageDropdown');
+  const sortBtn     = document.getElementById('sortBtn');
+  const genreBtn    = document.getElementById('genreBtn');
+  const ageBtn      = document.getElementById('ageBtn');
+  const sortMenu    = document.getElementById('sortMenu');
+  const genreMenu   = document.getElementById('genreMenu');
+  const ageMenu     = document.getElementById('ageMenu');
+  const sortLabel   = document.getElementById('sortLabel');
+  const genreLabel  = document.getElementById('genreLabel');
+  const ageLabel    = document.getElementById('ageLabel');
+
+  /* ==============================================================
+     ВСПОМОГАТЕЛЬНОЕ
+     ============================================================== */
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function shuffle(arr){
+    const a = [...arr];
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function hasActiveFilters(){
+    return state.sort !== null ||
+           state.genres.length > 0 ||
+           state.ages.length > 0;
+  }
+
+  /* ==============================================================
+     ФИЛЬТРАЦИЯ И СОРТИРОВКА
+     ============================================================== */
+  function applyFiltersAndSort(){
+    let list = FILMS.slice();
+
+    /* 1. Фильтр по жанрам (ИЛИ) + по возрастам (ИЛИ) + между группами И */
+    if(state.genres.length > 0 || state.ages.length > 0){
+      list = list.filter(film => {
+        if(!film.ready) return false;   /* заглушки выпадают при активном фильтре */
+
+        const genreOk = state.genres.length === 0 ||
+                        film.genres.some(g => state.genres.includes(g));
+
+        const ageOk   = state.ages.length === 0 ||
+                        state.ages.includes(film.age);
+
+        return genreOk && ageOk;
+      });
+    } else if(state.sort === 'new' || state.sort === 'old'){
+      /* Сортировка по дате — заглушки без даты выпадают */
+      list = list.filter(f => f.ready);
+    }
+
+    /* 2. Разделяем готовые и заглушки */
+    const ready = list.filter(f => f.ready);
+    const stubs = list.filter(f => !f.ready);
+
+    /* 3. Сортируем каждую группу */
+    function sortGroup(arr){
+      if(state.sort === 'az'){
+        return arr.sort((a,b) => a.title.localeCompare(b.title, 'ru'));
+      }
+      if(state.sort === 'za'){
+        return arr.sort((a,b) => b.title.localeCompare(a.title, 'ru'));
+      }
+      if(state.sort === 'new'){
+        return arr.sort((a,b) => b.dateKey.localeCompare(a.dateKey));
+      }
+      if(state.sort === 'old'){
+        return arr.sort((a,b) => a.dateKey.localeCompare(b.dateKey));
+      }
+      /* случайный порядок */
+      return shuffle(arr);
+    }
+
+    return [...sortGroup(ready), ...sortGroup(stubs)];
+  }
+
+  /* ==============================================================
+     РЕНДЕР КАРТОЧЕК
+     ============================================================== */
+  function renderCards(){
+    const list = applyFiltersAndSort();
+
+    if(list.length === 0){
+      cardsGrid.innerHTML = `
+        <div class="empty">
+          <span>Ничего не найдено</span>
+          Попробуй изменить фильтры
+        </div>
+      `;
+      return;
+    }
+
+    cardsGrid.innerHTML = list.map(film => {
+      if(film.ready){
+        const meta = `${escapeHtml(film.date)}<span class="dot">·</span>${escapeHtml(film.genres.join(', '))}`;
+        return `
+          <a href="${film.link}" class="card link">
+            <div class="card-poster">
+              <img src="${film.poster}" alt="${escapeHtml(film.title)}"
+                   onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>СКОРО</span>')">
+            </div>
+            <div class="card-info">
+              <div class="card-title">${escapeHtml(film.title)}</div>
+              <div class="card-meta">${meta}</div>
+            </div>
+          </a>
+        `;
+      } else {
+        return `
+          <div class="card disabled">
+            <div class="card-poster">
+              <span class="soon">Скоро</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">${escapeHtml(film.title)}</div>
+            </div>
+          </div>
+        `;
+      }
+    }).join('');
+  }
+
+  /* ==============================================================
+     ПАНЕЛЬ ФИЛЬТРОВ — РЕНДЕР МЕНЮ
+     ============================================================== */
+  function renderSortMenu(){
+    let html = '';
+
+    if(hasActiveFilters()){
+      html += `<div class="filter-item reset-item" data-action="reset">Сбросить фильтры</div>`;
+    }
+
+    html += SORT_OPTIONS.map(opt => {
+      const sel = state.sort === opt.id ? 'selected' : '';
+      return `
+        <div class="filter-item radio ${sel}" data-sort="${opt.id}">
+          <span class="check"></span>
+          <span>${opt.label}</span>
+        </div>
+      `;
+    }).join('');
+
+    sortMenu.innerHTML = html;
+  }
+
+  function renderGenreMenu(){
+    genreMenu.innerHTML = GENRES.map(g => {
+      const sel = state.genres.includes(g) ? 'selected' : '';
+      return `
+        <div class="filter-item ${sel}" data-genre="${g}">
+          <span class="check"></span>
+          <span>${g}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderAgeMenu(){
+    ageMenu.innerHTML = AGES.map(a => {
+      const sel = state.ages.includes(a) ? 'selected' : '';
+      return `
+        <div class="filter-item ${sel}" data-age="${a}">
+          <span class="check"></span>
+          <span>${a}+</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  /* ==============================================================
+     ОБНОВЛЕНИЕ ЛЕЙБЛОВ КНОПОК
+     ============================================================== */
+  function updateLabels(){
+    /* Сортировка */
+    if(state.sort){
+      const opt = SORT_OPTIONS.find(o => o.id === state.sort);
+      sortLabel.textContent = opt ? opt.label : 'Сортировка';
+      sortBtn.classList.add('active');
+    } else {
+      sortLabel.textContent = 'Сортировка';
+      sortBtn.classList.remove('active');
+    }
+
+    /* Жанры */
+    if(state.genres.length > 0){
+      genreLabel.textContent = `Жанры (${state.genres.length})`;
+      genreBtn.classList.add('active');
+    } else {
+      genreLabel.textContent = 'Жанры';
+      genreBtn.classList.remove('active');
+    }
+
+    /* Возраст */
+    if(state.ages.length > 0){
+      ageLabel.textContent = `Возраст (${state.ages.length})`;
+      ageBtn.classList.add('active');
+    } else {
+      ageLabel.textContent = 'Возраст';
+      ageBtn.classList.remove('active');
+    }
+  }
+
+  /* ==============================================================
+     ПОЛНОЕ ОБНОВЛЕНИЕ UI
+     ============================================================== */
+  function update(){
+    renderCards();
+    renderSortMenu();
+    renderGenreMenu();
+    renderAgeMenu();
+    updateLabels();
+  }
+
+  /* ==============================================================
+     ОБРАБОТЧИКИ ДРОПДАУНОВ
+     ============================================================== */
+  function closeAllDropdowns(){
+    document.querySelectorAll('.filter-dropdown').forEach(d => d.classList.remove('open'));
+  }
+
+  function setupDropdown(dropdown, btn){
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = dropdown.classList.contains('open');
+      closeAllDropdowns();
+      if(!isOpen) dropdown.classList.add('open');
+    });
+  }
+
+  setupDropdown(sortDropdown, sortBtn);
+  setupDropdown(genreDropdown, genreBtn);
+  setupDropdown(ageDropdown, ageBtn);
+
+  document.addEventListener('click', () => closeAllDropdowns());
+
+  /* ==============================================================
+     КЛИКИ ПО ПУНКТАМ МЕНЮ
+     ============================================================== */
+  sortMenu.addEventListener('click', e => {
+    e.stopPropagation();
+
+    const resetItem = e.target.closest('[data-action="reset"]');
+    if(resetItem){
+      state.sort   = null;
+      state.genres = [];
+      state.ages   = [];
+      update();
+      closeAllDropdowns();
+      return;
+    }
+
+    const sortItem = e.target.closest('[data-sort]');
+    if(sortItem){
+      const id = sortItem.dataset.sort;
+      state.sort = (state.sort === id) ? null : id;
+      update();
+      closeAllDropdowns();
+    }
+  });
+
+  genreMenu.addEventListener('click', e => {
+    e.stopPropagation();
+    const item = e.target.closest('[data-genre]');
+    if(!item) return;
+    const g = item.dataset.genre;
+    const idx = state.genres.indexOf(g);
+    if(idx === -1) state.genres.push(g);
+    else state.genres.splice(idx, 1);
+    update();
+  });
+
+  ageMenu.addEventListener('click', e => {
+    e.stopPropagation();
+    const item = e.target.closest('[data-age]');
+    if(!item) return;
+    const a = parseInt(item.dataset.age, 10);
+    const idx = state.ages.indexOf(a);
+    if(idx === -1) state.ages.push(a);
+    else state.ages.splice(idx, 1);
+    update();
+  });
+
+  /* ==============================================================
+     БУРГЕР
+     ============================================================== */
+  const burger     = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ==============================================================
+     СТАРТ
+     ============================================================== */
+  update();
+</script>
+
+</body>
+</html>
