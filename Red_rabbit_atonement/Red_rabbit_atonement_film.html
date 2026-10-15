@@ -317,7 +317,7 @@
     justify-content:flex-end;
     align-items:flex-start;
     padding:calc(var(--header-h) + 40px) clamp(24px, 5vw, 80px) 70px;
-    max-width:min(720px, 62%);
+    max-width:min(760px, 62%);
   }
   .film-hero-title{
     font-family:'Unbounded',sans-serif;
@@ -492,11 +492,11 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: 10 штук --- */
+  /* --- Кадры: 4 штуки --- */
   .frames-grid{
     display:grid;
-    grid-template-columns:repeat(5, 1fr);
-    gap:14px;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
     margin-bottom:56px;
   }
   .frame-item{
@@ -625,7 +625,7 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= ПЛЕЕР ================= */
+  /* ================= МОДАЛКИ ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -811,7 +811,7 @@
     nav.desktop-nav{ gap:16px; }
     nav.desktop-nav a{ font-size:14px; }
     .header-title{ font-size:14px; }
-    .film-hero-content{ max-width:min(640px, 68%); }
+    .film-hero-content{ max-width:min(660px, 68%); }
     .frames-grid{
       grid-template-columns:repeat(3, 1fr);
       gap:14px;
@@ -839,7 +839,7 @@
     .header-title{
       font-size:12px;
       letter-spacing:.03em;
-      max-width:60%;
+      max-width:55%;
       overflow:hidden;
       text-overflow:ellipsis;
     }
@@ -953,7 +953,7 @@
     .burger.open span:nth-child(3){ top:19px; }
 
     .film-hero{ min-height:480px; height:86vh; }
-    .film-hero-title{ font-size:clamp(22px, 7vw, 34px); }
+    .film-hero-title{ font-size:clamp(22px, 7.5vw, 34px); }
     .film-info{ padding:0 16px 60px; }
 
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
@@ -983,7 +983,7 @@
 
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
-    <a href="#">Смотреть</a>
+    <a href="../watch.html">Смотреть</a>
     <a href="#">Команда</a>
     <a href="#">Анонсы</a>
     <a href="#">Биография</a>
@@ -998,7 +998,7 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
-  <a href="#">Смотреть</a>
+  <a href="../watch.html">Смотреть</a>
   <a href="#">Команда</a>
   <a href="#">Анонсы</a>
   <a href="#">Биография</a>
@@ -1038,35 +1038,17 @@
 
   <h2 class="section-title reveal">Кадры</h2>
   <div class="frames-grid reveal" id="framesGrid">
-    <div class="frame-item" data-src="Red_rabbit_atonement_k1.jpg">
-      <img src="Red_rabbit_atonement_k1.jpg" alt="Кадр 1">
-    </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k2.jpg">
-      <img src="Red_rabbit_atonement_k2.jpg" alt="Кадр 2">
-    </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k3.jpg">
-      <img src="Red_rabbit_atonement_k3.jpg" alt="Кадр 3">
-    </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k4.jpg">
-      <img src="Red_rabbit_atonement_k4.jpg" alt="Кадр 4">
-    </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k5.jpg">
-      <img src="Red_rabbit_atonement_k5.jpg" alt="Кадр 5">
-    </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k6.jpg">
-      <img src="Red_rabbit_atonement_k6.jpg" alt="Кадр 6">
-    </div>
     <div class="frame-item" data-src="Red_rabbit_atonement_k7.jpg">
-      <img src="Red_rabbit_atonement_k7.jpg" alt="Кадр 7">
+      <img src="Red_rabbit_atonement_k7.jpg" alt="Кадр 1">
     </div>
     <div class="frame-item" data-src="Red_rabbit_atonement_k8.jpg">
-      <img src="Red_rabbit_atonement_k8.jpg" alt="Кадр 8">
+      <img src="Red_rabbit_atonement_k8.jpg" alt="Кадр 2">
     </div>
     <div class="frame-item" data-src="Red_rabbit_atonement_k9.jpg">
-      <img src="Red_rabbit_atonement_k9.jpg" alt="Кадр 9">
+      <img src="Red_rabbit_atonement_k9.jpg" alt="Кадр 3">
     </div>
     <div class="frame-item" data-src="Red_rabbit_atonement_k10.jpg">
-      <img src="Red_rabbit_atonement_k10.jpg" alt="Кадр 10">
+      <img src="Red_rabbit_atonement_k10.jpg" alt="Кадр 4">
     </div>
   </div>
 
@@ -1100,19 +1082,10 @@
 
 </section>
 
-<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
-    <video 
-      id="filmVideo"
-      controls 
-      preload="metadata"
-      playsinline
-      style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
-      <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/red-rabbit-atonement-movie-v1.0/Red_rabbit_atonement_movie.mp4" type="video/mp4">
-      Ваш браузер не поддерживает видео.
-    </video>
+    <div class="player-placeholder">Скоро</div>
   </div>
 </div>
 
@@ -1121,7 +1094,7 @@
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
   <img src="" alt="" id="lightboxImg">
   <button class="lightbox-nav next" id="lightboxNext" aria-label="Вперёд">›</button>
-  <div class="lightbox-counter" id="lightboxCounter">1 / 10</div>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
 </div>
 
 <script>
@@ -1131,7 +1104,6 @@
   const playerModal = document.getElementById('playerModal');
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
-  const filmVideo   = document.getElementById('filmVideo');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1211,23 +1183,13 @@
     });
   });
 
-  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
-    if(filmVideo){
-      filmVideo.currentTime = 0;
-      const p = filmVideo.play();
-      if(p && p.catch) p.catch(() => {});
-    }
   }
   function closePlayer(){
     playerModal.classList.remove('open');
     document.body.style.overflow = '';
-    if(filmVideo){
-      filmVideo.pause();
-      filmVideo.currentTime = 0;
-    }
   }
   watchBtn.addEventListener('click', openPlayer);
   playerClose.addEventListener('click', closePlayer);
@@ -1235,7 +1197,6 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
