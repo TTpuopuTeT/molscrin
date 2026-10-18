@@ -36,7 +36,6 @@
     overflow-x:hidden;
   }
 
-  /* ================= ШАПКА ================= */
   header{
     position:fixed;
     top:0; left:0; right:0;
@@ -216,7 +215,6 @@
     padding-left:32px;
   }
 
-  /* ================= ОБЛОЖКА ================= */
   .film-hero{
     position:relative;
     width:100%;
@@ -338,8 +336,15 @@
     50%    { background-position:100% 0; }
   }
 
-  .btn-watch{
+  .hero-buttons{
     margin-top:34px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:center;
+  }
+
+  .btn-watch{
     display:inline-flex;
     align-items:center;
     gap:12px;
@@ -413,7 +418,6 @@
     to  { opacity:1; transform:translateY(0);    }
   }
 
-  /* ================= ИНФО ================= */
   .film-info{
     position:relative;
     z-index:3;
@@ -437,7 +441,7 @@
     flex-wrap:wrap;
     align-items:center;
     gap:12px;
-    margin-bottom:22px;
+    margin-bottom:56px;
     font-size:15px;
     color:#c3cbff;
     font-weight:500;
@@ -492,7 +496,6 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: 4 штуки --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -550,6 +553,27 @@
   .frame-item:hover img{ transform:scale(1.06); }
   .frame-item:active{ transform:translateY(-2px) scale(.99); }
 
+  .frame-item.placeholder{
+    cursor:default;
+  }
+  .frame-item.placeholder:hover{
+    transform:none;
+    border-color:rgba(120,110,255,.15);
+    box-shadow:none;
+  }
+  .frame-item.placeholder::after{ display:none; }
+  .frame-item .soon{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:rgba(180,170,255,.55);
+    border:1px solid rgba(120,110,255,.3);
+    padding:5px 12px;
+    border-radius:20px;
+  }
+
+  /* ================= АКТЁРЫ ================= */
   .actors-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -560,6 +584,8 @@
     flex-direction:column;
     gap:10px;
     transition:transform .35s cubic-bezier(.2,.7,.3,1);
+    text-decoration:none;
+    color:inherit;
   }
   .actor-item:hover{ transform:translateY(-5px); }
   .actor-photo{
@@ -582,6 +608,14 @@
     position:relative;
     overflow:hidden;
   }
+  .actor-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    position:relative;
+    z-index:1;
+  }
   .actor-photo::before{
     content:'';
     position:absolute;
@@ -595,6 +629,8 @@
     opacity:0;
     animation:rotateHalo 6s linear infinite;
     transition:opacity .4s;
+    z-index:2;
+    pointer-events:none;
   }
   .actor-photo::after{
     content:'';
@@ -602,8 +638,9 @@
     inset:1px;
     border-radius:inherit;
     background:linear-gradient(135deg, rgba(60,40,120,.55), rgba(20,22,45,.9));
+    z-index:0;
   }
-  .actor-photo > *{
+  .actor-photo .soon{
     position:relative;
     z-index:1;
   }
@@ -625,7 +662,7 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= МОДАЛКИ ================= */
+  /* ================= ПЛЕЕР ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -707,7 +744,6 @@
     border-radius:16px;
   }
 
-  /* ================= ЛАЙТБОКС ================= */
   .lightbox{
     position:fixed;
     inset:0;
@@ -805,7 +841,6 @@
     border:1px solid rgba(120,110,255,.2);
   }
 
-  /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
@@ -822,7 +857,6 @@
     }
   }
 
-  /* ================= МОБИЛЬНЫЙ ================= */
   @media (max-width:900px){
     :root{ --header-h: 66px; }
     header{
@@ -888,11 +922,17 @@
       font-size:clamp(24px, 6.5vw, 40px);
       max-width:95%;
     }
-    .btn-watch{
+    .hero-buttons{
       margin-top:26px;
-      padding:14px 28px;
-      font-size:15px;
+      gap:10px;
+      width:100%;
     }
+    .btn-watch{
+      padding:13px 22px;
+      font-size:14px;
+      gap:8px;
+    }
+    .btn-watch svg{ width:14px; height:14px; }
 
     .film-info{ padding:0 20px 72px; }
     .section-title{ font-size:19px; margin-bottom:18px; }
@@ -934,7 +974,6 @@
     }
   }
 
-  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
   @media (max-width:480px){
     :root{ --header-h: 60px; }
     header{ padding:0 10px; gap:10px; }
@@ -955,6 +994,11 @@
     .film-hero{ min-height:480px; height:86vh; }
     .film-hero-title{ font-size:clamp(22px, 7.5vw, 34px); }
     .film-info{ padding:0 16px 60px; }
+
+    .btn-watch{
+      padding:12px 18px;
+      font-size:13px;
+    }
 
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
     .actors-grid{ grid-template-columns:repeat(3, 1fr); }
@@ -984,9 +1028,9 @@
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
     <a href="../watch.html">Смотреть</a>
-    <a href="#">Команда</a>
-    <a href="#">Анонсы</a>
-    <a href="#">Биография</a>
+    <a href="../team.html">Команда</a>
+    <a href="../announcements.html">Анонсы</a>
+    <a href="../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -999,9 +1043,9 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
   <a href="../watch.html">Смотреть</a>
-  <a href="#">Команда</a>
-  <a href="#">Анонсы</a>
-  <a href="#">Биография</a>
+  <a href="../team.html">Команда</a>
+  <a href="../announcements.html">Анонсы</a>
+  <a href="../biography.html">Биография</a>
 </div>
 
 <section class="film-hero">
@@ -1015,12 +1059,14 @@
   <div class="film-hero-content">
     <h1 class="film-hero-title">Красный кролик: Искупление</h1>
 
-    <button class="btn-watch" id="watchBtn">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      Смотреть
-    </button>
+    <div class="hero-buttons">
+      <button class="btn-watch" id="watchBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        Смотреть
+      </button>
+    </div>
   </div>
 </section>
 
@@ -1032,56 +1078,30 @@
     <span>Драма</span>
     <span class="dot"></span>
     <span class="age">16+</span>
-    <span class="dot"></span>
-    <span>08.09.2025</span>
   </div>
 
   <h2 class="section-title reveal">Кадры</h2>
   <div class="frames-grid reveal" id="framesGrid">
-    <div class="frame-item" data-src="Red_rabbit_atonement_k7.jpg">
-      <img src="Red_rabbit_atonement_k7.jpg" alt="Кадр 1">
+    <div class="frame-item placeholder">
+      <span class="soon">Скоро</span>
     </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k8.jpg">
-      <img src="Red_rabbit_atonement_k8.jpg" alt="Кадр 2">
+    <div class="frame-item placeholder">
+      <span class="soon">Скоро</span>
     </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k9.jpg">
-      <img src="Red_rabbit_atonement_k9.jpg" alt="Кадр 3">
+    <div class="frame-item placeholder">
+      <span class="soon">Скоро</span>
     </div>
-    <div class="frame-item" data-src="Red_rabbit_atonement_k10.jpg">
-      <img src="Red_rabbit_atonement_k10.jpg" alt="Кадр 4">
+    <div class="frame-item placeholder">
+      <span class="soon">Скоро</span>
     </div>
   </div>
 
   <h2 class="section-title reveal">Актёры</h2>
-  <div class="actors-grid reveal">
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-  </div>
+  <div class="actors-grid reveal" id="actorsGrid"></div>
 
 </section>
 
+<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
@@ -1089,15 +1109,45 @@
   </div>
 </div>
 
+<!-- ============ ЛАЙТБОКС ============ -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
   <img src="" alt="" id="lightboxImg">
   <button class="lightbox-nav next" id="lightboxNext" aria-label="Вперёд">›</button>
-  <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
 </div>
 
 <script>
+  /* ==================================================================
+     АКТЁРЫ ФИЛЬМА
+     ================================================================== */
+  const ACTORS = [
+    { name: 'Ренат Фаухиев',
+      link:  '../team/Renat_Faukhiev/Renat_Faukhiev.html',
+      photo: '../team/Renat_Faukhiev/Renat_Faukhiev.JPG' },
+    { name: 'Александра Ионова',
+      link:  '../team/Alexandra_Ionova/Alexandra_Ionova.html',
+      photo: '../team/Alexandra_Ionova/Alexandra_Ionova.JPG' }
+  ];
+
+  const actorsGrid = document.getElementById('actorsGrid');
+  if(actorsGrid && ACTORS.length){
+    const shuffled = [...ACTORS].sort(() => Math.random() - 0.5);
+    actorsGrid.innerHTML = shuffled.map(a => `
+      <a class="actor-item" href="${a.link}">
+        <div class="actor-photo">
+          <img src="${a.photo}" alt="${a.name}"
+               onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+        </div>
+        <div class="actor-name">${a.name}</div>
+      </a>
+    `).join('');
+  }
+
+  /* ==================================================================
+     ОСТАЛЬНОЕ
+     ================================================================== */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
@@ -1197,11 +1247,12 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
+  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item[data-src]')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
 
   function openLightbox(index){
+    if(!frameSrcs.length) return;
     currentFrame = index;
     lightboxImg.src = frameSrcs[currentFrame];
     lightboxCounter.textContent = (currentFrame + 1) + ' / ' + frameSrcs.length;
