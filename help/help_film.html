@@ -36,7 +36,6 @@
     overflow-x:hidden;
   }
 
-  /* ================= ШАПКА ================= */
   header{
     position:fixed;
     top:0; left:0; right:0;
@@ -216,7 +215,6 @@
     padding-left:32px;
   }
 
-  /* ================= ОБЛОЖКА ================= */
   .film-hero{
     position:relative;
     width:100%;
@@ -420,7 +418,6 @@
     to  { opacity:1; transform:translateY(0);    }
   }
 
-  /* ================= ИНФО ================= */
   .film-info{
     position:relative;
     z-index:3;
@@ -556,7 +553,6 @@
   .frame-item:hover img{ transform:scale(1.06); }
   .frame-item:active{ transform:translateY(-2px) scale(.99); }
 
-  /* --- Заглушка кадра --- */
   .frame-item.placeholder{
     cursor:default;
   }
@@ -652,7 +648,6 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= МОДАЛКА ПЛЕЕРА ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -726,7 +721,14 @@
     animation:shimmer 4s ease-in-out infinite;
   }
 
-  /* ================= ЛАЙТБОКС ================= */
+  .modal-inner video{
+    width:100%; height:100%;
+    object-fit:contain;
+    background:#000;
+    display:block;
+    border-radius:16px;
+  }
+
   .lightbox{
     position:fixed;
     inset:0;
@@ -824,7 +826,6 @@
     border:1px solid rgba(120,110,255,.2);
   }
 
-  /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
@@ -841,7 +842,6 @@
     }
   }
 
-  /* ================= МОБИЛЬНЫЙ ================= */
   @media (max-width:900px){
     :root{ --header-h: 66px; }
     header{
@@ -937,6 +937,7 @@
     .actor-name{ font-size:12px; }
 
     .modal-inner{ border-radius:12px; }
+    .modal-inner video{ border-radius:12px; }
     .modal-close{ width:38px; height:38px; top:10px; right:10px; }
 
     .lightbox{ padding:14px; }
@@ -958,7 +959,6 @@
     }
   }
 
-  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
   @media (max-width:480px){
     :root{ --header-h: 60px; }
     header{ padding:0 10px; gap:10px; }
@@ -1013,9 +1013,9 @@
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
     <a href="../watch.html">Смотреть</a>
-    <a href="#">Команда</a>
-    <a href="#">Анонсы</a>
-    <a href="#">Биография</a>
+    <a href="../team.html">Команда</a>
+    <a href="../announcements.html">Анонсы</a>
+    <a href="../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -1028,9 +1028,9 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
   <a href="../watch.html">Смотреть</a>
-  <a href="#">Команда</a>
-  <a href="#">Анонсы</a>
-  <a href="#">Биография</a>
+  <a href="../team.html">Команда</a>
+  <a href="../announcements.html">Анонсы</a>
+  <a href="../biography.html">Биография</a>
 </div>
 
 <section class="film-hero">
@@ -1115,7 +1115,15 @@
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
-    <div class="player-placeholder">Скоро</div>
+    <video 
+      id="movieVideo"
+      controls 
+      preload="metadata"
+      playsinline
+      style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
+      <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/help-movie-v1.0/help_movie.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
   </div>
 </div>
 
@@ -1135,6 +1143,7 @@
   const playerModal = document.getElementById('playerModal');
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
+  const movieVideo  = document.getElementById('movieVideo');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1218,10 +1227,18 @@
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if(movieVideo){
+      movieVideo.currentTime = 0;
+      const p = movieVideo.play();
+      if(p && p.catch) p.catch(() => {});
+    }
   }
   function closePlayer(){
     playerModal.classList.remove('open');
     document.body.style.overflow = '';
+    if(movieVideo){
+      movieVideo.pause();
+    }
   }
   watchBtn.addEventListener('click', openPlayer);
   playerClose.addEventListener('click', closePlayer);
