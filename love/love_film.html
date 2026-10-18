@@ -714,6 +714,14 @@
     animation:shimmer 4s ease-in-out infinite;
   }
 
+  .modal-inner video{
+    width:100%; height:100%;
+    object-fit:contain;
+    background:#000;
+    display:block;
+    border-radius:16px;
+  }
+
   /* ================= ЛАЙТБОКС ================= */
   .lightbox{
     position:fixed;
@@ -926,6 +934,7 @@
     .actor-name{ font-size:12px; }
 
     .modal-inner{ border-radius:12px; }
+    .modal-inner video{ border-radius:12px; }
     .modal-close{ width:38px; height:38px; top:10px; right:10px; }
 
     .lightbox{ padding:14px; }
@@ -1002,9 +1011,9 @@
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
     <a href="../watch.html">Смотреть</a>
-    <a href="#">Команда</a>
-    <a href="#">Анонсы</a>
-    <a href="#">Биография</a>
+    <a href="../team.html">Команда</a>
+    <a href="../announcements.html">Анонсы</a>
+    <a href="../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -1017,9 +1026,9 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
   <a href="../watch.html">Смотреть</a>
-  <a href="#">Команда</a>
-  <a href="#">Анонсы</a>
-  <a href="#">Биография</a>
+  <a href="../team.html">Команда</a>
+  <a href="../announcements.html">Анонсы</a>
+  <a href="../biography.html">Биография</a>
 </div>
 
 <section class="film-hero">
@@ -1105,7 +1114,15 @@
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
-    <div class="player-placeholder">Скоро</div>
+    <video 
+      id="movieVideo"
+      controls 
+      preload="metadata"
+      playsinline
+      style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
+      <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/love-movie-v1.0/love_movie.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
   </div>
 </div>
 
@@ -1125,6 +1142,7 @@
   const playerModal = document.getElementById('playerModal');
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
+  const movieVideo  = document.getElementById('movieVideo');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1208,10 +1226,18 @@
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if(movieVideo){
+      movieVideo.currentTime = 0;
+      const p = movieVideo.play();
+      if(p && p.catch) p.catch(() => {});
+    }
   }
   function closePlayer(){
     playerModal.classList.remove('open');
     document.body.style.overflow = '';
+    if(movieVideo){
+      movieVideo.pause();
+    }
   }
   watchBtn.addEventListener('click', openPlayer);
   playerClose.addEventListener('click', closePlayer);
