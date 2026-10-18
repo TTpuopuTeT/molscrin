@@ -441,7 +441,7 @@
     flex-wrap:wrap;
     align-items:center;
     gap:12px;
-    margin-bottom:56px;
+    margin-bottom:22px;
     font-size:15px;
     color:#c3cbff;
     font-weight:500;
@@ -469,6 +469,20 @@
   .film-meta .age:hover{
     border-color:rgba(180,140,255,.9);
     box-shadow:0 0 16px rgba(140,90,255,.5);
+  }
+
+  .film-desc{
+    font-size:16px;
+    line-height:1.72;
+    color:#c8ccec;
+    max-width:900px;
+    margin-bottom:56px;
+  }
+  .film-desc p{
+    margin-bottom:14px;
+  }
+  .film-desc p:last-child{
+    margin-bottom:0;
   }
 
   .section-title{
@@ -583,6 +597,8 @@
     flex-direction:column;
     gap:10px;
     transition:transform .35s cubic-bezier(.2,.7,.3,1);
+    text-decoration:none;
+    color:inherit;
   }
   .actor-item:hover{ transform:translateY(-5px); }
   .actor-photo{
@@ -605,6 +621,14 @@
     position:relative;
     overflow:hidden;
   }
+  .actor-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    position:relative;
+    z-index:1;
+  }
   .actor-photo::before{
     content:'';
     position:absolute;
@@ -618,6 +642,8 @@
     opacity:0;
     animation:rotateHalo 6s linear infinite;
     transition:opacity .4s;
+    z-index:2;
+    pointer-events:none;
   }
   .actor-photo::after{
     content:'';
@@ -625,8 +651,9 @@
     inset:1px;
     border-radius:inherit;
     background:linear-gradient(135deg, rgba(60,40,120,.55), rgba(20,22,45,.9));
+    z-index:0;
   }
-  .actor-photo > *{
+  .actor-photo .soon{
     position:relative;
     z-index:1;
   }
@@ -920,6 +947,7 @@
     .btn-watch svg{ width:14px; height:14px; }
 
     .film-info{ padding:0 20px 72px; }
+    .film-desc{ font-size:15px; margin-bottom:44px; }
     .section-title{ font-size:19px; margin-bottom:18px; }
 
     .frames-grid{
@@ -1065,49 +1093,31 @@
     <span>09.12.2024</span>
   </div>
 
+  <div class="film-desc reveal">
+    <p>
+      Виктория, работая психологом, однажды сталкивается с тем,
+      что даже она может с чем-то не справляться.
+    </p>
+  </div>
+
   <h2 class="section-title reveal">Кадры</h2>
   <div class="frames-grid reveal" id="framesGrid">
-    <div class="frame-item placeholder">
-      <span class="soon">Скоро</span>
+    <div class="frame-item" data-src="help_k1.jpg">
+      <img src="help_k1.jpg" alt="Кадр 1">
     </div>
-    <div class="frame-item placeholder">
-      <span class="soon">Скоро</span>
+    <div class="frame-item" data-src="help_k2.jpg">
+      <img src="help_k2.jpg" alt="Кадр 2">
     </div>
-    <div class="frame-item placeholder">
-      <span class="soon">Скоро</span>
+    <div class="frame-item" data-src="help_k3.jpg">
+      <img src="help_k3.jpg" alt="Кадр 3">
     </div>
-    <div class="frame-item placeholder">
-      <span class="soon">Скоро</span>
+    <div class="frame-item" data-src="help_k4.jpg">
+      <img src="help_k4.jpg" alt="Кадр 4">
     </div>
   </div>
 
   <h2 class="section-title reveal">Актёры</h2>
-  <div class="actors-grid reveal">
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-  </div>
+  <div class="actors-grid reveal" id="actorsGrid"></div>
 
 </section>
 
@@ -1133,10 +1143,36 @@
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
   <img src="" alt="" id="lightboxImg">
   <button class="lightbox-nav next" id="lightboxNext" aria-label="Вперёд">›</button>
-  <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
 </div>
 
 <script>
+  /* ==================================================================
+     АКТЁРЫ ФИЛЬМА
+     ================================================================== */
+  const ACTORS = [
+    { name: 'Александра Ионова',
+      link:  '../team/Alexandra_Ionova/Alexandra_Ionova.html',
+      photo: '../team/Alexandra_Ionova/Alexandra_Ionova.JPG' }
+  ];
+
+  const actorsGrid = document.getElementById('actorsGrid');
+  if(actorsGrid && ACTORS.length){
+    const shuffled = [...ACTORS].sort(() => Math.random() - 0.5);
+    actorsGrid.innerHTML = shuffled.map(a => `
+      <a class="actor-item" href="${a.link}">
+        <div class="actor-photo">
+          <img src="${a.photo}" alt="${a.name}"
+               onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+        </div>
+        <div class="actor-name">${a.name}</div>
+      </a>
+    `).join('');
+  }
+
+  /* ==================================================================
+     ОСТАЛЬНОЕ
+     ================================================================== */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
@@ -1223,7 +1259,6 @@
     });
   });
 
-  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1246,7 +1281,6 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  /* ---------- просмотр кадров (только те, у которых есть data-src) ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item[data-src]')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
