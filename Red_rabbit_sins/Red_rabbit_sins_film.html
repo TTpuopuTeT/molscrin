@@ -36,7 +36,6 @@
     overflow-x:hidden;
   }
 
-  /* ================= ШАПКА ================= */
   header{
     position:fixed;
     top:0; left:0; right:0;
@@ -216,7 +215,6 @@
     padding-left:32px;
   }
 
-  /* ================= ОБЛОЖКА ================= */
   .film-hero{
     position:relative;
     width:100%;
@@ -338,7 +336,6 @@
     50%    { background-position:100% 0; }
   }
 
-  /* --- Кнопки в hero --- */
   .hero-buttons{
     margin-top:34px;
     display:flex;
@@ -458,7 +455,6 @@
     to  { opacity:1; transform:translateY(0);    }
   }
 
-  /* ================= ИНФО ================= */
   .film-info{
     position:relative;
     z-index:3;
@@ -482,7 +478,7 @@
     flex-wrap:wrap;
     align-items:center;
     gap:12px;
-    margin-bottom:22px;
+    margin-bottom:56px;
     font-size:15px;
     color:#c3cbff;
     font-weight:500;
@@ -537,7 +533,6 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: 4 штуки --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -670,7 +665,6 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= ПЛЕЕР ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -752,7 +746,6 @@
     border-radius:16px;
   }
 
-  /* ================= ЛАЙТБОКС ================= */
   .lightbox{
     position:fixed;
     inset:0;
@@ -850,7 +843,6 @@
     border:1px solid rgba(120,110,255,.2);
   }
 
-  /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
@@ -867,7 +859,6 @@
     }
   }
 
-  /* ================= МОБИЛЬНЫЙ ================= */
   @media (max-width:900px){
     :root{ --header-h: 66px; }
     header{
@@ -991,7 +982,6 @@
     }
   }
 
-  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
   @media (max-width:480px){
     :root{ --header-h: 60px; }
     header{ padding:0 10px; gap:10px; }
@@ -1149,7 +1139,6 @@
 
 </section>
 
-<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
@@ -1161,20 +1150,18 @@
 <div class="modal" id="trailerModal">
   <div class="modal-inner">
     <button class="modal-close" id="trailerClose" aria-label="Закрыть">✕</button>
-    <div class="player-placeholder" id="trailerPlaceholder">Скоро</div>
     <video 
       id="trailerVideo"
       controls 
       preload="metadata"
       playsinline
-      style="display:none; width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
-      <source id="trailerSource" src="" type="video/mp4">
+      style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
+      <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/v1.0/Red_rabbit_sins_trailer.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
     </video>
   </div>
 </div>
 
-<!-- ============ ЛАЙТБОКС ============ -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
@@ -1184,15 +1171,6 @@
 </div>
 
 <script>
-  /* ==============================================================
-     ТРЕЙЛЕР
-     Вставь сюда прямую ссылку на трейлер из GitHub Releases, когда
-     зальёшь файл. Пример:
-     const TRAILER_URL = 'https://github.com/TTpuopuTeT/molscrin/releases/download/v1.0/Red_rabbit_sins_trailer.mp4';
-     Пока пусто — кнопка открывает "Скоро".
-     ============================================================== */
-  const TRAILER_URL = '';
-
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
@@ -1200,12 +1178,10 @@
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
 
-  const trailerModal       = document.getElementById('trailerModal');
-  const trailerBtn         = document.getElementById('trailerBtn');
-  const trailerClose       = document.getElementById('trailerClose');
-  const trailerVideo       = document.getElementById('trailerVideo');
-  const trailerSource      = document.getElementById('trailerSource');
-  const trailerPlaceholder = document.getElementById('trailerPlaceholder');
+  const trailerModal = document.getElementById('trailerModal');
+  const trailerBtn   = document.getElementById('trailerBtn');
+  const trailerClose = document.getElementById('trailerClose');
+  const trailerVideo = document.getElementById('trailerVideo');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1214,14 +1190,6 @@
   const lightboxPrev    = document.getElementById('lightboxPrev');
   const lightboxNext    = document.getElementById('lightboxNext');
   const lightboxCounter = document.getElementById('lightboxCounter');
-
-  /* --- Трейлер: если URL задан — показываем видео, иначе — "Скоро" --- */
-  if(TRAILER_URL){
-    trailerSource.src = TRAILER_URL;
-    trailerVideo.load();
-    trailerVideo.style.display = 'block';
-    trailerPlaceholder.style.display = 'none';
-  }
 
   const siteHeader = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => {
@@ -1293,7 +1261,6 @@
     });
   });
 
-  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1308,11 +1275,10 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  /* ---------- плеер трейлера ---------- */
   function openTrailer(){
     trailerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
-    if(TRAILER_URL && trailerVideo){
+    if(trailerVideo){
       trailerVideo.currentTime = 0;
       const p = trailerVideo.play();
       if(p && p.catch) p.catch(() => {});
@@ -1321,7 +1287,7 @@
   function closeTrailer(){
     trailerModal.classList.remove('open');
     document.body.style.overflow = '';
-    if(TRAILER_URL && trailerVideo){
+    if(trailerVideo){
       trailerVideo.pause();
       trailerVideo.currentTime = 0;
     }
@@ -1332,7 +1298,6 @@
     if(e.target === trailerModal) closeTrailer();
   });
 
-  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
