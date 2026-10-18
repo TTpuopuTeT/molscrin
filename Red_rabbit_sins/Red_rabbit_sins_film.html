@@ -590,6 +590,27 @@
   .frame-item:hover img{ transform:scale(1.06); }
   .frame-item:active{ transform:translateY(-2px) scale(.99); }
 
+  .frame-item.placeholder{
+    cursor:default;
+  }
+  .frame-item.placeholder:hover{
+    transform:none;
+    border-color:rgba(120,110,255,.15);
+    box-shadow:none;
+  }
+  .frame-item.placeholder::after{ display:none; }
+  .frame-item .soon{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:rgba(180,170,255,.55);
+    border:1px solid rgba(120,110,255,.3);
+    padding:5px 12px;
+    border-radius:20px;
+  }
+
+  /* ================= АКТЁРЫ ================= */
   .actors-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -600,6 +621,8 @@
     flex-direction:column;
     gap:10px;
     transition:transform .35s cubic-bezier(.2,.7,.3,1);
+    text-decoration:none;
+    color:inherit;
   }
   .actor-item:hover{ transform:translateY(-5px); }
   .actor-photo{
@@ -622,6 +645,14 @@
     position:relative;
     overflow:hidden;
   }
+  .actor-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    position:relative;
+    z-index:1;
+  }
   .actor-photo::before{
     content:'';
     position:absolute;
@@ -635,6 +666,8 @@
     opacity:0;
     animation:rotateHalo 6s linear infinite;
     transition:opacity .4s;
+    z-index:2;
+    pointer-events:none;
   }
   .actor-photo::after{
     content:'';
@@ -642,8 +675,9 @@
     inset:1px;
     border-radius:inherit;
     background:linear-gradient(135deg, rgba(60,40,120,.55), rgba(20,22,45,.9));
+    z-index:0;
   }
-  .actor-photo > *{
+  .actor-photo .soon{
     position:relative;
     z-index:1;
   }
@@ -665,6 +699,7 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
+  /* ================= ПЛЕЕР ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -1037,9 +1072,9 @@
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
     <a href="../watch.html">Смотреть</a>
-    <a href="#">Команда</a>
-    <a href="#">Анонсы</a>
-    <a href="#">Биография</a>
+    <a href="../team.html">Команда</a>
+    <a href="../announcements.html">Анонсы</a>
+    <a href="../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -1052,9 +1087,9 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
   <a href="../watch.html">Смотреть</a>
-  <a href="#">Команда</a>
-  <a href="#">Анонсы</a>
-  <a href="#">Биография</a>
+  <a href="../team.html">Команда</a>
+  <a href="../announcements.html">Анонсы</a>
+  <a href="../biography.html">Биография</a>
 </div>
 
 <section class="film-hero">
@@ -1110,35 +1145,11 @@
   </div>
 
   <h2 class="section-title reveal">Актёры</h2>
-  <div class="actors-grid reveal">
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-  </div>
+  <div class="actors-grid reveal" id="actorsGrid"></div>
 
 </section>
 
+<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
@@ -1162,6 +1173,7 @@
   </div>
 </div>
 
+<!-- ============ ЛАЙТБОКС ============ -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
@@ -1171,6 +1183,35 @@
 </div>
 
 <script>
+  /* ==================================================================
+     АКТЁРЫ ФИЛЬМА
+     ================================================================== */
+  const ACTORS = [
+    { name: 'Ренат Фаухиев',
+      link:  '../team/Renat_Faukhiev/Renat_Faukhiev.html',
+      photo: '../team/Renat_Faukhiev/Renat_Faukhiev.JPG' },
+    { name: 'Александра Ионова',
+      link:  '../team/Alexandra_Ionova/Alexandra_Ionova.html',
+      photo: '../team/Alexandra_Ionova/Alexandra_Ionova.JPG' }
+  ];
+
+  const actorsGrid = document.getElementById('actorsGrid');
+  if(actorsGrid && ACTORS.length){
+    const shuffled = [...ACTORS].sort(() => Math.random() - 0.5);
+    actorsGrid.innerHTML = shuffled.map(a => `
+      <a class="actor-item" href="${a.link}">
+        <div class="actor-photo">
+          <img src="${a.photo}" alt="${a.name}"
+               onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+        </div>
+        <div class="actor-name">${a.name}</div>
+      </a>
+    `).join('');
+  }
+
+  /* ==================================================================
+     ОСТАЛЬНОЕ
+     ================================================================== */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
@@ -1298,11 +1339,12 @@
     if(e.target === trailerModal) closeTrailer();
   });
 
-  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
+  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item[data-src]')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
 
   function openLightbox(index){
+    if(!frameSrcs.length) return;
     currentFrame = index;
     lightboxImg.src = frameSrcs[currentFrame];
     lightboxCounter.textContent = (currentFrame + 1) + ' / ' + frameSrcs.length;
