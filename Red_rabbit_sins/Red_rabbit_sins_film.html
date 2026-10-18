@@ -338,8 +338,16 @@
     50%    { background-position:100% 0; }
   }
 
-  .btn-watch{
+  /* --- Кнопки в hero --- */
+  .hero-buttons{
     margin-top:34px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:center;
+  }
+
+  .btn-watch{
     display:inline-flex;
     align-items:center;
     gap:12px;
@@ -407,6 +415,43 @@
     transform:translateY(-3px);
   }
   .btn-watch:hover svg{ transform:scale(1.15); }
+
+  .btn-trailer{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:16px 30px;
+    border-radius:36px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);
+    color:var(--text);
+    font-family:inherit;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:.02em;
+    cursor:pointer;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    transition:background .25s, border-color .25s, transform .25s, box-shadow .3s;
+    animation:fadeUp 1.1s .35s cubic-bezier(.2,.7,.3,1) both;
+  }
+  .btn-trailer svg{
+    width:16px; height:16px;
+    stroke:currentColor;
+    stroke-width:2;
+    fill:none;
+    flex-shrink:0;
+    transition:transform .25s;
+  }
+  .btn-trailer:hover,
+  .btn-trailer:active{
+    background:rgba(255,255,255,.16);
+    border-color:rgba(160,140,255,.6);
+    color:#fff;
+    transform:translateY(-3px);
+    box-shadow:0 12px 32px rgba(120,80,255,.28);
+  }
+  .btn-trailer:hover svg{ transform:scale(1.12); }
 
   @keyframes fadeUp{
     from{ opacity:0; transform:translateY(24px); }
@@ -888,11 +933,23 @@
       font-size:clamp(24px, 6.5vw, 40px);
       max-width:95%;
     }
-    .btn-watch{
+    .hero-buttons{
       margin-top:26px;
-      padding:14px 28px;
-      font-size:15px;
+      gap:10px;
+      width:100%;
     }
+    .btn-watch{
+      padding:13px 22px;
+      font-size:14px;
+      gap:8px;
+    }
+    .btn-watch svg{ width:14px; height:14px; }
+    .btn-trailer{
+      padding:13px 22px;
+      font-size:14px;
+      gap:8px;
+    }
+    .btn-trailer svg{ width:14px; height:14px; }
 
     .film-info{ padding:0 20px 72px; }
     .section-title{ font-size:19px; margin-bottom:18px; }
@@ -956,6 +1013,12 @@
     .film-hero-title{ font-size:clamp(22px, 7.5vw, 34px); }
     .film-info{ padding:0 16px 60px; }
 
+    .btn-watch,
+    .btn-trailer{
+      padding:12px 18px;
+      font-size:13px;
+    }
+
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
     .actors-grid{ grid-template-columns:repeat(3, 1fr); }
   }
@@ -1015,12 +1078,22 @@
   <div class="film-hero-content">
     <h1 class="film-hero-title">Красный кролик: Грехи</h1>
 
-    <button class="btn-watch" id="watchBtn">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      Смотреть
-    </button>
+    <div class="hero-buttons">
+      <button class="btn-watch" id="watchBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        Смотреть
+      </button>
+
+      <button class="btn-trailer" id="trailerBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <polygon points="23 7 16 12 23 17 23 7" fill="none"/>
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2" fill="none"/>
+        </svg>
+        Смотреть трейлер
+      </button>
+    </div>
   </div>
 </section>
 
@@ -1076,6 +1149,7 @@
 
 </section>
 
+<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
@@ -1083,6 +1157,24 @@
   </div>
 </div>
 
+<!-- ============ ПЛЕЕР ТРЕЙЛЕРА ============ -->
+<div class="modal" id="trailerModal">
+  <div class="modal-inner">
+    <button class="modal-close" id="trailerClose" aria-label="Закрыть">✕</button>
+    <div class="player-placeholder" id="trailerPlaceholder">Скоро</div>
+    <video 
+      id="trailerVideo"
+      controls 
+      preload="metadata"
+      playsinline
+      style="display:none; width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
+      <source id="trailerSource" src="" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
+  </div>
+</div>
+
+<!-- ============ ЛАЙТБОКС ============ -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
@@ -1092,12 +1184,28 @@
 </div>
 
 <script>
+  /* ==============================================================
+     ТРЕЙЛЕР
+     Вставь сюда прямую ссылку на трейлер из GitHub Releases, когда
+     зальёшь файл. Пример:
+     const TRAILER_URL = 'https://github.com/TTpuopuTeT/molscrin/releases/download/v1.0/Red_rabbit_sins_trailer.mp4';
+     Пока пусто — кнопка открывает "Скоро".
+     ============================================================== */
+  const TRAILER_URL = '';
+
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
   const playerModal = document.getElementById('playerModal');
   const watchBtn    = document.getElementById('watchBtn');
   const playerClose = document.getElementById('playerClose');
+
+  const trailerModal       = document.getElementById('trailerModal');
+  const trailerBtn         = document.getElementById('trailerBtn');
+  const trailerClose       = document.getElementById('trailerClose');
+  const trailerVideo       = document.getElementById('trailerVideo');
+  const trailerSource      = document.getElementById('trailerSource');
+  const trailerPlaceholder = document.getElementById('trailerPlaceholder');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1106,6 +1214,14 @@
   const lightboxPrev    = document.getElementById('lightboxPrev');
   const lightboxNext    = document.getElementById('lightboxNext');
   const lightboxCounter = document.getElementById('lightboxCounter');
+
+  /* --- Трейлер: если URL задан — показываем видео, иначе — "Скоро" --- */
+  if(TRAILER_URL){
+    trailerSource.src = TRAILER_URL;
+    trailerVideo.load();
+    trailerVideo.style.display = 'block';
+    trailerPlaceholder.style.display = 'none';
+  }
 
   const siteHeader = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => {
@@ -1177,6 +1293,7 @@
     });
   });
 
+  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1191,6 +1308,31 @@
     if(e.target === playerModal) closePlayer();
   });
 
+  /* ---------- плеер трейлера ---------- */
+  function openTrailer(){
+    trailerModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if(TRAILER_URL && trailerVideo){
+      trailerVideo.currentTime = 0;
+      const p = trailerVideo.play();
+      if(p && p.catch) p.catch(() => {});
+    }
+  }
+  function closeTrailer(){
+    trailerModal.classList.remove('open');
+    document.body.style.overflow = '';
+    if(TRAILER_URL && trailerVideo){
+      trailerVideo.pause();
+      trailerVideo.currentTime = 0;
+    }
+  }
+  trailerBtn.addEventListener('click', openTrailer);
+  trailerClose.addEventListener('click', closeTrailer);
+  trailerModal.addEventListener('click', e => {
+    if(e.target === trailerModal) closeTrailer();
+  });
+
+  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
@@ -1232,6 +1374,7 @@
       return;
     }
     if(playerModal.classList.contains('open') && e.key === 'Escape') closePlayer();
+    if(trailerModal.classList.contains('open') && e.key === 'Escape') closeTrailer();
   });
 
   let touchX = 0;
