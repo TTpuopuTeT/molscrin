@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#05060d">
+<title>Команда — МОЛСКРИН</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:      #05060d;
+    --blue:    #4d7cff;
+    --violet:  #a04dff;
+    --text:    #e6e8ff;
+    --muted:   #9aa0c8;
+    --header-h: 86px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  html{
+    width:100%;
+    background:var(--bg);
+    overflow-x:hidden;
+  }
+  body{
+    width:100%;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:var(--header-h);
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:22px;
+    padding:0 34px;
+    background:rgba(8,10,22,.65);
+    backdrop-filter:blur(14px) saturate(1.2);
+    -webkit-backdrop-filter:blur(14px) saturate(1.2);
+    border-bottom:1px solid rgba(120,110,255,.12);
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+    line-height:0;
+    flex-shrink:0;
+  }
+  .logo svg{
+    width:54px;
+    height:54px;
+    overflow:visible;
+    display:block;
+    filter:drop-shadow(0 0 10px rgba(110,80,255,.55));
+    transition:filter .3s ease;
+  }
+  .logo:hover svg{
+    filter:drop-shadow(0 0 18px rgba(150,90,255,.95));
+  }
+
+  nav.desktop-nav{
+    display:flex;
+    align-items:center;
+    gap:24px;
+  }
+  nav.desktop-nav a{
+    position:relative;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:.04em;
+    white-space:nowrap;
+    transition:color .2s, text-shadow .2s;
+  }
+  nav.desktop-nav a::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:-6px;
+    height:1px;
+    background:linear-gradient(90deg, var(--blue), var(--violet));
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .28s ease;
+  }
+  nav.desktop-nav a:hover{
+    color:#fff;
+    text-shadow:0 0 14px rgba(150,110,255,.9);
+  }
+  nav.desktop-nav a:hover::after{ transform:scaleX(1); }
+  nav.desktop-nav a.active{ color:#fff; }
+  nav.desktop-nav a.active::after{ transform:scaleX(1); }
+
+  .burger{
+    display:none;
+    width:44px; height:44px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    position:relative;
+    flex-shrink:0;
+  }
+  .burger span{
+    position:absolute;
+    left:10px; right:10px;
+    height:2px;
+    background:var(--text);
+    border-radius:2px;
+    transition:transform .3s ease, opacity .3s ease, top .3s ease;
+  }
+  .burger span:nth-child(1){ top:15px; }
+  .burger span:nth-child(2){ top:21px; }
+  .burger span:nth-child(3){ top:27px; }
+  .burger.open span:nth-child(1){ top:21px; transform:rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ top:21px; transform:rotate(-45deg); }
+
+  .mobile-menu{
+    display:none;
+    position:fixed;
+    top:var(--header-h);
+    left:0; right:0;
+    z-index:99;
+    background:rgba(8,10,22,.96);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(120,110,255,.18);
+    padding:8px 0 16px;
+    transform:translateY(-8px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease, transform .22s ease;
+  }
+  .mobile-menu.open{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .mobile-menu a{
+    display:block;
+    padding:14px 24px;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:16px;
+    font-weight:500;
+    letter-spacing:.04em;
+    border-bottom:1px solid rgba(120,110,255,.07);
+    transition:color .2s, background .2s;
+  }
+  .mobile-menu a:last-child{ border-bottom:none; }
+  .mobile-menu a:active,
+  .mobile-menu a.active{
+    color:#fff;
+    background:rgba(120,80,255,.12);
+  }
+
+  /* ================= ФОН: КОЛОННЫ ================= */
+  .columns-bg{
+    position:fixed;
+    inset:0;
+    display:flex;
+    pointer-events:none;
+    user-select:none;
+    -webkit-user-select:none;
+    z-index:0;
+    -webkit-mask-image:linear-gradient(to bottom,
+        transparent 0%, #000 16%, #000 84%, transparent 100%);
+    mask-image:linear-gradient(to bottom,
+        transparent 0%, #000 16%, #000 84%, transparent 100%);
+  }
+
+  .column{
+    flex:1 1 0;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .column-track{
+    display:flex;
+    flex-direction:column;
+    will-change:transform;
+    transform:translate3d(0,0,0);
+    backface-visibility:hidden;
+    animation-name:revolve;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+  }
+
+  @keyframes revolve{
+    from{ transform:translate3d(0,-50%,0); }
+    to  { transform:translate3d(0,0,0);    }
+  }
+
+  .column-track span{
+    display:block;
+    padding:13px 12px;
+    font-size:15px;
+    font-weight:500;
+    line-height:1.35;
+    letter-spacing:.01em;
+    text-align:center;
+    color:rgba(160,170,235,.55);
+  }
+
+  .bg-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse 65% 55% at 50% 45%,
+        rgba(5,6,13,.35) 0%,
+        rgba(5,6,13,.65) 55%,
+        rgba(5,6,13,.9) 100%),
+      linear-gradient(to bottom,
+        rgba(5,6,13,.85) 0%,
+        rgba(5,6,13,.2) 25%,
+        rgba(5,6,13,.2) 75%,
+        rgba(5,6,13,.9) 100%);
+  }
+
+  /* ================= КОНТЕНТ ================= */
+  .page{
+    position:relative;
+    z-index:2;
+    min-height:100vh;
+    padding-top:var(--header-h);
+  }
+
+  .page-inner{
+    max-width:980px;
+    margin:0 auto;
+    padding:56px 34px 100px;
+  }
+
+  .page-title{
+    font-family:'Unbounded',sans-serif;
+    font-weight:800;
+    font-size:clamp(30px, 4.2vw, 48px);
+    letter-spacing:.02em;
+    line-height:1.1;
+    margin-bottom:38px;
+    background:linear-gradient(180deg,
+      #ffffff 0%,
+      #c3cbff 55%,
+      #7a5cff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 0 24px rgba(90,70,255,.45));
+  }
+
+  /* ================= КАРТОЧКИ ================= */
+  .team-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .team-card{
+    display:flex;
+    gap:24px;
+    align-items:center;
+    padding:22px;
+    background:rgba(20,22,45,.08);
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+    border:1px solid rgba(120,110,255,.14);
+    border-radius:20px;
+    text-decoration:none;
+    color:inherit;
+    transition:transform .4s cubic-bezier(.2,.7,.3,1),
+               background .4s,
+               border-color .4s,
+               box-shadow .4s;
+    opacity:0;
+    transform:translateY(24px);
+  }
+  .team-card.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .team-card:hover{
+    background:rgba(60,40,120,.22);
+    border-color:rgba(170,130,255,.85);
+    box-shadow:
+      0 24px 70px rgba(90,60,255,.4),
+      0 0 50px rgba(140,90,255,.32),
+      inset 0 1px 0 rgba(255,255,255,.08);
+    transform:translateY(-5px);
+  }
+
+  .team-photo{
+    width:140px;
+    height:140px;
+    border-radius:16px;
+    flex-shrink:0;
+    overflow:hidden;
+    background:
+      linear-gradient(135deg, rgba(60,40,120,.3), rgba(20,22,45,.5)),
+      radial-gradient(circle at 30% 30%, rgba(120,80,255,.15), transparent 60%);
+    border:1px solid rgba(120,110,255,.22);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    transition:border-color .4s, box-shadow .4s;
+  }
+  .team-card:hover .team-photo{
+    border-color:rgba(170,130,255,.8);
+    box-shadow:0 0 32px rgba(140,90,255,.5);
+  }
+  .team-photo img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .team-photo .soon{
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:rgba(180,170,255,.55);
+    border:1px solid rgba(120,110,255,.3);
+    padding:6px 12px;
+    border-radius:20px;
+  }
+
+  .team-info{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-width:0;
+    flex:1;
+  }
+  .team-name{
+    font-family:'Unbounded',sans-serif;
+    font-weight:600;
+    font-size:clamp(18px, 2vw, 22px);
+    letter-spacing:.01em;
+    line-height:1.25;
+    background:linear-gradient(180deg, #ffffff 0%, #c3cbff 60%, #9c7dff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .team-role{
+    font-size:14px;
+    color:#a99bff;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    opacity:.9;
+  }
+  .team-bio{
+    margin-top:6px;
+    font-size:14px;
+    line-height:1.6;
+    color:var(--muted);
+  }
+
+  /* ================= ПЛАНШЕТ ================= */
+  @media (max-width:1100px){
+    header{ padding:0 20px; gap:16px; }
+    nav.desktop-nav{ gap:16px; }
+    nav.desktop-nav a{ font-size:14px; }
+    .logo svg{ width:46px; height:46px; }
+    .page-inner{ padding:42px 22px 90px; }
+    .team-photo{ width:120px; height:120px; }
+  }
+
+  /* ================= МОБИЛЬНЫЙ ================= */
+  @media (max-width:900px){
+    :root{ --header-h: 66px; }
+    header{ padding:0 14px; gap:12px; }
+    nav.desktop-nav{ display:none; }
+    .burger{ display:block; }
+    .mobile-menu{ display:block; }
+    .logo svg{ width:40px; height:40px; }
+
+    .page-inner{ padding:34px 16px 72px; }
+    .page-title{ margin-bottom:26px; }
+
+    .column-track span{
+      font-size:13px;
+      padding:11px 6px;
+      line-height:1.3;
+    }
+
+    .team-card{
+      gap:18px;
+      padding:18px;
+    }
+    .team-photo{ width:100px; height:100px; border-radius:12px; }
+    .team-name{ font-size:16px; }
+    .team-role{ font-size:12px; }
+    .team-bio{ font-size:13px; }
+  }
+
+  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
+  @media (max-width:520px){
+    :root{ --header-h: 60px; }
+    header{ padding:0 12px; gap:10px; }
+    .logo svg{ width:36px; height:36px; }
+
+    .page-inner{ padding:26px 12px 60px; }
+
+    .column-track span{
+      font-size:12px;
+      padding:10px 4px;
+    }
+
+    .team-card{
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:14px;
+      padding:22px 18px;
+    }
+    .team-photo{ width:120px; height:120px; }
+
+    .burger{ width:40px; height:40px; }
+    .burger span{ left:9px; right:9px; }
+    .burger span:nth-child(1){ top:13px; }
+    .burger span:nth-child(2){ top:19px; }
+    .burger span:nth-child(3){ top:25px; }
+    .burger.open span:nth-child(1),
+    .burger.open span:nth-child(3){ top:19px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+
+  <a href="index.html" class="logo" aria-label="МОЛСКРИН">
+    <svg viewBox="0 0 64 64" fill="none"
+         stroke="url(#logoGrad)"
+         stroke-width="3.5"
+         stroke-linecap="round">
+      <defs>
+        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stop-color="#a04dff"/>
+          <stop offset="100%" stop-color="#4d7cff"/>
+        </linearGradient>
+      </defs>
+      <line x1="12" y1="6"  x2="12" y2="58"/>
+      <line x1="4"  y1="4"  x2="32" y2="42"/>
+      <line x1="60" y1="4"  x2="32" y2="42"/>
+      <line x1="52" y1="6"  x2="52" y2="58"/>
+    </svg>
+  </a>
+
+  <nav class="desktop-nav">
+    <a href="index.html">Главная</a>
+    <a href="watch.html">Смотреть</a>
+    <a href="team.html" class="active">Команда</a>
+    <a href="announcements.html">Анонсы</a>
+    <a href="biography.html">Биография</a>
+  </nav>
+
+  <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Главная</a>
+  <a href="watch.html">Смотреть</a>
+  <a href="team.html" class="active">Команда</a>
+  <a href="announcements.html">Анонсы</a>
+  <a href="biography.html">Биография</a>
+</div>
+
+<div class="columns-bg" id="columns"></div>
+<div class="bg-overlay"></div>
+
+<div class="page">
+  <div class="page-inner">
+
+    <h1 class="page-title">Команда</h1>
+
+    <div class="team-list" id="teamList"></div>
+
+  </div>
+</div>
+
+<script>
+  /* ==================================================================
+     ФОНОВЫЕ КОЛОННЫ
+     ================================================================== */
+  const TITLES = [
+    'Раскол','Весна','Элли','Изумрудный город','Я больше не буду плакать',
+    'Красный кролик','Красный кролик: Первая жертва','Красный кролик: Грехи',
+    'Красный кролик: Искупление','Око за око','Нашедший','Нашедший: Принятие',
+    'Наказание','Первый ход','Scappa de casa','Не улетай','Пыль','Помощь',
+    'Любовь','Страницы усталости','Mors certa, vita incerta','Последний глоток'
+  ];
+
+  const columnsEl = document.getElementById('columns');
+
+  function shuffle(arr){
+    for(let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+  function columnCount(){
+    const w = window.innerWidth;
+    if (w < 480)  return 2;
+    if (w < 700)  return 3;
+    if (w < 1100) return 4;
+    if (w < 1600) return 5;
+    return 6;
+  }
+  function buildColumns(){
+    columnsEl.innerHTML = '';
+    const count = columnCount();
+    for(let i = 0; i < count; i++){
+      const col   = document.createElement('div');
+      col.className = 'column';
+      const track = document.createElement('div');
+      track.className = 'column-track';
+      const seq = shuffle([...TITLES]);
+      seq.concat(seq).forEach(title => {
+        const s = document.createElement('span');
+        s.textContent = title;
+        track.appendChild(s);
+      });
+      const dur = 28 + Math.random() * 24;
+      track.style.animationDuration = dur + 's';
+      track.style.animationDelay    = (-Math.random() * dur) + 's';
+      col.appendChild(track);
+      columnsEl.appendChild(col);
+    }
+  }
+  buildColumns();
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildColumns, 250);
+  });
+  window.addEventListener('orientationchange', () => {
+    setTimeout(buildColumns, 300);
+  });
+
+  /* ==================================================================
+     ДАННЫЕ КОМАНДЫ
+     Структура: team/<Имя>/<Имя>.html и team/<Имя>/<Имя>.JPG
+     ================================================================== */
+  const TEAM = [
+    {
+      name:  'Таисия Мартынюк',
+      role:  'Актриса',
+      bio:   '',
+      photo: 'team/Taisia_Martynyuk/Taisia_Martynyuk.JPG',
+      link:  'team/Taisia_Martynyuk/Taisia_Martynyuk.html'
+    },
+    {
+      name:  'Ренат Фаухиев',
+      role:  'Актёр',
+      bio:   '',
+      photo: 'team/Renat_Faukhiev/Renat_Faukhiev.JPG',
+      link:  'team/Renat_Faukhiev/Renat_Faukhiev.html'
+    },
+    {
+      name:  'Александра Ионова',
+      role:  'Актриса',
+      bio:   '',
+      photo: 'team/Alexandra_Ionova/Alexandra_Ionova.JPG',
+      link:  'team/Alexandra_Ionova/Alexandra_Ionova.html'
+    }
+  ];
+
+  /* ==================================================================
+     РЕНДЕР КАРТОЧЕК
+     ================================================================== */
+  const teamList = document.getElementById('teamList');
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function renderTeam(){
+    teamList.innerHTML = TEAM.map(person => {
+      const roleHtml = person.role
+        ? `<div class="team-role">${escapeHtml(person.role)}</div>`
+        : '';
+
+      const bioHtml = person.bio
+        ? `<p class="team-bio">${escapeHtml(person.bio)}</p>`
+        : '';
+
+      const photoHtml = person.photo
+        ? `<div class="team-photo">
+             <img src="${person.photo}" alt="${escapeHtml(person.name)}"
+                  onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+           </div>`
+        : `<div class="team-photo"><span class="soon">Скоро</span></div>`;
+
+      const inner = `
+        ${photoHtml}
+        <div class="team-info">
+          <h2 class="team-name">${escapeHtml(person.name)}</h2>
+          ${roleHtml}
+          ${bioHtml}
+        </div>
+      `;
+
+      return person.link
+        ? `<a class="team-card" href="${person.link}">${inner}</a>`
+        : `<div class="team-card">${inner}</div>`;
+    }).join('');
+  }
+
+  renderTeam();
+
+  /* ==================================================================
+     ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
+     ================================================================== */
+  const cards = document.querySelectorAll('.team-card');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if(en.isIntersecting){
+          en.target.classList.add('visible');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+    cards.forEach((el, i) => {
+      el.style.transitionDelay = (i * 80) + 'ms';
+      io.observe(el);
+    });
+  } else {
+    cards.forEach(el => el.classList.add('visible'));
+  }
+
+  /* ==================================================================
+     БУРГЕР
+     ================================================================== */
+  const burger     = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>
