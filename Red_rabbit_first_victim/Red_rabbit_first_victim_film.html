@@ -478,7 +478,7 @@
     flex-wrap:wrap;
     align-items:center;
     gap:12px;
-    margin-bottom:56px;
+    margin-bottom:22px;
     font-size:15px;
     color:#c3cbff;
     font-weight:500;
@@ -508,6 +508,20 @@
     box-shadow:0 0 16px rgba(140,90,255,.5);
   }
 
+  .film-desc{
+    font-size:16px;
+    line-height:1.72;
+    color:#c8ccec;
+    max-width:900px;
+    margin-bottom:56px;
+  }
+  .film-desc p{
+    margin-bottom:14px;
+  }
+  .film-desc p:last-child{
+    margin-bottom:0;
+  }
+
   .section-title{
     font-family:'Unbounded',sans-serif;
     font-size:22px;
@@ -535,7 +549,7 @@
 
   .frames-grid{
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
+    grid-template-columns:repeat(3, 1fr);
     gap:16px;
     margin-bottom:56px;
   }
@@ -610,7 +624,6 @@
     border-radius:20px;
   }
 
-  /* ================= АКТЁРЫ ================= */
   .actors-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -699,7 +712,6 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= ПЛЕЕР ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -921,8 +933,9 @@
       max-height:none;
     }
 
+    /* === На мобиле фон сдвинут влево, чтобы персонаж был виден === */
     .film-hero-bg img{
-      object-position:60% center;
+      object-position:40% center;
       animation:heroKenBurns 18s ease-in-out infinite;
     }
     @keyframes heroKenBurns{
@@ -978,6 +991,7 @@
     .btn-trailer svg{ width:14px; height:14px; }
 
     .film-info{ padding:0 20px 72px; }
+    .film-desc{ font-size:15px; margin-bottom:44px; }
     .section-title{ font-size:19px; margin-bottom:18px; }
 
     .frames-grid{
@@ -1125,11 +1139,38 @@
 <section class="film-info">
 
   <div class="film-meta reveal">
+    <span>Драма</span>
+    <span class="dot"></span>
+    <span>Детектив</span>
+    <span class="dot"></span>
+    <span class="age">18+</span>
+    <span class="dot"></span>
     <span>09.05.2025</span>
+  </div>
+
+  <div class="film-desc reveal">
+    <p>
+      Ярослав — выходец из детдома, видит несправедливость и грязь этого мира
+      в барыгах и курьерах. Однажды злость пересиливает — и он срывается.
+    </p>
+    <p>
+      Теперь Дмитрию и его напарнику Артуру придётся его остановить,
+      пока его сестра Ева попытается его спасти. Всё это приведёт каждого
+      из них к своей «первой жертве».
+    </p>
+    <p>
+      Узнайте предысторию Евы и Артура в фильме «Красный кролик: Первая жертва».
+    </p>
   </div>
 
   <h2 class="section-title reveal">Кадры</h2>
   <div class="frames-grid reveal" id="framesGrid">
+    <div class="frame-item placeholder">
+      <span class="soon">Скоро</span>
+    </div>
+    <div class="frame-item placeholder">
+      <span class="soon">Скоро</span>
+    </div>
     <div class="frame-item placeholder">
       <span class="soon">Скоро</span>
     </div>
@@ -1183,9 +1224,6 @@
 </div>
 
 <script>
-  /* ==================================================================
-     АКТЁРЫ ФИЛЬМА
-     ================================================================== */
   const ACTORS = [
     { name: 'Ренат Фаухиев',
       link:  '../team/Renat_Faukhiev/Renat_Faukhiev.html',
@@ -1209,9 +1247,6 @@
     `).join('');
   }
 
-  /* ==================================================================
-     ОСТАЛЬНОЕ
-     ================================================================== */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
