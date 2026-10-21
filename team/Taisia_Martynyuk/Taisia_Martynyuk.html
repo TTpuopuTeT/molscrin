@@ -36,7 +36,6 @@
     overflow-x:hidden;
   }
 
-  /* ================= ШАПКА ================= */
   header{
     position:fixed;
     top:0; left:0; right:0;
@@ -216,9 +215,6 @@
     padding-left:32px;
   }
 
-  /* ============================================================
-     КОСМИЧЕСКОЕ НЕБО — КОМПАКТНО
-     ============================================================ */
   .space-hero{
     position:relative;
     width:100%;
@@ -278,9 +274,6 @@
     z-index:2;
   }
 
-  /* ============================================================
-     КОНТЕНТ
-     ============================================================ */
   .actor-page{
     position:relative;
     z-index:5;
@@ -298,7 +291,6 @@
     margin-bottom:80px;
   }
 
-  /* ---- Фото в рамке ---- */
   .actor-photo-frame{
     position:relative;
     width:100%;
@@ -346,7 +338,6 @@
     color:rgba(180,170,255,.55);
   }
 
-  /* ---- Имя справа ---- */
   .actor-info{
     display:flex;
     flex-direction:column;
@@ -370,11 +361,19 @@
     background-clip:text;
     color:transparent;
     filter:drop-shadow(0 0 30px rgba(90,70,255,.4));
+    margin-bottom:16px;
   }
 
-  /* ============================================================
-     ФИЛЬМОГРАФИЯ
-     ============================================================ */
+  .actor-role{
+    font-family:'Manrope',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:#a99bff;
+    opacity:.9;
+  }
+
   .filmography{
     margin-top:20px;
   }
@@ -454,7 +453,6 @@
     to  { opacity:1; transform:translateY(0);    }
   }
 
-  /* ================= ПЛАНШЕТ ================= */
   @media (max-width:900px){
     header{
       padding:0 20px;
@@ -472,7 +470,6 @@
     .films-grid{ grid-template-columns:repeat(3, 1fr); }
   }
 
-  /* ================= МОБИЛЬНЫЙ ================= */
   @media (max-width:700px){
     :root{ --header-h: 66px; }
     header{ padding:0 12px; gap:12px; }
@@ -518,6 +515,11 @@
     }
     .actor-name{
       font-size:clamp(28px, 9vw, 44px);
+      margin-bottom:12px;
+    }
+    .actor-role{
+      font-size:12px;
+      letter-spacing:.2em;
     }
 
     .section-title{ font-size:20px; margin-bottom:18px; }
@@ -555,7 +557,6 @@
 </head>
 <body>
 
-<!-- ======================= ШАПКА ======================= -->
 <header id="siteHeader">
   <a href="../team.html" class="close-btn" aria-label="Вернуться к команде">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
@@ -589,13 +590,11 @@
   <a href="../biography.html">Биография</a>
 </div>
 
-<!-- ======================= КОСМИЧЕСКОЕ НЕБО ======================= -->
 <section class="space-hero">
   <div class="stars" id="stars"></div>
   <div class="space-fade"></div>
 </section>
 
-<!-- ======================= КОНТЕНТ ======================= -->
 <main class="actor-page">
 
   <div class="actor-head">
@@ -607,6 +606,7 @@
 
     <div class="actor-info">
       <h1 class="actor-name">Таисия Мартынюк</h1>
+      <div class="actor-role">Актриса</div>
     </div>
 
   </div>
