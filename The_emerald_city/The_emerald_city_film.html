@@ -36,7 +36,6 @@
     overflow-x:hidden;
   }
 
-  /* ================= ШАПКА ================= */
   header{
     position:fixed;
     top:0; left:0; right:0;
@@ -216,7 +215,6 @@
     padding-left:32px;
   }
 
-  /* ================= ОБЛОЖКА ================= */
   .film-hero{
     position:relative;
     width:100%;
@@ -467,6 +465,20 @@
     box-shadow:0 0 16px rgba(140,90,255,.5);
   }
 
+  .film-desc{
+    font-size:16px;
+    line-height:1.72;
+    color:#c8ccec;
+    max-width:900px;
+    margin-bottom:56px;
+  }
+  .film-desc p{
+    margin-bottom:14px;
+  }
+  .film-desc p:last-child{
+    margin-bottom:0;
+  }
+
   .section-title{
     font-family:'Unbounded',sans-serif;
     font-size:22px;
@@ -492,7 +504,6 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: 3 штуки --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
@@ -625,7 +636,6 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= ПЛЕЕР ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -707,7 +717,6 @@
     border-radius:16px;
   }
 
-  /* ================= ЛАЙТБОКС ================= */
   .lightbox{
     position:fixed;
     inset:0;
@@ -805,7 +814,6 @@
     border:1px solid rgba(120,110,255,.2);
   }
 
-  /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
@@ -822,7 +830,6 @@
     }
   }
 
-  /* ================= МОБИЛЬНЫЙ ================= */
   @media (max-width:900px){
     :root{ --header-h: 66px; }
     header{
@@ -895,6 +902,7 @@
     }
 
     .film-info{ padding:0 20px 72px; }
+    .film-desc{ font-size:15px; margin-bottom:44px; }
     .section-title{ font-size:19px; margin-bottom:18px; }
 
     .frames-grid{
@@ -934,7 +942,6 @@
     }
   }
 
-  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
   @media (max-width:480px){
     :root{ --header-h: 60px; }
     header{ padding:0 10px; gap:10px; }
@@ -955,6 +962,11 @@
     .film-hero{ min-height:480px; height:86vh; }
     .film-hero-title{ font-size:clamp(26px, 9vw, 40px); }
     .film-info{ padding:0 16px 60px; }
+
+    .btn-watch{
+      padding:12px 18px;
+      font-size:13px;
+    }
 
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
     .actors-grid{ grid-template-columns:repeat(3, 1fr); }
@@ -983,10 +995,10 @@
 
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
-    <a href="#">Смотреть</a>
-    <a href="#">Команда</a>
-    <a href="#">Анонсы</a>
-    <a href="#">Биография</a>
+    <a href="../watch.html">Смотреть</a>
+    <a href="../team.html">Команда</a>
+    <a href="../announcements.html">Анонсы</a>
+    <a href="../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -998,10 +1010,10 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
-  <a href="#">Смотреть</a>
-  <a href="#">Команда</a>
-  <a href="#">Анонсы</a>
-  <a href="#">Биография</a>
+  <a href="../watch.html">Смотреть</a>
+  <a href="../team.html">Команда</a>
+  <a href="../announcements.html">Анонсы</a>
+  <a href="../biography.html">Биография</a>
 </div>
 
 <section class="film-hero">
@@ -1034,6 +1046,14 @@
     <span class="age">18+</span>
     <span class="dot"></span>
     <span>23.11.2024</span>
+  </div>
+
+  <div class="film-desc reveal">
+    <p>
+      Элли в очередной раз приходит к Волшебнику за товаром и узнаёт
+      о новом сорте под названием «Изумрудный город».
+      С этого момента начинается её моральное разрушение.
+    </p>
   </div>
 
   <h2 class="section-title reveal">Кадры</h2>
