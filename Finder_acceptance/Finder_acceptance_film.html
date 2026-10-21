@@ -467,6 +467,20 @@
     box-shadow:0 0 16px rgba(140,90,255,.5);
   }
 
+  .film-desc{
+    font-size:16px;
+    line-height:1.72;
+    color:#c8ccec;
+    max-width:900px;
+    margin-bottom:56px;
+  }
+  .film-desc p{
+    margin-bottom:14px;
+  }
+  .film-desc p:last-child{
+    margin-bottom:0;
+  }
+
   .section-title{
     font-family:'Unbounded',sans-serif;
     font-size:22px;
@@ -492,7 +506,6 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: заглушки --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -510,21 +523,64 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    color:rgba(180,170,255,.55);
+    color:rgba(180,170,255,.45);
     font-size:12px;
     font-weight:600;
-    letter-spacing:.18em;
+    letter-spacing:.16em;
     text-transform:uppercase;
+    cursor:zoom-in;
+    position:relative;
+    transition:transform .35s cubic-bezier(.2,.7,.3,1),
+               border-color .35s,
+               box-shadow .35s;
+  }
+  .frame-item::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:linear-gradient(135deg,
+      transparent 40%,
+      rgba(160,90,255,.18) 50%,
+      transparent 60%);
+    opacity:0;
+    transition:opacity .4s;
+    pointer-events:none;
   }
   .frame-item img{
     width:100%; height:100%;
     object-fit:cover;
     display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
   }
-  .frame-item.soon-only{
+  .frame-item:hover{
+    transform:translateY(-5px);
+    border-color:rgba(160,120,255,.75);
+    box-shadow:0 16px 44px rgba(90,60,255,.45),
+               0 0 30px rgba(140,90,255,.35);
+  }
+  .frame-item:hover::after{ opacity:1; }
+  .frame-item:hover img{ transform:scale(1.06); }
+  .frame-item:active{ transform:translateY(-2px) scale(.99); }
+
+  .frame-item.placeholder{
     cursor:default;
-    border-style:dashed;
-    border-color:rgba(120,110,255,.28);
+  }
+  .frame-item.placeholder:hover{
+    transform:none;
+    border-color:rgba(120,110,255,.15);
+    box-shadow:none;
+  }
+  .frame-item.placeholder::after{ display:none; }
+  .frame-item .soon{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:rgba(180,170,255,.55);
+    border:1px solid rgba(120,110,255,.3);
+    padding:5px 12px;
+    border-radius:20px;
   }
 
   .actors-grid{
@@ -602,7 +658,6 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= ПЛЕЕР ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -684,7 +739,6 @@
     border-radius:16px;
   }
 
-  /* ================= ЛАЙТБОКС ================= */
   .lightbox{
     position:fixed;
     inset:0;
@@ -782,7 +836,6 @@
     border:1px solid rgba(120,110,255,.2);
   }
 
-  /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
@@ -799,7 +852,6 @@
     }
   }
 
-  /* ================= МОБИЛЬНЫЙ ================= */
   @media (max-width:900px){
     :root{ --header-h: 66px; }
     header{
@@ -872,6 +924,7 @@
     }
 
     .film-info{ padding:0 20px 72px; }
+    .film-desc{ font-size:15px; margin-bottom:44px; }
     .section-title{ font-size:19px; margin-bottom:18px; }
 
     .frames-grid{
@@ -911,7 +964,6 @@
     }
   }
 
-  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
   @media (max-width:480px){
     :root{ --header-h: 60px; }
     header{ padding:0 10px; gap:10px; }
@@ -932,6 +984,11 @@
     .film-hero{ min-height:480px; height:86vh; }
     .film-hero-title{ font-size:clamp(26px, 9vw, 40px); }
     .film-info{ padding:0 16px 60px; }
+
+    .btn-watch{
+      padding:12px 18px;
+      font-size:13px;
+    }
 
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
     .actors-grid{ grid-template-columns:repeat(3, 1fr); }
@@ -960,10 +1017,10 @@
 
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
-    <a href="#">Смотреть</a>
-    <a href="#">Команда</a>
-    <a href="#">Анонсы</a>
-    <a href="#">Биография</a>
+    <a href="../watch.html">Смотреть</a>
+    <a href="../team.html">Команда</a>
+    <a href="../announcements.html">Анонсы</a>
+    <a href="../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -975,10 +1032,10 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
-  <a href="#">Смотреть</a>
-  <a href="#">Команда</a>
-  <a href="#">Анонсы</a>
-  <a href="#">Биография</a>
+  <a href="../watch.html">Смотреть</a>
+  <a href="../team.html">Команда</a>
+  <a href="../announcements.html">Анонсы</a>
+  <a href="../biography.html">Биография</a>
 </div>
 
 <section class="film-hero">
@@ -1011,12 +1068,36 @@
     <span>23.02.2025</span>
   </div>
 
+  <div class="film-desc reveal">
+    <p>
+      Евгений работает фотографом. Желая прийти к спокойствию, решает купить дом в лесу,
+      но он ещё не знает, с чем ему предстоит столкнуться.
+    </p>
+  </div>
+
   <h2 class="section-title reveal">Кадры</h2>
   <div class="frames-grid reveal" id="framesGrid">
-    <div class="frame-item soon-only">Скоро</div>
-    <div class="frame-item soon-only">Скоро</div>
-    <div class="frame-item soon-only">Скоро</div>
-    <div class="frame-item soon-only">Скоро</div>
+    <div class="frame-item" data-src="Finder_acceptance_k1.jpg">
+      <img src="Finder_acceptance_k1.jpg" alt="Кадр 1">
+    </div>
+    <div class="frame-item" data-src="Finder_acceptance_k2.jpg">
+      <img src="Finder_acceptance_k2.jpg" alt="Кадр 2">
+    </div>
+    <div class="frame-item" data-src="Finder_acceptance_k3.jpg">
+      <img src="Finder_acceptance_k3.jpg" alt="Кадр 3">
+    </div>
+    <div class="frame-item" data-src="Finder_acceptance_k4.jpg">
+      <img src="Finder_acceptance_k4.jpg" alt="Кадр 4">
+    </div>
+    <div class="frame-item" data-src="Finder_acceptance_k5.jpg">
+      <img src="Finder_acceptance_k5.jpg" alt="Кадр 5">
+    </div>
+    <div class="frame-item" data-src="Finder_acceptance_k6.jpg">
+      <img src="Finder_acceptance_k6.jpg" alt="Кадр 6">
+    </div>
+    <div class="frame-item" data-src="Finder_acceptance_k7.jpg">
+      <img src="Finder_acceptance_k7.jpg" alt="Кадр 7">
+    </div>
   </div>
 
   <h2 class="section-title reveal">Актёры</h2>
@@ -1049,6 +1130,7 @@
 
 </section>
 
+<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
@@ -1056,12 +1138,13 @@
   </div>
 </div>
 
+<!-- ============ ЛАЙТБОКС ============ -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
   <img src="" alt="" id="lightboxImg">
   <button class="lightbox-nav next" id="lightboxNext" aria-label="Вперёд">›</button>
-  <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 7</div>
 </div>
 
 <script>
