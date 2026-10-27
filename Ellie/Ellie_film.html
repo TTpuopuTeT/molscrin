@@ -1078,15 +1078,7 @@
   </div>
 
   <h2 class="section-title reveal">Актёры</h2>
-  <div class="actors-grid reveal">
-    <a class="actor-item" href="../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.html">
-      <div class="actor-photo">
-        <img src="../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG" alt="Вячеслав Гущин"
-             onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
-      </div>
-      <div class="actor-name">Вячеслав Гущин</div>
-    </a>
-  </div>
+  <div class="actors-grid reveal" id="actorsGrid"></div>
 
 </section>
 
@@ -1115,6 +1107,44 @@
 </div>
 
 <script>
+  /* ==================================================================
+     АКТЁРЫ ФИЛЬМА
+     ================================================================== */
+  const ACTORS = [
+    { name: 'Иван Товстокорый',
+      link:  '../team/Ivan_Tovstokory/Ivan_Tovstokory.html',
+      photo: '../team/Ivan_Tovstokory/Ivan_Tovstokory.JPG' },
+    { name: 'Александр Витюк',
+      link:  '../team/Alexander_Vityuk/Alexander_Vityuk.html',
+      photo: '../team/Alexander_Vityuk/Alexander_Vityuk.JPG' },
+    { name: 'Ярослав Елфимов',
+      link:  '../team/Yaroslav_Elfimov/Yaroslav_Elfimov.html',
+      photo: '../team/Yaroslav_Elfimov/Yaroslav_Elfimov.JPG' },
+    { name: 'Дарья Шарафеева',
+      link:  '../team/Daria_Sharafeeva/Daria_Sharafeeva.html',
+      photo: '../team/Daria_Sharafeeva/Daria_Sharafeeva.JPG' },
+    { name: 'Вячеслав Гущин',
+      link:  '../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.html',
+      photo: '../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG' }
+  ];
+
+  const actorsGrid = document.getElementById('actorsGrid');
+  if(actorsGrid && ACTORS.length){
+    const shuffled = [...ACTORS].sort(() => Math.random() - 0.5);
+    actorsGrid.innerHTML = shuffled.map(a => `
+      <a class="actor-item" href="${a.link}">
+        <div class="actor-photo">
+          <img src="${a.photo}" alt="${a.name}"
+               onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+        </div>
+        <div class="actor-name">${a.name}</div>
+      </a>
+    `).join('');
+  }
+
+  /* ==================================================================
+     ОСТАЛЬНОЕ
+     ================================================================== */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
