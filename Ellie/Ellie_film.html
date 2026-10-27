@@ -467,6 +467,14 @@
     box-shadow:0 0 16px rgba(140,90,255,.5);
   }
 
+  .film-desc{
+    font-size:16px;
+    line-height:1.72;
+    color:#c8ccec;
+    max-width:900px;
+    margin-bottom:56px;
+  }
+
   .section-title{
     font-family:'Unbounded',sans-serif;
     font-size:22px;
@@ -492,7 +500,7 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  /* --- Кадры: 7 штук --- */
+  /* --- Кадры --- */
   .frames-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -550,9 +558,10 @@
   .frame-item:hover img{ transform:scale(1.06); }
   .frame-item:active{ transform:translateY(-2px) scale(.99); }
 
+  /* --- Актёры --- */
   .actors-grid{
     display:grid;
-    grid-template-columns:repeat(6, 1fr);
+    grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
     gap:20px;
   }
   .actor-item{
@@ -560,6 +569,8 @@
     flex-direction:column;
     gap:10px;
     transition:transform .35s cubic-bezier(.2,.7,.3,1);
+    text-decoration:none;
+    color:inherit;
   }
   .actor-item:hover{ transform:translateY(-5px); }
   .actor-photo{
@@ -582,6 +593,14 @@
     position:relative;
     overflow:hidden;
   }
+  .actor-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    position:relative;
+    z-index:1;
+  }
   .actor-photo::before{
     content:'';
     position:absolute;
@@ -595,6 +614,8 @@
     opacity:0;
     animation:rotateHalo 6s linear infinite;
     transition:opacity .4s;
+    z-index:0;
+    pointer-events:none;
   }
   .actor-photo::after{
     content:'';
@@ -602,8 +623,9 @@
     inset:1px;
     border-radius:inherit;
     background:linear-gradient(135deg, rgba(60,40,120,.55), rgba(20,22,45,.9));
+    z-index:0;
   }
-  .actor-photo > *{
+  .actor-photo .soon{
     position:relative;
     z-index:1;
   }
@@ -684,19 +706,6 @@
   .modal-close:hover{
     background:rgba(255,255,255,.22);
     transform:rotate(90deg);
-  }
-  .player-placeholder{
-    font-family:'Unbounded',sans-serif;
-    font-size:clamp(16px, 3vw, 26px);
-    font-weight:600;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    background:linear-gradient(135deg, var(--violet), var(--blue));
-    background-size:200% 100%;
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-    animation:shimmer 4s ease-in-out infinite;
   }
 
   .modal-inner video{
@@ -817,7 +826,7 @@
       gap:14px;
     }
     .actors-grid{
-      grid-template-columns:repeat(4, 1fr);
+      grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
       gap:16px;
     }
   }
@@ -895,6 +904,7 @@
     }
 
     .film-info{ padding:0 20px 72px; }
+    .film-desc{ font-size:15px; margin-bottom:44px; }
     .section-title{ font-size:19px; margin-bottom:18px; }
 
     .frames-grid{
@@ -905,7 +915,7 @@
     .frame-item{ border-radius:10px; }
 
     .actors-grid{
-      grid-template-columns:repeat(3, 1fr);
+      grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
       gap:12px;
     }
     .actor-photo{ border-radius:10px; }
@@ -957,7 +967,7 @@
     .film-info{ padding:0 16px 60px; }
 
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
-    .actors-grid{ grid-template-columns:repeat(3, 1fr); }
+    .actors-grid{ grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -983,10 +993,10 @@
 
   <nav class="desktop-nav">
     <a href="../index.html">Главная</a>
-    <a href="#">Смотреть</a>
-    <a href="#">Команда</a>
-    <a href="#">Анонсы</a>
-    <a href="#">Биография</a>
+    <a href="../watch.html">Смотреть</a>
+    <a href="../team.html">Команда</a>
+    <a href="../announcements.html">Анонсы</a>
+    <a href="../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -998,10 +1008,10 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html">Главная</a>
-  <a href="#">Смотреть</a>
-  <a href="#">Команда</a>
-  <a href="#">Анонсы</a>
-  <a href="#">Биография</a>
+  <a href="../watch.html">Смотреть</a>
+  <a href="../team.html">Команда</a>
+  <a href="../announcements.html">Анонсы</a>
+  <a href="../biography.html">Биография</a>
 </div>
 
 <section class="film-hero">
@@ -1036,6 +1046,12 @@
     <span>13.10.2025</span>
   </div>
 
+  <p class="film-desc reveal">
+    Полицейский Паша спасает Элли от ареста и дарит ей книгу «Волшебник Изумрудного города», которая когда-то помогла ему самому. Так начинается их знакомство.<br><br>
+    Но однажды она встречает Максима, который показывает ей «чудесный» порошок — и после этого её жизнь изменится навсегда.<br><br>
+    Узнайте предысторию главной героини «Изумрудного города» в фильме «Элли».
+  </p>
+
   <h2 class="section-title reveal">Кадры</h2>
   <div class="frames-grid reveal" id="framesGrid">
     <div class="frame-item" data-src="Ellie_k1.jpg">
@@ -1063,30 +1079,13 @@
 
   <h2 class="section-title reveal">Актёры</h2>
   <div class="actors-grid reveal">
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
+    <a class="actor-item" href="../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.html">
+      <div class="actor-photo">
+        <img src="../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG" alt="Вячеслав Гущин"
+             onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+      </div>
+      <div class="actor-name">Вячеслав Гущин</div>
+    </a>
   </div>
 
 </section>
