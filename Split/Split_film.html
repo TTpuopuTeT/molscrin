@@ -1108,6 +1108,15 @@
      АКТЁРЫ ФИЛЬМА
      ================================================================== */
   const ACTORS = [
+    { name: 'Полина Рассказова',
+      link:  '../team/Polina_Rasskazova/Polina_Rasskazova.html',
+      photo: '../team/Polina_Rasskazova/Polina_Rasskazova.JPG' },
+    { name: 'Ярослав Елфимов',
+      link:  '../team/Yaroslav_Elfimov/Yaroslav_Elfimov.html',
+      photo: '../team/Yaroslav_Elfimov/Yaroslav_Elfimov.JPG' },
+    { name: 'Александр Витюк',
+      link:  '../team/Alexander_Vityuk/Alexander_Vityuk.html',
+      photo: '../team/Alexander_Vityuk/Alexander_Vityuk.JPG' },
     { name: 'Вячеслав Гущин',
       link:  '../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.html',
       photo: '../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG' }
@@ -1216,7 +1225,6 @@
     });
   });
 
-  /* ---------- плеер фильма ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1240,7 +1248,6 @@
     if(e.target === playerModal) closePlayer();
   });
 
-  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
