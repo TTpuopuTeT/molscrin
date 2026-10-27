@@ -374,6 +374,28 @@
     opacity:.9;
   }
 
+  /* Статус «Создатель студии» — ниже и тише */
+  .actor-status{
+    margin-top:14px;
+    font-family:'Manrope',sans-serif;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    opacity:.7;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .actor-status::before{
+    content:'';
+    width:18px;
+    height:1px;
+    background:linear-gradient(90deg, var(--violet), var(--blue));
+    opacity:.6;
+  }
+
   .filmography{
     margin-top:20px;
   }
@@ -512,6 +534,7 @@
       padding-top:0;
       text-align:center;
       justify-content:center;
+      align-items:center;
     }
     .actor-name{
       font-size:clamp(28px, 9vw, 44px);
@@ -521,6 +544,11 @@
       font-size:11px;
       letter-spacing:.15em;
       line-height:1.6;
+    }
+    .actor-status{
+      font-size:10px;
+      letter-spacing:.14em;
+      margin-top:10px;
     }
 
     .section-title{ font-size:20px; margin-bottom:18px; }
@@ -607,7 +635,8 @@
 
     <div class="actor-info">
       <h1 class="actor-name">Вячеслав Гущин</h1>
-      <div class="actor-role">Актёр · Оператор · Второй режиссёр · Создатель студии</div>
+      <div class="actor-role">Актёр · Оператор · Второй режиссёр</div>
+      <div class="actor-status">Создатель студии</div>
     </div>
 
   </div>
@@ -677,6 +706,13 @@
           <img src="../../I_wont_cry_anymore/I_wont_cry_anymore1.jpg" alt="Я больше не буду плакать">
         </div>
         <div class="film-card-title">Я больше не буду плакать</div>
+      </a>
+
+      <a href="../../North_wind/North_wind_film.html" class="film-card">
+        <div class="film-card-poster">
+          <img src="../../North_wind/North_wind1.jpg" alt="Северный ветер">
+        </div>
+        <div class="film-card-title">Северный ветер</div>
       </a>
 
     </div>
