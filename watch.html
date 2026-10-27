@@ -671,7 +671,6 @@
 <script>
   /* ==============================================================
      ДАННЫЕ ФИЛЬМОВ
-     Порядок совпадает с TITLES в index.html
      ============================================================== */
   const FILMS = [
     {
@@ -721,7 +720,7 @@
       link: 'I_wont_cry_anymore/I_wont_cry_anymore_film.html',
       date: '14.02.2026',
       dateKey: '2026-02-14',
-      genres: ['Драма','Романтика'],
+      genres: ['Драма','Романтика','Мелодрама'],
       age: 18
     },
     {
@@ -735,22 +734,24 @@
       age: 16
     },
     {
-      /* пока без жанров и возраста */
       ready: true,
       title: 'Красный кролик: Первая жертва',
       poster: 'Red_rabbit_first_victim/Red_rabbit_first_victim1.jpg',
       link: 'Red_rabbit_first_victim/Red_rabbit_first_victim_film.html',
       date: '09.05.2025',
-      dateKey: '2025-05-09'
+      dateKey: '2025-05-09',
+      genres: ['Драма','Детектив'],
+      age: 18
     },
     {
-      /* пока без жанров и возраста */
       ready: true,
       title: 'Красный кролик: Грехи',
       poster: 'Red_rabbit_sins/Red_rabbit_sins1.jpg',
       link: 'Red_rabbit_sins/Red_rabbit_sins_film.html',
       date: '14.07.2025',
-      dateKey: '2025-07-14'
+      dateKey: '2025-07-14',
+      genres: ['Детектив','Драма','Триллер'],
+      age: 18
     },
     {
       ready: true,
@@ -859,7 +860,7 @@
       link: 'love/love_film.html',
       date: '09.12.2024',
       dateKey: '2024-12-09',
-      genres: ['Романтика'],
+      genres: ['Романтика','Мелодрама'],
       age: 6
     },
     {
@@ -916,19 +917,19 @@
   /* ==============================================================
      ЭЛЕМЕНТЫ
      ============================================================== */
-  const cardsGrid    = document.getElementById('cardsGrid');
-  const sortDropdown = document.getElementById('sortDropdown');
+  const cardsGrid     = document.getElementById('cardsGrid');
+  const sortDropdown  = document.getElementById('sortDropdown');
   const genreDropdown = document.getElementById('genreDropdown');
-  const ageDropdown  = document.getElementById('ageDropdown');
-  const sortBtn      = document.getElementById('sortBtn');
-  const genreBtn     = document.getElementById('genreBtn');
-  const ageBtn       = document.getElementById('ageBtn');
-  const sortMenu     = document.getElementById('sortMenu');
-  const genreMenu    = document.getElementById('genreMenu');
-  const ageMenu      = document.getElementById('ageMenu');
-  const sortLabel    = document.getElementById('sortLabel');
-  const genreLabel   = document.getElementById('genreLabel');
-  const ageLabel     = document.getElementById('ageLabel');
+  const ageDropdown   = document.getElementById('ageDropdown');
+  const sortBtn       = document.getElementById('sortBtn');
+  const genreBtn      = document.getElementById('genreBtn');
+  const ageBtn        = document.getElementById('ageBtn');
+  const sortMenu      = document.getElementById('sortMenu');
+  const genreMenu     = document.getElementById('genreMenu');
+  const ageMenu       = document.getElementById('ageMenu');
+  const sortLabel     = document.getElementById('sortLabel');
+  const genreLabel    = document.getElementById('genreLabel');
+  const ageLabel      = document.getElementById('ageLabel');
 
   /* ==============================================================
      ВСПОМОГАТЕЛЬНОЕ
