@@ -241,7 +241,7 @@
   }
 
   .page-inner{
-    max-width:980px;
+    max-width:1080px;
     margin:0 auto;
     padding:56px 34px 100px;
   }
@@ -263,13 +263,17 @@
     filter:drop-shadow(0 0 24px rgba(90,70,255,.45));
   }
 
-  /* ================= КАРТОЧКИ ================= */
+  /* ================= СПИСКИ ================= */
   .team-list{
     display:flex;
     flex-direction:column;
     gap:18px;
   }
+  .team-list-founders{
+    margin-bottom:44px;
+  }
 
+  /* ================= КАРТОЧКИ ================= */
   .team-card{
     display:flex;
     gap:24px;
@@ -288,6 +292,8 @@
                box-shadow .4s;
     opacity:0;
     transform:translateY(24px);
+    position:relative;
+    overflow:hidden;
   }
   .team-card.visible{
     opacity:1;
@@ -303,6 +309,50 @@
     transform:translateY(-5px);
   }
 
+  /* Создатели — крупнее и с акцентом */
+  .team-card.founder{
+    padding:28px;
+    border-color:rgba(160,110,255,.35);
+    background:
+      linear-gradient(135deg, rgba(80,50,180,.18) 0%, rgba(30,20,60,.12) 100%);
+    box-shadow:
+      0 0 0 1px rgba(160,110,255,.1),
+      0 12px 40px rgba(90,60,255,.15);
+  }
+  .team-card.founder::before{
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:4px;
+    height:100%;
+    background:linear-gradient(180deg, var(--violet), var(--blue));
+    opacity:.85;
+  }
+  .team-card.founder:hover{
+    border-color:rgba(200,160,255,.9);
+    background:
+      linear-gradient(135deg, rgba(100,60,220,.28) 0%, rgba(40,25,80,.2) 100%);
+    box-shadow:
+      0 0 0 1px rgba(200,160,255,.3),
+      0 28px 80px rgba(90,60,255,.5),
+      0 0 60px rgba(160,100,255,.4);
+  }
+  .team-card.founder .team-photo{
+    width:160px;
+    height:160px;
+    border-radius:18px;
+    border-color:rgba(160,120,255,.45);
+  }
+  .team-card.founder .team-name{
+    font-size:clamp(22px, 2.6vw, 28px);
+  }
+  .team-card.founder .team-role{
+    font-size:13px;
+    letter-spacing:.12em;
+    color:#c3b0ff;
+  }
+
+  /* ================= ФОТО ================= */
   .team-photo{
     width:140px;
     height:140px;
@@ -339,6 +389,7 @@
     border-radius:20px;
   }
 
+  /* ================= ИНФО ================= */
   .team-info{
     display:flex;
     flex-direction:column;
@@ -380,6 +431,7 @@
     .logo svg{ width:46px; height:46px; }
     .page-inner{ padding:42px 22px 90px; }
     .team-photo{ width:120px; height:120px; }
+    .team-card.founder .team-photo{ width:140px; height:140px; }
   }
 
   /* ================= МОБИЛЬНЫЙ ================= */
@@ -404,10 +456,18 @@
       gap:18px;
       padding:18px;
     }
+    .team-card.founder{
+      padding:22px;
+    }
     .team-photo{ width:100px; height:100px; border-radius:12px; }
+    .team-card.founder .team-photo{ width:120px; height:120px; }
     .team-name{ font-size:16px; }
+    .team-card.founder .team-name{ font-size:18px; }
     .team-role{ font-size:12px; }
+    .team-card.founder .team-role{ font-size:11px; }
     .team-bio{ font-size:13px; }
+
+    .team-list-founders{ margin-bottom:34px; }
   }
 
   /* ================= УЗКИЙ ТЕЛЕФОН ================= */
@@ -430,7 +490,11 @@
       gap:14px;
       padding:22px 18px;
     }
+    .team-card.founder{
+      padding:26px 20px;
+    }
     .team-photo{ width:120px; height:120px; }
+    .team-card.founder .team-photo{ width:140px; height:140px; }
 
     .burger{ width:40px; height:40px; }
     .burger span{ left:9px; right:9px; }
@@ -504,6 +568,7 @@
 
     <h1 class="page-title">Команда</h1>
 
+    <div class="team-list team-list-founders" id="foundersList"></div>
     <div class="team-list" id="teamList"></div>
 
   </div>
@@ -573,7 +638,31 @@
   /* ==================================================================
      ДАННЫЕ КОМАНДЫ
      ================================================================== */
+  const FOUNDERS = [
+    {
+      name:  'Иван Товстокорый',
+      role:  'Режиссёр · Актёр · Сценарист',
+      bio:   '',
+      photo: 'team/Ivan_Tovstokory/Ivan_Tovstokory.JPG',
+      link:  'team/Ivan_Tovstokory/Ivan_Tovstokory.html'
+    },
+    {
+      name:  'Вячеслав Гущин',
+      role:  'Актёр · Оператор · Второй режиссёр',
+      bio:   '',
+      photo: 'team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG',
+      link:  'team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.html'
+    }
+  ];
+
   const TEAM = [
+    {
+      name:  'Полина Рассказова',
+      role:  'Актриса',
+      bio:   '',
+      photo: 'team/Polina_Rasskazova/Polina_Rasskazova.JPG',
+      link:  'team/Polina_Rasskazova/Polina_Rasskazova.html'
+    },
     {
       name:  'Таисия Мартынюк',
       role:  'Актриса',
@@ -596,18 +685,54 @@
       link:  'team/Alexandra_Ionova/Alexandra_Ionova.html'
     },
     {
-      name:  'Вячеслав Гущин',
-      role:  'Актёр · Оператор · Второй режиссёр · Создатель студии',
+      name:  'Александра Кузьмина',
+      role:  'Актриса',
       bio:   '',
-      photo: 'team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG',
-      link:  'team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.html'
+      photo: 'team/Alexandra_Kuzmina/Alexandra_Kuzmina.JPG',
+      link:  'team/Alexandra_Kuzmina/Alexandra_Kuzmina.html'
+    },
+    {
+      name:  'Дарья Шарафеева',
+      role:  'Актриса',
+      bio:   '',
+      photo: 'team/Daria_Sharafeeva/Daria_Sharafeeva.JPG',
+      link:  'team/Daria_Sharafeeva/Daria_Sharafeeva.html'
+    },
+    {
+      name:  'Ярослав Елфимов',
+      role:  'Актёр',
+      bio:   '',
+      photo: 'team/Yaroslav_Elfimov/Yaroslav_Elfimov.JPG',
+      link:  'team/Yaroslav_Elfimov/Yaroslav_Elfimov.html'
+    },
+    {
+      name:  'Георгий Плотников',
+      role:  'Актёр',
+      bio:   '',
+      photo: 'team/Georgy_Plotnikov/Georgy_Plotnikov.JPG',
+      link:  'team/Georgy_Plotnikov/Georgy_Plotnikov.html'
+    },
+    {
+      name:  'Александр Витюк',
+      role:  'Актёр',
+      bio:   '',
+      photo: 'team/Alexander_Vityuk/Alexander_Vityuk.JPG',
+      link:  'team/Alexander_Vityuk/Alexander_Vityuk.html'
+    },
+    {
+      name:  'Семён Картавых',
+      role:  'Актёр',
+      bio:   '',
+      photo: 'team/Semen_Kartavykh/Semen_Kartavykh.JPG',
+      link:  'team/Semen_Kartavykh/Semen_Kartavykh.html'
     }
   ];
 
   /* ==================================================================
      РЕНДЕР КАРТОЧЕК
      ================================================================== */
-  const teamList = document.getElementById('teamList');
+  const foundersList = document.getElementById('foundersList');
+  const teamList     = document.getElementById('teamList');
 
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, c => ({
@@ -615,36 +740,41 @@
     }[c]));
   }
 
+  function renderPerson(person, isFounder){
+    const roleHtml = person.role
+      ? `<div class="team-role">${escapeHtml(person.role)}</div>`
+      : '';
+
+    const bioHtml = person.bio
+      ? `<p class="team-bio">${escapeHtml(person.bio)}</p>`
+      : '';
+
+    const photoHtml = person.photo
+      ? `<div class="team-photo">
+           <img src="${person.photo}" alt="${escapeHtml(person.name)}"
+                onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+         </div>`
+      : `<div class="team-photo"><span class="soon">Скоро</span></div>`;
+
+    const inner = `
+      ${photoHtml}
+      <div class="team-info">
+        <h2 class="team-name">${escapeHtml(person.name)}</h2>
+        ${roleHtml}
+        ${bioHtml}
+      </div>
+    `;
+
+    const cls = isFounder ? 'team-card founder' : 'team-card';
+
+    return person.link
+      ? `<a class="${cls}" href="${person.link}">${inner}</a>`
+      : `<div class="${cls}">${inner}</div>`;
+  }
+
   function renderTeam(){
-    teamList.innerHTML = TEAM.map(person => {
-      const roleHtml = person.role
-        ? `<div class="team-role">${escapeHtml(person.role)}</div>`
-        : '';
-
-      const bioHtml = person.bio
-        ? `<p class="team-bio">${escapeHtml(person.bio)}</p>`
-        : '';
-
-      const photoHtml = person.photo
-        ? `<div class="team-photo">
-             <img src="${person.photo}" alt="${escapeHtml(person.name)}"
-                  onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
-           </div>`
-        : `<div class="team-photo"><span class="soon">Скоро</span></div>`;
-
-      const inner = `
-        ${photoHtml}
-        <div class="team-info">
-          <h2 class="team-name">${escapeHtml(person.name)}</h2>
-          ${roleHtml}
-          ${bioHtml}
-        </div>
-      `;
-
-      return person.link
-        ? `<a class="team-card" href="${person.link}">${inner}</a>`
-        : `<div class="team-card">${inner}</div>`;
-    }).join('');
+    foundersList.innerHTML = FOUNDERS.map(p => renderPerson(p, true)).join('');
+    teamList.innerHTML     = TEAM.map(p => renderPerson(p, false)).join('');
   }
 
   renderTeam();
@@ -663,7 +793,7 @@
       });
     }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
     cards.forEach((el, i) => {
-      el.style.transitionDelay = (i * 80) + 'ms';
+      el.style.transitionDelay = (i * 60) + 'ms';
       io.observe(el);
     });
   } else {
