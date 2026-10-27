@@ -101,7 +101,6 @@
     box-shadow:0 0 22px rgba(140,90,255,.5);
   }
 
-  /* --- Название фильма в шапке (появляется при скролле) --- */
   .header-title{
     position:absolute;
     left:50%;
@@ -558,9 +557,10 @@
   .frame-item:hover img{ transform:scale(1.06); }
   .frame-item:active{ transform:translateY(-2px) scale(.99); }
 
+  /* ================= АКТЁРЫ ================= */
   .actors-grid{
     display:grid;
-    grid-template-columns:repeat(6, 1fr);
+    grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
     gap:20px;
   }
   .actor-item{
@@ -568,6 +568,8 @@
     flex-direction:column;
     gap:10px;
     transition:transform .35s cubic-bezier(.2,.7,.3,1);
+    text-decoration:none;
+    color:inherit;
   }
   .actor-item:hover{ transform:translateY(-5px); }
   .actor-photo{
@@ -590,6 +592,14 @@
     position:relative;
     overflow:hidden;
   }
+  .actor-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    position:relative;
+    z-index:1;
+  }
   .actor-photo::before{
     content:'';
     position:absolute;
@@ -603,6 +613,8 @@
     opacity:0;
     animation:rotateHalo 6s linear infinite;
     transition:opacity .4s;
+    z-index:2;
+    pointer-events:none;
   }
   .actor-photo::after{
     content:'';
@@ -610,8 +622,9 @@
     inset:1px;
     border-radius:inherit;
     background:linear-gradient(135deg, rgba(60,40,120,.55), rgba(20,22,45,.9));
+    z-index:0;
   }
-  .actor-photo > *{
+  .actor-photo .soon{
     position:relative;
     z-index:1;
   }
@@ -813,7 +826,6 @@
     border:1px solid rgba(120,110,255,.2);
   }
 
-  /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
@@ -825,12 +837,11 @@
       gap:14px;
     }
     .actors-grid{
-      grid-template-columns:repeat(4, 1fr);
+      grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
       gap:16px;
     }
   }
 
-  /* ================= МОБИЛЬНЫЙ ================= */
   @media (max-width:900px){
     :root{ --header-h: 66px; }
     header{
@@ -914,7 +925,7 @@
     .frame-item{ border-radius:10px; }
 
     .actors-grid{
-      grid-template-columns:repeat(3, 1fr);
+      grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
       gap:12px;
     }
     .actor-photo{ border-radius:10px; }
@@ -943,7 +954,6 @@
     }
   }
 
-  /* ================= УЗКИЙ ТЕЛЕФОН ================= */
   @media (max-width:480px){
     :root{ --header-h: 60px; }
     header{ padding:0 10px; gap:10px; }
@@ -966,7 +976,7 @@
     .film-info{ padding:0 16px 60px; }
 
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
-    .actors-grid{ grid-template-columns:repeat(3, 1fr); }
+    .actors-grid{ grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -1071,32 +1081,7 @@
   </div>
 
   <h2 class="section-title reveal">Актёры</h2>
-  <div class="actors-grid reveal">
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-    <div class="actor-item">
-      <div class="actor-photo"><span>Скоро</span></div>
-      <div class="actor-name">—</div>
-    </div>
-  </div>
+  <div class="actors-grid reveal" id="actorsGrid"></div>
 
 </section>
 
@@ -1116,6 +1101,32 @@
 </div>
 
 <script>
+  /* ==================================================================
+     АКТЁРЫ ФИЛЬМА
+     ================================================================== */
+  const ACTORS = [
+    { name: 'Вячеслав Гущин',
+      link:  '../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.html',
+      photo: '../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG' }
+  ];
+
+  const actorsGrid = document.getElementById('actorsGrid');
+  if(actorsGrid && ACTORS.length){
+    const shuffled = [...ACTORS].sort(() => Math.random() - 0.5);
+    actorsGrid.innerHTML = shuffled.map(a => `
+      <a class="actor-item" href="${a.link}">
+        <div class="actor-photo">
+          <img src="${a.photo}" alt="${a.name}"
+               onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
+        </div>
+        <div class="actor-name">${a.name}</div>
+      </a>
+    `).join('');
+  }
+
+  /* ==================================================================
+     ОСТАЛЬНОЕ
+     ================================================================== */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
 
