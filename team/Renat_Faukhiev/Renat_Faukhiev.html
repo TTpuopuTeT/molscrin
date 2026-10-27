@@ -374,6 +374,40 @@
     opacity:.9;
   }
 
+  /* Статус — ниже и тише (как у Славы) */
+  .actor-status{
+    margin-top:14px;
+    font-family:'Manrope',sans-serif;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    opacity:.7;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .actor-status::before{
+    content:'';
+    width:18px;
+    height:1px;
+    background:linear-gradient(90deg, var(--violet), var(--blue));
+    opacity:.6;
+    flex-shrink:0;
+  }
+  /* Без чёрточки, но с отступом — выровнено по тексту первой */
+  .actor-status.no-line{
+    padding-left:26px;
+  }
+  .actor-status.no-line::before{
+    display:none;
+  }
+  /* Когда строк несколько — вторая не липнет к первой */
+  .actor-status + .actor-status{
+    margin-top:8px;
+  }
+
   .filmography{
     margin-top:20px;
   }
@@ -512,6 +546,7 @@
       padding-top:0;
       text-align:center;
       justify-content:center;
+      align-items:center;
     }
     .actor-name{
       font-size:clamp(28px, 9vw, 44px);
@@ -520,6 +555,17 @@
     .actor-role{
       font-size:12px;
       letter-spacing:.2em;
+    }
+    .actor-status{
+      font-size:10px;
+      letter-spacing:.14em;
+      margin-top:10px;
+    }
+    .actor-status.no-line{
+      padding-left:0;
+    }
+    .actor-status + .actor-status{
+      margin-top:6px;
     }
 
     .section-title{ font-size:20px; margin-bottom:18px; }
@@ -607,6 +653,9 @@
     <div class="actor-info">
       <h1 class="actor-name">Ренат Фаухиев</h1>
       <div class="actor-role">Актёр</div>
+      <div class="actor-status">С зимы 2025 года</div>
+      <div class="actor-status no-line">Первый фильм — «Красный кролик»</div>
+      <div class="actor-status no-line">Играл одну из главных ролей в невышедшем фильме: «Одинокое чудо»</div>
     </div>
 
   </div>
