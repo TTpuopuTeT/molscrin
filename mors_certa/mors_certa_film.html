@@ -995,7 +995,7 @@
 <body>
 
 <header id="siteHeader">
-  <a href="../index.html" class="close-btn" aria-label="Закрыть">
+  <a href="../index.html" class="close-btn" id="backBtn" aria-label="Назад">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
       <line x1="6" y1="6" x2="18" y2="18"/>
       <line x1="18" y1="6" x2="6" y2="18"/>
@@ -1115,6 +1115,24 @@
 </div>
 
 <script>
+  /* ==================================================================
+     КРЕСТИК — НАЗАД ПО ИСТОРИИ
+     ================================================================== */
+  (function(){
+    const btn = document.getElementById('backBtn');
+    if(!btn) return;
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const ref = document.referrer;
+      const sameHost = ref && ref.indexOf(location.host) !== -1;
+      if(sameHost || history.length > 1){
+        history.back();
+      } else {
+        location.href = '../index.html';
+      }
+    });
+  })();
+
   /* ==================================================================
      АКТЁРЫ ФИЛЬМА
      ================================================================== */
