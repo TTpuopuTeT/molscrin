@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#05060d">
-<title>Изумрудный город — МОЛСКРИН</title>
+<title>Дарья Шарафеева — МОЛСКРИН</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:      #05060d;
@@ -215,276 +215,205 @@
     padding-left:32px;
   }
 
-  .film-hero{
+  .space-hero{
     position:relative;
     width:100%;
-    min-height:640px;
-    height:92vh;
-    max-height:920px;
+    height:38vh;
+    min-height:280px;
+    max-height:400px;
     overflow:hidden;
-    background:#05060d;
+    background:
+      radial-gradient(ellipse 70% 60% at 30% 20%,
+        rgba(120,60,220,.38) 0%,
+        transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 70%,
+        rgba(60,90,220,.32) 0%,
+        transparent 65%),
+      radial-gradient(ellipse 40% 40% at 50% 50%,
+        rgba(160,80,255,.18) 0%,
+        transparent 70%),
+      linear-gradient(180deg,
+        #0a0820 0%,
+        #08080f 60%,
+        #05060d 100%);
   }
-  .film-hero-bg{
+
+  .stars{
     position:absolute;
     inset:0;
+    pointer-events:none;
     overflow:hidden;
-    will-change:transform;
   }
-  .film-hero-bg img{
+  .star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:#ffffff;
+    box-shadow:
+      0 0 4px rgba(200,180,255,.9),
+      0 0 8px rgba(160,120,255,.6);
+    animation:starTwinkle ease-in-out infinite;
+    will-change:opacity, transform;
+  }
+  @keyframes starTwinkle{
+    0%,100%{ opacity:.15; transform:scale(.7); }
+    50%    { opacity:1;   transform:scale(1.2); }
+  }
+
+  .space-fade{
+    position:absolute;
+    left:0; right:0;
+    bottom:0;
+    height:60%;
+    pointer-events:none;
+    background:linear-gradient(to bottom,
+      rgba(5,6,13,0) 0%,
+      rgba(5,6,13,.65) 55%,
+      rgba(5,6,13,1) 100%);
+    z-index:2;
+  }
+
+  .actor-page{
+    position:relative;
+    z-index:5;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 34px 100px;
+    margin-top:-80px;
+  }
+
+  .actor-head{
+    display:grid;
+    grid-template-columns:minmax(220px, 300px) 1fr;
+    gap:44px;
+    align-items:start;
+    margin-bottom:80px;
+  }
+
+  .actor-photo-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:2/3;
+    border-radius:20px;
+    overflow:hidden;
+    background:
+      linear-gradient(135deg, rgba(60,40,120,.5), rgba(20,22,45,.9)),
+      radial-gradient(circle at 30% 30%, rgba(120,80,255,.25), transparent 60%);
+    border:1px solid rgba(140,120,255,.35);
+    box-shadow:
+      0 30px 70px rgba(0,0,0,.7),
+      0 0 50px rgba(120,80,255,.3);
+    animation:fadeUp 1s cubic-bezier(.2,.7,.3,1) both;
+  }
+  .actor-photo-frame::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:
+      linear-gradient(135deg,
+        transparent 40%,
+        rgba(160,90,255,.15) 50%,
+        transparent 60%);
+    pointer-events:none;
+  }
+  .actor-photo-frame img{
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:40% center;
     display:block;
-    transform:scale(1.05);
-    will-change:transform;
-    animation:heroBreath 20s ease-in-out infinite;
   }
-  @keyframes heroBreath{
-    0%,100%{ transform:scale(1.05); }
-    50%    { transform:scale(1.12); }
-  }
-
-  .hero-glow{
+  .actor-photo-frame .no-photo{
     position:absolute;
     inset:0;
-    pointer-events:none;
-    z-index:1;
-    background:
-      radial-gradient(ellipse 60% 55% at 30% 40%,
-        rgba(160,80,255,.28) 0%,
-        transparent 60%),
-      radial-gradient(ellipse 50% 60% at 80% 70%,
-        rgba(80,120,255,.22) 0%,
-        transparent 65%);
-    mix-blend-mode:screen;
-    opacity:.75;
-    animation:glowBreath 8s ease-in-out infinite;
-  }
-  @keyframes glowBreath{
-    0%,100%{ opacity:.55; transform:scale(1); }
-    50%    { opacity:.95; transform:scale(1.08); }
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Unbounded',sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:rgba(180,170,255,.55);
   }
 
-  .particles{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    overflow:hidden;
-    z-index:1;
-  }
-  .particle{
-    position:absolute;
-    width:2px; height:2px;
-    border-radius:50%;
-    background:radial-gradient(circle, #a04dff 0%, transparent 70%);
-    opacity:.5;
-    animation:floatUp linear infinite;
-    will-change:transform, opacity;
-  }
-  @keyframes floatUp{
-    0%{ transform:translateY(0) translateX(0); opacity:0; }
-    10%{ opacity:.7; }
-    90%{ opacity:.4; }
-    100%{ transform:translateY(-110vh) translateX(40px); opacity:0; }
-  }
-
-  .film-hero-overlay{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    z-index:2;
-    background:
-      linear-gradient(to right,
-        rgba(5,6,13,.92) 0%,
-        rgba(5,6,13,.75) 22%,
-        rgba(5,6,13,.25) 45%,
-        rgba(5,6,13,0)   65%),
-      linear-gradient(to bottom,
-        rgba(5,6,13,0)   45%,
-        rgba(5,6,13,.55) 78%,
-        rgba(5,6,13,1)   100%);
-  }
-
-  .film-hero-content{
-    position:relative;
-    z-index:3;
-    height:100%;
+  .actor-info{
     display:flex;
     flex-direction:column;
-    justify-content:flex-end;
-    align-items:flex-start;
-    padding:calc(var(--header-h) + 40px) clamp(24px, 5vw, 80px) 70px;
-    max-width:min(660px, 58%);
+    justify-content:center;
+    min-height:100%;
+    padding-top:10px;
+    animation:fadeUp 1s .15s cubic-bezier(.2,.7,.3,1) both;
   }
-  .film-hero-title{
+
+  .actor-name{
     font-family:'Unbounded',sans-serif;
     font-weight:800;
-    font-size:clamp(34px, 5.2vw, 72px);
-    line-height:1.02;
+    font-size:clamp(34px, 5.2vw, 68px);
+    line-height:1.05;
     letter-spacing:.005em;
-    background:linear-gradient(180deg, #ffffff 0%, #c3cbff 60%, #9c7dff 100%);
-    background-size:200% 100%;
+    background:linear-gradient(180deg,
+      #ffffff 0%,
+      #c3cbff 55%,
+      #9c7dff 100%);
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
-    filter:drop-shadow(0 0 40px rgba(90,70,255,.45));
-    animation:fadeUp 1.1s cubic-bezier(.2,.7,.3,1) both, shimmer 6s ease-in-out infinite 1.2s;
-  }
-  @keyframes shimmer{
-    0%,100%{ background-position:0% 0; }
-    50%    { background-position:100% 0; }
+    filter:drop-shadow(0 0 30px rgba(90,70,255,.4));
+    margin-bottom:16px;
   }
 
-  .btn-watch{
-    margin-top:34px;
+  .actor-role{
+    font-family:'Manrope',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:#a99bff;
+    opacity:.9;
+  }
+
+  .actor-status{
+    margin-top:14px;
+    font-family:'Manrope',sans-serif;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    opacity:.7;
     display:inline-flex;
     align-items:center;
-    gap:12px;
-    padding:16px 34px;
-    border-radius:36px;
-    background:linear-gradient(135deg, var(--violet) 0%, var(--blue) 100%);
-    background-size:180% 180%;
-    color:#fff;
-    font-family:inherit;
-    font-size:16px;
-    font-weight:600;
-    letter-spacing:.02em;
-    border:none;
-    cursor:pointer;
-    box-shadow:
-      0 10px 34px rgba(120,80,255,.42),
-      inset 0 1px 0 rgba(255,255,255,.22);
-    transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .3s;
-    animation:fadeUp 1.1s .2s cubic-bezier(.2,.7,.3,1) both,
-              btnGlow 3s ease-in-out infinite 1.5s,
-              btnFlow 5s linear infinite;
-    position:relative;
-    overflow:hidden;
+    gap:8px;
   }
-  .btn-watch::before{
+  .actor-status::before{
     content:'';
-    position:absolute;
-    top:0; left:-60%;
-    width:40%;
-    height:100%;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
-    transform:skewX(-20deg);
-    animation:btnSheen 3.5s ease-in-out infinite;
-  }
-  @keyframes btnSheen{
-    0%   { left:-60%; }
-    50%  { left:120%; }
-    100% { left:120%; }
-  }
-  @keyframes btnGlow{
-    0%,100%{
-      box-shadow:
-        0 10px 34px rgba(120,80,255,.42),
-        inset 0 1px 0 rgba(255,255,255,.22);
-    }
-    50%{
-      box-shadow:
-        0 16px 46px rgba(140,90,255,.7),
-        inset 0 1px 0 rgba(255,255,255,.3);
-    }
-  }
-  @keyframes btnFlow{
-    0%{ background-position:0% 50%; }
-    50%{ background-position:100% 50%; }
-    100%{ background-position:0% 50%; }
-  }
-  .btn-watch svg{
-    width:16px; height:16px;
-    fill:#fff;
+    width:18px;
+    height:1px;
+    background:linear-gradient(90deg, var(--violet), var(--blue));
+    opacity:.6;
     flex-shrink:0;
-    transition:transform .25s;
   }
-  .btn-watch:hover,
-  .btn-watch:active{
-    transform:translateY(-3px);
+  .actor-status.no-line{
+    padding-left:26px;
   }
-  .btn-watch:hover svg{ transform:scale(1.15); }
-
-  @keyframes fadeUp{
-    from{ opacity:0; transform:translateY(24px); }
-    to  { opacity:1; transform:translateY(0);    }
+  .actor-status.no-line::before{
+    display:none;
+  }
+  .actor-status + .actor-status{
+    margin-top:8px;
   }
 
-  /* ================= ИНФО ================= */
-  .film-info{
-    position:relative;
-    z-index:3;
-    padding:0 clamp(20px, 5vw, 80px) 100px;
-    max-width:1480px;
-    margin:0 auto;
+  .filmography{
+    margin-top:20px;
   }
-
-  .reveal{
-    opacity:0;
-    transform:translateY(34px);
-    transition:opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1);
-  }
-  .reveal.visible{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  .film-meta{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:12px;
-    margin-bottom:22px;
-    font-size:15px;
-    color:#c3cbff;
-    font-weight:500;
-  }
-  .film-meta .dot{
-    width:4px; height:4px;
-    border-radius:50%;
-    background:rgba(160,170,235,.5);
-    animation:dotPulse 2s ease-in-out infinite;
-  }
-  @keyframes dotPulse{
-    0%,100%{ opacity:.5; transform:scale(1); }
-    50%    { opacity:1;  transform:scale(1.4); }
-  }
-  .film-meta .age{
-    padding:3px 10px;
-    border:1px solid rgba(140,120,255,.55);
-    border-radius:6px;
-    font-size:13px;
-    color:#d6c8ff;
-    font-weight:600;
-    letter-spacing:.02em;
-    transition:box-shadow .3s, border-color .3s;
-  }
-  .film-meta .age:hover{
-    border-color:rgba(180,140,255,.9);
-    box-shadow:0 0 16px rgba(140,90,255,.5);
-  }
-
-  .film-desc{
-    font-size:16px;
-    line-height:1.72;
-    color:#c8ccec;
-    max-width:900px;
-    margin-bottom:56px;
-  }
-  .film-desc p{
-    margin-bottom:14px;
-  }
-  .film-desc p:last-child{
-    margin-bottom:0;
-  }
-
   .section-title{
     font-family:'Unbounded',sans-serif;
-    font-size:22px;
+    font-size:24px;
     font-weight:600;
     letter-spacing:.02em;
-    margin-bottom:22px;
+    margin-bottom:24px;
     color:var(--text);
     display:inline-flex;
     align-items:center;
@@ -504,352 +433,77 @@
     50%    { width:70px; opacity:1;  }
   }
 
-  .frames-grid{
+  .films-grid{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:16px;
-    margin-bottom:56px;
+    grid-template-columns:repeat(4, 1fr);
+    gap:18px;
   }
-  .frame-item{
-    aspect-ratio:16/9;
+  .film-card{
+    display:block;
+    text-decoration:none;
+    color:inherit;
     border-radius:14px;
     overflow:hidden;
+    background:rgba(20,22,45,.55);
+    border:1px solid rgba(120,110,255,.12);
+    transition:transform .3s cubic-bezier(.2,.7,.3,1),
+               border-color .3s,
+               box-shadow .3s;
+  }
+  .film-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(160,120,255,.7);
+    box-shadow:0 16px 44px rgba(90,60,255,.4),
+               0 0 30px rgba(140,90,255,.28);
+  }
+  .film-card-poster{
+    width:100%;
+    aspect-ratio:2/3;
     background:
-      linear-gradient(135deg, rgba(60,40,120,.4), rgba(20,22,45,.85)),
-      radial-gradient(circle at 30% 30%, rgba(120,80,255,.15), transparent 60%);
-    border:1px solid rgba(120,110,255,.15);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:rgba(180,170,255,.45);
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    cursor:zoom-in;
-    position:relative;
-    transition:transform .35s cubic-bezier(.2,.7,.3,1),
-               border-color .35s,
-               box-shadow .35s;
+      linear-gradient(135deg, rgba(60,40,120,.5), rgba(20,22,45,.9)),
+      radial-gradient(circle at 30% 30%, rgba(120,80,255,.25), transparent 60%);
+    overflow:hidden;
   }
-  .frame-item::after{
-    content:'';
-    position:absolute;
-    inset:0;
-    border-radius:inherit;
-    background:linear-gradient(135deg,
-      transparent 40%,
-      rgba(160,90,255,.18) 50%,
-      transparent 60%);
-    opacity:0;
-    transition:opacity .4s;
-    pointer-events:none;
-  }
-  .frame-item img{
+  .film-card-poster img{
     width:100%; height:100%;
     object-fit:cover;
     display:block;
     transition:transform .5s cubic-bezier(.2,.7,.3,1);
   }
-  .frame-item:hover{
-    transform:translateY(-5px);
-    border-color:rgba(160,120,255,.75);
-    box-shadow:0 16px 44px rgba(90,60,255,.45),
-               0 0 30px rgba(140,90,255,.35);
-  }
-  .frame-item:hover::after{ opacity:1; }
-  .frame-item:hover img{ transform:scale(1.06); }
-  .frame-item:active{ transform:translateY(-2px) scale(.99); }
-
-  /* ================= АКТЁРЫ ================= */
-  .actors-grid{
-    display:grid;
-    grid-template-columns:repeat(6, 1fr);
-    gap:20px;
-  }
-  .actor-item{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    transition:transform .35s cubic-bezier(.2,.7,.3,1);
-    text-decoration:none;
-    color:inherit;
-  }
-  .actor-item:hover{ transform:translateY(-5px); }
-  .actor-photo{
-    width:100%;
-    aspect-ratio:1/1;
-    border-radius:14px;
-    background:
-      linear-gradient(135deg, rgba(60,40,120,.4), rgba(20,22,45,.85)),
-      radial-gradient(circle at 30% 30%, rgba(120,80,255,.15), transparent 60%);
-    border:1px solid rgba(120,110,255,.15);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:rgba(180,170,255,.45);
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    transition:border-color .35s, box-shadow .35s;
-    position:relative;
-    overflow:hidden;
-  }
-  .actor-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    position:relative;
-    z-index:1;
-  }
-  .actor-photo::before{
-    content:'';
-    position:absolute;
-    inset:-50%;
-    background:conic-gradient(from 0deg,
-      transparent 0%,
-      rgba(160,90,255,.35) 25%,
-      transparent 50%,
-      rgba(80,120,255,.35) 75%,
-      transparent 100%);
-    opacity:0;
-    animation:rotateHalo 6s linear infinite;
-    transition:opacity .4s;
-    z-index:2;
-    pointer-events:none;
-  }
-  .actor-photo::after{
-    content:'';
-    position:absolute;
-    inset:1px;
-    border-radius:inherit;
-    background:linear-gradient(135deg, rgba(60,40,120,.55), rgba(20,22,45,.9));
-    z-index:0;
-  }
-  .actor-photo .soon{
-    position:relative;
-    z-index:1;
-  }
-  .actor-item:hover .actor-photo{
-    border-color:rgba(160,120,255,.75);
-    box-shadow:0 12px 36px rgba(90,60,255,.4);
-  }
-  .actor-item:hover .actor-photo::before{ opacity:1; }
-  @keyframes rotateHalo{
-    from{ transform:rotate(0deg); }
-    to  { transform:rotate(360deg); }
-  }
-  .actor-name{
+  .film-card:hover .film-card-poster img{ transform:scale(1.05); }
+  .film-card-title{
+    padding:10px 12px;
     font-size:13px;
-    color:var(--muted);
-    text-align:center;
-    line-height:1.3;
-    transition:color .3s;
-  }
-  .actor-item:hover .actor-name{ color:#fff; }
-
-  .modal{
-    position:fixed;
-    inset:0;
-    z-index:300;
-    background:rgba(2,3,10,.88);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    animation:fadeIn .25s ease both;
-  }
-  .modal.open{ display:flex; }
-  @keyframes fadeIn{
-    from{ opacity:0; }
-    to  { opacity:1; }
-  }
-  .modal-inner{
-    position:relative;
-    width:min(1100px, 100%);
-    aspect-ratio:16/9;
-    background:#000;
-    border-radius:16px;
-    border:1px solid rgba(120,110,255,.28);
-    box-shadow:
-      0 30px 90px rgba(0,0,0,.85),
-      0 0 60px rgba(90,60,255,.25);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    animation:modalIn .35s cubic-bezier(.2,.7,.3,1) both;
-  }
-  @keyframes modalIn{
-    from{ opacity:0; transform:scale(.94); }
-    to  { opacity:1; transform:scale(1);   }
-  }
-  .modal-close{
-    position:absolute;
-    top:14px; right:14px;
-    width:42px; height:42px;
-    border-radius:50%;
-    background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.16);
-    color:#fff;
-    font-size:22px;
-    line-height:1;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:background .25s, transform .35s;
-    z-index:2;
-  }
-  .modal-close:hover{
-    background:rgba(255,255,255,.22);
-    transform:rotate(90deg);
-  }
-  .player-placeholder{
-    font-family:'Unbounded',sans-serif;
-    font-size:clamp(16px, 3vw, 26px);
-    font-weight:600;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    background:linear-gradient(135deg, var(--violet), var(--blue));
-    background-size:200% 100%;
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-    animation:shimmer 4s ease-in-out infinite;
-  }
-
-  .modal-inner video{
-    width:100%; height:100%;
-    object-fit:contain;
-    background:#000;
-    display:block;
-    border-radius:16px;
-  }
-
-  .lightbox{
-    position:fixed;
-    inset:0;
-    z-index:400;
-    background:rgba(2,3,10,.94);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    animation:fadeIn .25s ease both;
-    -webkit-user-select:none;
-    user-select:none;
-  }
-  .lightbox.open{ display:flex; }
-
-  .lightbox img{
-    max-width:100%;
-    max-height:90vh;
-    border-radius:14px;
-    border:1px solid rgba(120,110,255,.28);
-    box-shadow:
-      0 30px 90px rgba(0,0,0,.85),
-      0 0 60px rgba(90,60,255,.35);
-    display:block;
-    animation:zoomIn .35s cubic-bezier(.2,.7,.3,1) both;
-  }
-  @keyframes zoomIn{
-    from{ opacity:0; transform:scale(.94); }
-    to  { opacity:1; transform:scale(1);   }
-  }
-
-  .lightbox-close{
-    position:absolute;
-    top:20px; right:20px;
-    width:46px; height:46px;
-    border-radius:50%;
-    background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.16);
-    color:#fff;
-    font-size:24px;
-    line-height:1;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:background .25s, transform .35s;
-    z-index:2;
-  }
-  .lightbox-close:hover{
-    background:rgba(255,255,255,.22);
-    transform:rotate(90deg);
-  }
-
-  .lightbox-nav{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    width:54px; height:54px;
-    border-radius:50%;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.14);
-    color:#fff;
-    font-size:26px;
-    line-height:1;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:background .25s, transform .3s;
-    z-index:2;
-  }
-  .lightbox-nav:hover{
-    background:rgba(120,80,255,.45);
-    box-shadow:0 0 24px rgba(140,90,255,.5);
-  }
-  .lightbox-nav.prev{ left:20px; }
-  .lightbox-nav.next{ right:20px; }
-  .lightbox-nav.prev:hover{ transform:translateY(-50%) translateX(-3px); }
-  .lightbox-nav.next:hover{ transform:translateY(-50%) translateX(3px); }
-
-  .lightbox-counter{
-    position:absolute;
-    bottom:24px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:14px;
     font-weight:500;
-    color:rgba(200,205,255,.75);
-    letter-spacing:.08em;
-    padding:8px 18px;
-    border-radius:20px;
-    background:rgba(10,12,26,.7);
-    border:1px solid rgba(120,110,255,.2);
+    line-height:1.3;
+    color:var(--text);
   }
 
-  @media (max-width:1100px){
-    header{ padding:0 20px; gap:16px; }
-    nav.desktop-nav{ gap:16px; }
-    nav.desktop-nav a{ font-size:14px; }
-    .header-title{ font-size:14px; }
-    .film-hero-content{ max-width:min(600px, 65%); }
-    .frames-grid{
-      grid-template-columns:repeat(3, 1fr);
-      gap:14px;
-    }
-    .actors-grid{
-      grid-template-columns:repeat(4, 1fr);
-      gap:16px;
-    }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(24px); }
+    to  { opacity:1; transform:translateY(0);    }
   }
 
   @media (max-width:900px){
-    :root{ --header-h: 66px; }
     header{
-      padding:0 12px;
-      gap:12px;
+      padding:0 20px;
+      gap:16px;
     }
+    nav.desktop-nav{ gap:16px; }
+    nav.desktop-nav a{ font-size:14px; }
+
+    .actor-page{ padding:0 20px 80px; margin-top:-60px; }
+    .actor-head{
+      grid-template-columns:minmax(180px, 240px) 1fr;
+      gap:28px;
+      margin-bottom:60px;
+    }
+    .films-grid{ grid-template-columns:repeat(3, 1fr); }
+  }
+
+  @media (max-width:700px){
+    :root{ --header-h: 66px; }
+    header{ padding:0 12px; gap:12px; }
     nav.desktop-nav{ display:none; }
     .burger{ display:block; }
     .mobile-menu{ display:block; }
@@ -865,104 +519,61 @@
       text-overflow:ellipsis;
     }
 
-    .film-hero{
-      min-height:520px;
-      height:88vh;
-      max-height:none;
+    .space-hero{
+      height:32vh;
+      min-height:220px;
+      max-height:300px;
     }
 
-    .film-hero-bg img{
-      object-position:60% center;
-      animation:heroKenBurns 18s ease-in-out infinite;
-    }
-    @keyframes heroKenBurns{
-      0%{ transform:scale(1.08) translate(0, 0); }
-      25%{ transform:scale(1.18) translate(-1.5%, -1.5%); }
-      50%{ transform:scale(1.22) translate(1.5%, -1%); }
-      75%{ transform:scale(1.15) translate(1%, 1.5%); }
-      100%{ transform:scale(1.08) translate(0, 0); }
+    .actor-page{
+      padding:0 16px 60px;
+      margin-top:-50px;
     }
 
-    .hero-glow{
-      opacity:.9;
-      animation:glowBreath 6s ease-in-out infinite;
+    .actor-head{
+      grid-template-columns:1fr;
+      gap:24px;
+      margin-bottom:48px;
     }
-
-    .film-hero-overlay{
-      background:
-        linear-gradient(to right,
-          rgba(5,6,13,.85) 0%,
-          rgba(5,6,13,.55) 35%,
-          rgba(5,6,13,.1) 65%,
-          rgba(5,6,13,0) 100%),
-        linear-gradient(to bottom,
-          rgba(5,6,13,0) 30%,
-          rgba(5,6,13,.55) 65%,
-          rgba(5,6,13,1) 100%);
+    .actor-photo-frame{
+      max-width:260px;
+      margin:0 auto;
     }
-    .film-hero-content{
-      max-width:100%;
-      padding:calc(var(--header-h) + 20px) 20px 48px;
-      justify-content:flex-end;
+    .actor-info{
+      padding-top:0;
+      text-align:center;
+      justify-content:center;
+      align-items:center;
     }
-    .film-hero-title{
-      font-size:clamp(30px, 8.5vw, 52px);
-      max-width:90%;
+    .actor-name{
+      font-size:clamp(28px, 9vw, 44px);
+      margin-bottom:12px;
     }
-    .btn-watch{
-      margin-top:26px;
-      padding:14px 28px;
-      font-size:15px;
-    }
-
-    .film-info{ padding:0 20px 72px; }
-    .film-desc{ font-size:15px; margin-bottom:44px; }
-    .section-title{ font-size:19px; margin-bottom:18px; }
-
-    .frames-grid{
-      grid-template-columns:repeat(2, 1fr);
-      gap:10px;
-      margin-bottom:44px;
-    }
-    .frame-item{ border-radius:10px; }
-
-    .actors-grid{
-      grid-template-columns:repeat(3, 1fr);
-      gap:12px;
-    }
-    .actor-photo{ border-radius:10px; }
-    .actor-name{ font-size:12px; }
-
-    .modal-inner{ border-radius:12px; }
-    .modal-inner video{ border-radius:12px; }
-    .modal-close{ width:38px; height:38px; top:10px; right:10px; }
-
-    .lightbox{ padding:14px; }
-    .lightbox-close{
-      width:40px; height:40px;
-      top:12px; right:12px;
-      font-size:20px;
-    }
-    .lightbox-nav{
-      width:44px; height:44px;
-      font-size:22px;
-    }
-    .lightbox-nav.prev{ left:8px; }
-    .lightbox-nav.next{ right:8px; }
-    .lightbox-counter{
-      bottom:14px;
+    .actor-role{
       font-size:12px;
-      padding:6px 14px;
+      letter-spacing:.2em;
     }
+    .actor-status{
+      font-size:10px;
+      letter-spacing:.14em;
+      margin-top:10px;
+    }
+    .actor-status.no-line{
+      padding-left:0;
+    }
+    .actor-status + .actor-status{
+      margin-top:6px;
+    }
+
+    .section-title{ font-size:20px; margin-bottom:18px; }
+    .films-grid{ grid-template-columns:repeat(2, 1fr); }
   }
 
   @media (max-width:480px){
     :root{ --header-h: 60px; }
     header{ padding:0 10px; gap:10px; }
-
     .close-btn{ width:36px; height:36px; }
     .close-btn svg{ width:18px; height:18px; }
-
     .header-title{ font-size:11px; }
 
     .burger{ width:40px; height:40px; }
@@ -973,17 +584,9 @@
     .burger.open span:nth-child(1),
     .burger.open span:nth-child(3){ top:19px; }
 
-    .film-hero{ min-height:480px; height:86vh; }
-    .film-hero-title{ font-size:clamp(26px, 9vw, 40px); }
-    .film-info{ padding:0 16px 60px; }
-
-    .btn-watch{
-      padding:12px 18px;
-      font-size:13px;
-    }
-
-    .frames-grid{ grid-template-columns:repeat(2, 1fr); }
-    .actors-grid{ grid-template-columns:repeat(3, 1fr); }
+    .space-hero{ min-height:200px; height:30vh; max-height:260px; }
+    .actor-page{ padding:0 12px 50px; margin-top:-40px; }
+    .actor-photo-frame{ max-width:220px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -998,21 +601,21 @@
 <body>
 
 <header id="siteHeader">
-  <a href="../index.html" class="close-btn" aria-label="Закрыть">
+  <a href="../../team.html" class="close-btn" id="backBtn" aria-label="Назад">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
       <line x1="6" y1="6" x2="18" y2="18"/>
       <line x1="18" y1="6" x2="6" y2="18"/>
     </svg>
   </a>
 
-  <div class="header-title">Изумрудный город</div>
+  <div class="header-title">Дарья Шарафеева</div>
 
   <nav class="desktop-nav">
-    <a href="../index.html">Главная</a>
-    <a href="../watch.html">Смотреть</a>
-    <a href="../team.html">Команда</a>
-    <a href="../announcements.html">Анонсы</a>
-    <a href="../biography.html">Биография</a>
+    <a href="../../index.html">Главная</a>
+    <a href="../../watch.html">Смотреть</a>
+    <a href="../../team.html">Команда</a>
+    <a href="../../announcements.html">Анонсы</a>
+    <a href="../../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -1023,187 +626,127 @@
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="../index.html">Главная</a>
-  <a href="../watch.html">Смотреть</a>
-  <a href="../team.html">Команда</a>
-  <a href="../announcements.html">Анонсы</a>
-  <a href="../biography.html">Биография</a>
+  <a href="../../index.html">Главная</a>
+  <a href="../../watch.html">Смотреть</a>
+  <a href="../../team.html">Команда</a>
+  <a href="../../announcements.html">Анонсы</a>
+  <a href="../../biography.html">Биография</a>
 </div>
 
-<section class="film-hero">
-  <div class="film-hero-bg" id="heroBg">
-    <img src="The_emerald_city.jpg" alt="Изумрудный город">
-  </div>
-  <div class="hero-glow"></div>
-  <div class="particles" id="particles"></div>
-  <div class="film-hero-overlay"></div>
-
-  <div class="film-hero-content">
-    <h1 class="film-hero-title">Изумрудный город</h1>
-
-    <button class="btn-watch" id="watchBtn">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      Смотреть
-    </button>
-  </div>
+<section class="space-hero">
+  <div class="stars" id="stars"></div>
+  <div class="space-fade"></div>
 </section>
 
-<section class="film-info">
+<main class="actor-page">
 
-  <div class="film-meta reveal">
-    <span>Драма</span>
-    <span class="dot"></span>
-    <span>Триллер</span>
-    <span class="dot"></span>
-    <span class="age">18+</span>
-    <span class="dot"></span>
-    <span>23.11.2024</span>
-  </div>
+  <div class="actor-head">
 
-  <div class="film-desc reveal">
-    <p>
-      Элли в очередной раз приходит к Волшебнику за товаром и узнаёт
-      о новом сорте под названием «Изумрудный город».
-      С этого момента начинается её моральное разрушение.
-    </p>
-  </div>
-
-  <h2 class="section-title reveal">Кадры</h2>
-  <div class="frames-grid reveal" id="framesGrid">
-    <div class="frame-item" data-src="The_emerald_city_k1.jpg">
-      <img src="The_emerald_city_k1.jpg" alt="Кадр 1">
+    <div class="actor-photo-frame">
+      <img src="Daria_Sharafeeva.JPG" alt="Дарья Шарафеева"
+           onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;no-photo&quot;>Скоро</span>')">
     </div>
-    <div class="frame-item" data-src="The_emerald_city_k2.jpg">
-      <img src="The_emerald_city_k2.jpg" alt="Кадр 2">
+
+    <div class="actor-info">
+      <h1 class="actor-name">Дарья Шарафеева</h1>
+      <div class="actor-role">Актриса</div>
+      <div class="actor-status">С осени 2024 года</div>
+      <div class="actor-status no-line">Первый фильм — «Изумрудный город»</div>
+      <div class="actor-status no-line">Играла одну из главных ролей в невышедшем фильме: «Аккорды наших чувств»</div>
     </div>
-    <div class="frame-item" data-src="The_emerald_city_k3.jpg">
-      <img src="The_emerald_city_k3.jpg" alt="Кадр 3">
-    </div>
+
   </div>
 
-  <h2 class="section-title reveal">Актёры</h2>
-  <div class="actors-grid reveal" id="actorsGrid"></div>
+  <section class="filmography">
+    <h2 class="section-title">Фильмография</h2>
+    <div class="films-grid">
 
-</section>
+      <a href="../../Ellie/Ellie_film.html" class="film-card">
+        <div class="film-card-poster">
+          <img src="../../Ellie/Ellie.jpg" alt="Элли">
+        </div>
+        <div class="film-card-title">Элли</div>
+      </a>
 
-<div class="modal" id="playerModal">
-  <div class="modal-inner">
-    <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
-    <div class="player-placeholder">Скоро</div>
-  </div>
-</div>
+      <a href="../../Red_rabbit_sins/Red_rabbit_sins_film.html" class="film-card">
+        <div class="film-card-poster">
+          <img src="../../Red_rabbit_sins/Red_rabbit_sins1.jpg" alt="Красный кролик: Грехи">
+        </div>
+        <div class="film-card-title">Красный кролик: Грехи</div>
+      </a>
 
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
-  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
-  <img src="" alt="" id="lightboxImg">
-  <button class="lightbox-nav next" id="lightboxNext" aria-label="Вперёд">›</button>
-  <div class="lightbox-counter" id="lightboxCounter">1 / 3</div>
-</div>
+      <a href="../../Red_rabbit_atonement/Red_rabbit_atonement_film.html" class="film-card">
+        <div class="film-card-poster">
+          <img src="../../Red_rabbit_atonement/Red_rabbit_atonement1.jpg" alt="Красный кролик: Искупление">
+        </div>
+        <div class="film-card-title">Красный кролик: Искупление</div>
+      </a>
+
+      <a href="../../The_emerald_city/The_emerald_city_film.html" class="film-card">
+        <div class="film-card-poster">
+          <img src="../../The_emerald_city/The_emerald_city1.jpg" alt="Изумрудный город">
+        </div>
+        <div class="film-card-title">Изумрудный город</div>
+      </a>
+
+      <a href="../../dust/dust_film.html" class="film-card">
+        <div class="film-card-poster">
+          <img src="../../dust/dust1.jpg" alt="Пыль">
+        </div>
+        <div class="film-card-title">Пыль</div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
 
 <script>
   /* ==================================================================
-     АКТЁРЫ ФИЛЬМА
+     КРЕСТИК — НАЗАД ПО ИСТОРИИ
      ================================================================== */
-  const ACTORS = [
-    { name: 'Иван Товстокорый',
-      link:  '../team/Ivan_Tovstokory/Ivan_Tovstokory.html',
-      photo: '../team/Ivan_Tovstokory/Ivan_Tovstokory.JPG' },
-    { name: 'Дарья Шарафеева',
-      link:  '../team/Daria_Sharafeeva/Daria_Sharafeeva.html',
-      photo: '../team/Daria_Sharafeeva/Daria_Sharafeeva.JPG' }
-  ];
+  (function(){
+    const btn = document.getElementById('backBtn');
+    if(!btn) return;
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const ref = document.referrer;
+      const sameHost = ref && ref.indexOf(location.host) !== -1;
+      if(sameHost || history.length > 1){
+        history.back();
+      } else {
+        location.href = '../../team.html';
+      }
+    });
+  })();
 
-  const actorsGrid = document.getElementById('actorsGrid');
-  if(actorsGrid && ACTORS.length){
-    const shuffled = [...ACTORS].sort(() => Math.random() - 0.5);
-    actorsGrid.innerHTML = shuffled.map(a => `
-      <a class="actor-item" href="${a.link}">
-        <div class="actor-photo">
-          <img src="${a.photo}" alt="${a.name}"
-               onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
-        </div>
-        <div class="actor-name">${a.name}</div>
-      </a>
-    `).join('');
-  }
+  const burger     = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
 
-  /* ==================================================================
-     ОСТАЛЬНОЕ
-     ================================================================== */
-  const burger      = document.getElementById('burger');
-  const mobileMenu  = document.getElementById('mobileMenu');
-
-  const playerModal = document.getElementById('playerModal');
-  const watchBtn    = document.getElementById('watchBtn');
-  const playerClose = document.getElementById('playerClose');
-
-  const framesGrid      = document.getElementById('framesGrid');
-  const lightbox        = document.getElementById('lightbox');
-  const lightboxImg     = document.getElementById('lightboxImg');
-  const lightboxClose   = document.getElementById('lightboxClose');
-  const lightboxPrev    = document.getElementById('lightboxPrev');
-  const lightboxNext    = document.getElementById('lightboxNext');
-  const lightboxCounter = document.getElementById('lightboxCounter');
+  (function buildStars(){
+    const box = document.getElementById('stars');
+    const COUNT = window.innerWidth < 700 ? 50 : 100;
+    const frag = document.createDocumentFragment();
+    for(let i = 0; i < COUNT; i++){
+      const s = document.createElement('span');
+      s.className = 'star';
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.top  = (Math.random() * 100) + '%';
+      const size = 1 + Math.random() * 2.4;
+      s.style.width  = size + 'px';
+      s.style.height = size + 'px';
+      const dur = 1.5 + Math.random() * 3.5;
+      s.style.animationDuration = dur + 's';
+      s.style.animationDelay    = (Math.random() * 4) + 's';
+      frag.appendChild(s);
+    }
+    box.appendChild(frag);
+  })();
 
   const siteHeader = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => {
     siteHeader.classList.toggle('scrolled', window.scrollY > 30);
   }, { passive:true });
-
-  const heroBg = document.getElementById('heroBg');
-  const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
-  if(heroBg && window.matchMedia('(prefers-reduced-motion: no-preference)').matches){
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if(!ticking){
-        requestAnimationFrame(() => {
-          const y = Math.min(window.scrollY, 700);
-          const strength = isMobile() ? 0.55 : 0.35;
-          heroBg.style.transform = 'translateY(' + (y * strength) + 'px)';
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive:true });
-  }
-
-  const particlesBox = document.getElementById('particles');
-  if(particlesBox && window.matchMedia('(prefers-reduced-motion: no-preference)').matches){
-    const count = window.innerWidth < 700 ? 22 : 26;
-    for(let i = 0; i < count; i++){
-      const p = document.createElement('span');
-      p.className = 'particle';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.bottom = (-10 - Math.random() * 20) + '%';
-      p.style.animationDuration = (12 + Math.random() * 16) + 's';
-      p.style.animationDelay = (-Math.random() * 20) + 's';
-      const scale = 0.8 + Math.random() * 1.8;
-      p.style.transform = 'scale(' + scale + ')';
-      p.style.opacity = (0.3 + Math.random() * 0.55).toFixed(2);
-      particlesBox.appendChild(p);
-    }
-  }
-
-  const revealEls = document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window){
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if(en.isIntersecting){
-          en.target.classList.add('visible');
-          io.unobserve(en.target);
-        }
-      });
-    }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
-    revealEls.forEach((el, i) => {
-      el.style.transitionDelay = (i * 60) + 'ms';
-      io.observe(el);
-    });
-  } else {
-    revealEls.forEach(el => el.classList.add('visible'));
-  }
 
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
@@ -1216,74 +759,6 @@
       mobileMenu.classList.remove('open');
       burger.setAttribute('aria-expanded', 'false');
     });
-  });
-
-  function openPlayer(){
-    playerModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closePlayer(){
-    playerModal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  watchBtn.addEventListener('click', openPlayer);
-  playerClose.addEventListener('click', closePlayer);
-  playerModal.addEventListener('click', e => {
-    if(e.target === playerModal) closePlayer();
-  });
-
-  const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
-  const frameSrcs = frames.map(f => f.dataset.src);
-  let currentFrame = 0;
-
-  function openLightbox(index){
-    currentFrame = index;
-    lightboxImg.src = frameSrcs[currentFrame];
-    lightboxCounter.textContent = (currentFrame + 1) + ' / ' + frameSrcs.length;
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox(){
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function showFrame(offset){
-    if(!frameSrcs.length) return;
-    currentFrame = (currentFrame + offset + frameSrcs.length) % frameSrcs.length;
-    lightboxImg.src = frameSrcs[currentFrame];
-    lightboxCounter.textContent = (currentFrame + 1) + ' / ' + frameSrcs.length;
-  }
-
-  frames.forEach((f, i) => {
-    f.addEventListener('click', () => openLightbox(i));
-  });
-
-  lightboxClose.addEventListener('click', closeLightbox);
-  lightboxPrev.addEventListener('click', e => { e.stopPropagation(); showFrame(-1); });
-  lightboxNext.addEventListener('click', e => { e.stopPropagation(); showFrame(1);  });
-  lightbox.addEventListener('click', e => {
-    if(e.target === lightbox) closeLightbox();
-  });
-
-  document.addEventListener('keydown', e => {
-    if(lightbox.classList.contains('open')){
-      if(e.key === 'Escape')     closeLightbox();
-      if(e.key === 'ArrowLeft')  showFrame(-1);
-      if(e.key === 'ArrowRight') showFrame(1);
-      return;
-    }
-    if(playerModal.classList.contains('open') && e.key === 'Escape') closePlayer();
-  });
-
-  let touchX = 0;
-  lightbox.addEventListener('touchstart', e => {
-    touchX = e.changedTouches[0].clientX;
-  }, { passive:true });
-  lightbox.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchX;
-    if(Math.abs(dx) > 50){
-      showFrame(dx < 0 ? 1 : -1);
-    }
   });
 </script>
 
