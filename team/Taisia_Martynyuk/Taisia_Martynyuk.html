@@ -374,7 +374,6 @@
     opacity:.9;
   }
 
-  /* Статус — ниже и тише (как у Славы) */
   .actor-status{
     margin-top:14px;
     font-family:'Manrope',sans-serif;
@@ -396,14 +395,12 @@
     opacity:.6;
     flex-shrink:0;
   }
-  /* Без чёрточки, но с отступом — выровнено по тексту первой */
   .actor-status.no-line{
     padding-left:26px;
   }
   .actor-status.no-line::before{
     display:none;
   }
-  /* Когда строк две — вторая не липнет к первой */
   .actor-status + .actor-status{
     margin-top:8px;
   }
@@ -604,7 +601,7 @@
 <body>
 
 <header id="siteHeader">
-  <a href="../team.html" class="close-btn" aria-label="Вернуться к команде">
+  <a href="../../team.html" class="close-btn" id="backBtn" aria-label="Назад">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
       <line x1="6" y1="6" x2="18" y2="18"/>
       <line x1="18" y1="6" x2="6" y2="18"/>
@@ -614,11 +611,11 @@
   <div class="header-title">Таисия Мартынюк</div>
 
   <nav class="desktop-nav">
-    <a href="../index.html">Главная</a>
-    <a href="../watch.html">Смотреть</a>
-    <a href="../team.html">Команда</a>
-    <a href="../announcements.html">Анонсы</a>
-    <a href="../biography.html">Биография</a>
+    <a href="../../index.html">Главная</a>
+    <a href="../../watch.html">Смотреть</a>
+    <a href="../../team.html">Команда</a>
+    <a href="../../announcements.html">Анонсы</a>
+    <a href="../../biography.html">Биография</a>
   </nav>
 
   <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
@@ -629,11 +626,11 @@
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="../index.html">Главная</a>
-  <a href="../watch.html">Смотреть</a>
-  <a href="../team.html">Команда</a>
-  <a href="../announcements.html">Анонсы</a>
-  <a href="../biography.html">Биография</a>
+  <a href="../../index.html">Главная</a>
+  <a href="../../watch.html">Смотреть</a>
+  <a href="../../team.html">Команда</a>
+  <a href="../../announcements.html">Анонсы</a>
+  <a href="../../biography.html">Биография</a>
 </div>
 
 <section class="space-hero">
@@ -674,6 +671,24 @@
 </main>
 
 <script>
+  /* ==================================================================
+     КРЕСТИК — НАЗАД ПО ИСТОРИИ
+     ================================================================== */
+  (function(){
+    const btn = document.getElementById('backBtn');
+    if(!btn) return;
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const ref = document.referrer;
+      const sameHost = ref && ref.indexOf(location.host) !== -1;
+      if(sameHost || history.length > 1){
+        history.back();
+      } else {
+        location.href = '../../team.html';
+      }
+    });
+  })();
+
   const burger     = document.getElementById('burger');
   const mobileMenu = document.getElementById('mobileMenu');
 
