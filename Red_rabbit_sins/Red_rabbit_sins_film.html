@@ -1075,7 +1075,7 @@
 <body>
 
 <header id="siteHeader">
-  <a href="../index.html" class="close-btn" aria-label="Закрыть">
+  <a href="../index.html" id="backBtn" class="close-btn" aria-label="Назад">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
       <line x1="6" y1="6" x2="18" y2="18"/>
       <line x1="18" y1="6" x2="6" y2="18"/>
@@ -1232,6 +1232,24 @@
 
 <script>
   /* ==================================================================
+     ЛОГИКА КНОПКИ "НАЗАД"
+     ================================================================== */
+  (function(){
+    const btn = document.getElementById('backBtn');
+    if(!btn) return;
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const ref = document.referrer;
+      const sameHost = ref && ref.indexOf(location.host) !== -1;
+      if(sameHost || history.length > 1){
+        history.back();
+      } else {
+        location.href = '../index.html'; // фолбэк для страниц фильмов
+      }
+    });
+  })();
+
+  /* ==================================================================
      АКТЁРЫ ФИЛЬМА
      ================================================================== */
   const ACTORS = [
@@ -1258,7 +1276,13 @@
       photo: '../team/Vyacheslav_Gushchin/Vyacheslav_Gushchin.JPG' },
     { name: 'Дарья Шарафеева',
       link:  '../team/Daria_Sharafeeva/Daria_Sharafeeva.html',
-      photo: '../team/Daria_Sharafeeva/Daria_Sharafeeva.JPG' }
+      photo: '../team/Daria_Sharafeeva/Daria_Sharafeeva.JPG' },
+    { name: 'Дарья Сальникова',
+      link:  '../team/Daria_Salnikova/Daria_Salnikova.html',
+      photo: '../team/Daria_Salnikova/Daria_Salnikova.JPG' },
+    { name: 'Иван Колот',
+      link:  '../team/Ivan_Kolot/Ivan_Kolot.html',
+      photo: '../team/Ivan_Kolot/Ivan_Kolot.JPG' }
   ];
 
   const actorsGrid = document.getElementById('actorsGrid');
