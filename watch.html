@@ -13,6 +13,7 @@
     --bg:      #05060d;
     --blue:    #4d7cff;
     --violet:  #a04dff;
+    --pink:    #ff4dd2;
     --text:    #e6e8ff;
     --muted:   #9aa0c8;
     --header-h: 86px;
@@ -424,6 +425,113 @@
     border-radius:20px;
   }
 
+  /* ================================================================
+     ПЛАШКА «НОВЫЙ» — ЖИДКИЙ НЕОН / ПЛАЗМА
+     ================================================================ */
+  .badge-new{
+    position:absolute;
+    top:12px; left:12px;
+    z-index:3;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 14px 7px 10px;
+    border-radius:30px;
+    font-family:'Unbounded',sans-serif;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#fff;
+    background:
+      linear-gradient(120deg,
+        #a04dff 0%,
+        #4d7cff 25%,
+        #ff4dd2 50%,
+        #4d7cff 75%,
+        #a04dff 100%);
+    background-size:300% 100%;
+    animation:badgeFlow 4s linear infinite,
+              badgePulse 2.2s ease-in-out infinite;
+    box-shadow:
+      0 0 12px rgba(160,77,255,.9),
+      0 0 26px rgba(77,124,255,.7),
+      0 0 46px rgba(255,77,210,.45),
+      inset 0 0 8px rgba(255,255,255,.35);
+    border:1px solid rgba(255,255,255,.35);
+    text-shadow:
+      0 0 6px rgba(255,255,255,.9),
+      0 0 14px rgba(255,255,255,.6);
+    pointer-events:none;
+    overflow:hidden;
+  }
+
+  .badge-new::before{
+    content:'';
+    position:absolute;
+    top:0; left:-60%;
+    width:45%;
+    height:100%;
+    background:linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,.85),
+      transparent);
+    transform:skewX(-25deg);
+    animation:badgeSheen 2.8s ease-in-out infinite;
+  }
+
+  .badge-new::after{
+    content:'';
+    position:absolute;
+    inset:-3px;
+    border-radius:inherit;
+    background:conic-gradient(from 0deg,
+      #a04dff, #4d7cff, #ff4dd2, #4d7cff, #a04dff);
+    filter:blur(12px);
+    opacity:.65;
+    z-index:-1;
+    animation:badgeSpin 5s linear infinite;
+  }
+
+  @keyframes badgeFlow{
+    0%  { background-position:0% 50%; }
+    100%{ background-position:300% 50%; }
+  }
+  @keyframes badgePulse{
+    0%,100%{ transform:scale(1);    }
+    50%    { transform:scale(1.06); }
+  }
+  @keyframes badgeSheen{
+    0%  { left:-60%; }
+    60% { left:130%; }
+    100%{ left:130%; }
+  }
+  @keyframes badgeSpin{
+    to{ transform:rotate(360deg); }
+  }
+
+  .badge-dot{
+    position:relative;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 10px #fff, 0 0 18px #ff4dd2;
+    flex-shrink:0;
+  }
+  .badge-dot::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:#fff;
+    animation:pulse 1.6s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%  { transform:scale(1);   opacity:.9; }
+    70% { transform:scale(2.8); opacity:0;  }
+    100%{ transform:scale(2.8); opacity:0;  }
+  }
+
   .card-info{
     padding:12px 14px 14px;
     display:flex;
@@ -533,6 +641,14 @@
     .card-info{ padding:10px 12px 12px; }
     .card-title{ font-size:13px; }
     .card-meta{ font-size:11px; }
+
+    .badge-new{
+      top:8px; left:8px;
+      padding:6px 11px 6px 8px;
+      font-size:9px;
+      letter-spacing:.14em;
+    }
+    .badge-dot{ width:6px; height:6px; }
   }
 
   /* ================= УЗКИЙ ТЕЛЕФОН ================= */
@@ -565,6 +681,7 @@
     .burger.open span:nth-child(3){ top:19px; }
   }
 
+  /* ================= ДОСТУПНОСТЬ ================= */
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{
       animation-duration:.001ms !important;
@@ -682,6 +799,17 @@
       dateKey: '2025-12-21',
       genres: ['Драма','Боевик'],
       age: 18
+    },
+    {
+      ready: true,
+      isNew: true,
+      title: 'Северный ветер',
+      poster: 'North_wind/North_wind1.jpg',
+      link: 'North_wind/North_wind_film.html',
+      date: 'Осень 2026',
+      dateKey: '2026-09-01',
+      genres: ['Драма'],
+      age: 16
     },
     {
       ready: true,
@@ -1040,9 +1168,14 @@
           meta = `<div class="card-meta">${escapeHtml(film.genres.join(', '))}</div>`;
         }
 
+        const badge = film.isNew
+          ? `<span class="badge-new"><span class="badge-dot"></span>Новый</span>`
+          : '';
+
         return `
           <a href="${film.link}" class="card link">
             <div class="card-poster">
+              ${badge}
               <img src="${film.poster}" alt="${escapeHtml(film.title)}"
                    onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>СКОРО</span>')">
             </div>
