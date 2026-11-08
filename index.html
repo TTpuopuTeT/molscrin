@@ -191,6 +191,104 @@
     border-radius:20px;
   }
 
+  /* ================================================================
+     ПЛАШКА «НОВЫЙ» — ЖИДКИЙ НЕОН / ПЛАЗМА (на карточке в поиске)
+     ================================================================ */
+  .badge-new{
+    position:absolute;
+    top:8px; left:8px;
+    z-index:3;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:4px 9px 4px 7px;
+    border-radius:20px;
+    font-family:'Unbounded',sans-serif;
+    font-size:8px;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#fff;
+    background:
+      linear-gradient(120deg,
+        #a04dff 0%,
+        #4d7cff 25%,
+        #ff4dd2 50%,
+        #4d7cff 75%,
+        #a04dff 100%);
+    background-size:300% 100%;
+    animation:badgeFlow 4s linear infinite,
+              badgePulse 2.2s ease-in-out infinite;
+    box-shadow:
+      0 0 8px rgba(160,77,255,.9),
+      0 0 16px rgba(77,124,255,.7),
+      0 0 26px rgba(255,77,210,.45),
+      inset 0 0 4px rgba(255,255,255,.3);
+    border:1px solid rgba(255,255,255,.35);
+    text-shadow:0 0 4px rgba(255,255,255,.9);
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .badge-new::before{
+    content:'';
+    position:absolute;
+    top:0; left:-60%;
+    width:45%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent);
+    transform:skewX(-25deg);
+    animation:badgeSheen 2.8s ease-in-out infinite;
+  }
+  .badge-new::after{
+    content:'';
+    position:absolute;
+    inset:-3px;
+    border-radius:inherit;
+    background:conic-gradient(from 0deg,
+      #a04dff, #4d7cff, #ff4dd2, #4d7cff, #a04dff);
+    filter:blur(8px);
+    opacity:.6;
+    z-index:-1;
+    animation:badgeSpin 5s linear infinite;
+  }
+  @keyframes badgeFlow{
+    0%  { background-position:0% 50%; }
+    100%{ background-position:300% 50%; }
+  }
+  @keyframes badgePulse{
+    0%,100%{ transform:scale(1);    }
+    50%    { transform:scale(1.08); }
+  }
+  @keyframes badgeSheen{
+    0%  { left:-60%; }
+    60% { left:130%; }
+    100%{ left:130%; }
+  }
+  @keyframes badgeSpin{
+    to{ transform:rotate(360deg); }
+  }
+
+  .badge-dot{
+    position:relative;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 6px #fff, 0 0 10px #ff4dd2;
+    flex-shrink:0;
+  }
+  .badge-dot::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:#fff;
+    animation:pulse 1.6s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%  { transform:scale(1);   opacity:.9; }
+    70% { transform:scale(2.8); opacity:0;  }
+    100%{ transform:scale(2.8); opacity:0;  }
+  }
+
   .film-card-title{
     padding:10px 12px;
     font-size:13px;
@@ -476,6 +574,14 @@
       gap:10px;
     }
 
+    .badge-new{
+      top:6px; left:6px;
+      padding:3px 8px 3px 6px;
+      font-size:7px;
+      letter-spacing:.12em;
+    }
+    .badge-dot{ width:4px; height:4px; }
+
     .column-track span{
       font-size:13px;
       padding:11px 6px;
@@ -642,6 +748,7 @@
   const TITLES = [
     'Раскол',
     'Весна',
+    'Северный ветер',
     'Элли',
     'Изумрудный город',
     'Я больше не буду плакать',
@@ -675,6 +782,11 @@
     'Весна': {
       link:   'Spring/Spring_film.html',
       poster: 'Spring/Spring.jpg'
+    },
+    'Северный ветер': {
+      link:   'North_wind/North_wind_film.html',
+      poster: 'North_wind/North_wind1.jpg',
+      isNew:  true
     },
     'Элли': {
       link:   'Ellie/Ellie_film.html',
@@ -850,9 +962,14 @@
       const data = FILM_DATA[title];
 
       if(data){
+        const badge = data.isNew
+          ? `<span class="badge-new"><span class="badge-dot"></span>Новый</span>`
+          : '';
+
         return `
           <a href="${data.link}" class="film-card link">
             <div class="film-card-poster">
+              ${badge}
               <img src="${data.poster}" alt="${escapeHtml(title)}"
                    onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>СКОРО</span>')">
             </div>
