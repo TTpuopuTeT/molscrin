@@ -1093,8 +1093,9 @@
     <video 
       id="filmVideo"
       controls 
-      preload="metadata"
+      preload="none"
       playsinline
+      crossorigin="anonymous"
       style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
       <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/ellie-movie-v1.0/Ellie_movie.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
@@ -1262,6 +1263,7 @@
     document.body.style.overflow = 'hidden';
     if(filmVideo){
       filmVideo.currentTime = 0;
+      filmVideo.load();
       const p = filmVideo.play();
       if(p && p.catch) p.catch(() => {});
     }
