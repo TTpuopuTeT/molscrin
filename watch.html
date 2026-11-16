@@ -426,7 +426,7 @@
   }
 
   /* ================================================================
-     ПЛАШКА «НОВЫЙ» — ЖИДКИЙ НЕОН / ПЛАЗМА
+     ПЛАШКА «НОВЫЙ» — ОЧЕНЬ ТЁМНЫЙ ФИОЛЕТОВЫЙ НЕОН
      ================================================================ */
   .badge-new{
     position:absolute;
@@ -442,26 +442,24 @@
     font-weight:700;
     letter-spacing:.16em;
     text-transform:uppercase;
-    color:#fff;
+    color:#a98bff;
     background:
       linear-gradient(120deg,
-        #a04dff 0%,
-        #4d7cff 25%,
-        #ff4dd2 50%,
-        #4d7cff 75%,
-        #a04dff 100%);
+        #1a0d3d 0%,
+        #24114f 25%,
+        #2e1660 50%,
+        #24114f 75%,
+        #1a0d3d 100%);
     background-size:300% 100%;
     animation:badgeFlow 4s linear infinite,
               badgePulse 2.2s ease-in-out infinite;
     box-shadow:
-      0 0 12px rgba(160,77,255,.9),
-      0 0 26px rgba(77,124,255,.7),
-      0 0 46px rgba(255,77,210,.45),
-      inset 0 0 8px rgba(255,255,255,.35);
-    border:1px solid rgba(255,255,255,.35);
-    text-shadow:
-      0 0 6px rgba(255,255,255,.9),
-      0 0 14px rgba(255,255,255,.6);
+      0 0 4px rgba(60,30,120,.6),
+      0 0 8px rgba(50,20,100,.45),
+      0 0 14px rgba(90,40,170,.2),
+      inset 0 0 4px rgba(140,100,220,.1);
+    border:1px solid rgba(110,70,190,.35);
+    text-shadow:0 0 3px rgba(140,100,220,.5);
     pointer-events:none;
     overflow:hidden;
   }
@@ -474,7 +472,7 @@
     height:100%;
     background:linear-gradient(90deg,
       transparent,
-      rgba(255,255,255,.85),
+      rgba(140,100,220,.35),
       transparent);
     transform:skewX(-25deg);
     animation:badgeSheen 2.8s ease-in-out infinite;
@@ -486,9 +484,9 @@
     inset:-3px;
     border-radius:inherit;
     background:conic-gradient(from 0deg,
-      #a04dff, #4d7cff, #ff4dd2, #4d7cff, #a04dff);
+      #1a0d3d, #24114f, #2e1660, #24114f, #1a0d3d);
     filter:blur(12px);
-    opacity:.65;
+    opacity:.3;
     z-index:-1;
     animation:badgeSpin 5s linear infinite;
   }
@@ -514,8 +512,8 @@
     position:relative;
     width:7px; height:7px;
     border-radius:50%;
-    background:#fff;
-    box-shadow:0 0 10px #fff, 0 0 18px #ff4dd2;
+    background:#9d80ff;
+    box-shadow:0 0 4px #9d80ff, 0 0 8px #5a2fb8;
     flex-shrink:0;
   }
   .badge-dot::after{
@@ -523,7 +521,7 @@
     position:absolute;
     inset:0;
     border-radius:50%;
-    background:#fff;
+    background:#9d80ff;
     animation:pulse 1.6s ease-out infinite;
   }
   @keyframes pulse{
