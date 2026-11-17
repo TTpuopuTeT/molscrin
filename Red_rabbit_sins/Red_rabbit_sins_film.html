@@ -624,7 +624,6 @@
     border-radius:20px;
   }
 
-  /* ================= АКТЁРЫ ================= */
   .actors-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -713,7 +712,6 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
-  /* ================= ПЛЕЕР ================= */
   .modal{
     position:fixed;
     inset:0;
@@ -1244,7 +1242,7 @@
       if(sameHost || history.length > 1){
         history.back();
       } else {
-        location.href = '../index.html'; // фолбэк для страниц фильмов
+        location.href = '../index.html';
       }
     });
   })();
@@ -1282,7 +1280,10 @@
       photo: '../team/Daria_Salnikova/Daria_Salnikova.JPG' },
     { name: 'Иван Колот',
       link:  '../team/Ivan_Kolot/Ivan_Kolot.html',
-      photo: '../team/Ivan_Kolot/Ivan_Kolot.JPG' }
+      photo: '../team/Ivan_Kolot/Ivan_Kolot.JPG' },
+    { name: 'Торун Аморян',
+      link:  '../team/Torun_Amoryan/Torun_Amoryan.html',
+      photo: '../team/Torun_Amoryan/Torun_Amoryan.JPG' }
   ];
 
   const actorsGrid = document.getElementById('actorsGrid');
