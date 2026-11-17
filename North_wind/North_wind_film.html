@@ -906,11 +906,17 @@
       font-size:clamp(30px, 8.5vw, 52px);
       max-width:90%;
     }
-    .btn-watch{
-      margin-top:26px;
-      padding:14px 28px;
-      font-size:15px;
+    .hero-buttons{
+      margin-top:22px;
+      gap:10px;
+      width:100%;
     }
+    .btn-watch{
+      padding:13px 22px;
+      font-size:14px;
+      gap:8px;
+    }
+    .btn-watch svg{ width:14px; height:14px; }
 
     .film-info{ padding:0 20px 72px; }
     .film-desc{ font-size:15px; margin-bottom:44px; }
@@ -1037,12 +1043,14 @@
   <div class="film-hero-content">
     <h1 class="film-hero-title">Северный ветер</h1>
 
-    <button class="btn-watch" id="watchBtn">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      Смотреть
-    </button>
+    <div class="hero-buttons">
+      <button class="btn-watch" id="watchBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        Смотреть
+      </button>
+    </div>
   </div>
 </section>
 
