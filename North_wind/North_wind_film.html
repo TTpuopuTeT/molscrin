@@ -338,34 +338,40 @@
     50%    { background-position:100% 0; }
   }
 
-  /* Плашка «Осень 2026» вместо кнопки «Смотреть» */
-  .release-badge{
+  .hero-buttons{
     margin-top:34px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:center;
+  }
+
+  .btn-watch{
     display:inline-flex;
     align-items:center;
     gap:12px;
     padding:16px 34px;
     border-radius:36px;
-    background:linear-gradient(135deg, rgba(160,77,255,.85) 0%, rgba(77,124,255,.85) 100%);
+    background:linear-gradient(135deg, var(--violet) 0%, var(--blue) 100%);
     background-size:180% 180%;
     color:#fff;
-    font-family:'Unbounded',sans-serif;
+    font-family:inherit;
     font-size:16px;
     font-weight:600;
-    letter-spacing:.04em;
-    border:1px solid rgba(255,255,255,.2);
+    letter-spacing:.02em;
+    border:none;
+    cursor:pointer;
     box-shadow:
       0 10px 34px rgba(120,80,255,.42),
       inset 0 1px 0 rgba(255,255,255,.22);
-    cursor:default;
-    user-select:none;
-    pointer-events:none;
+    transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .3s;
     animation:fadeUp 1.1s .2s cubic-bezier(.2,.7,.3,1) both,
-              btnGlow 3s ease-in-out infinite 1.5s;
+              btnGlow 3s ease-in-out infinite 1.5s,
+              btnFlow 5s linear infinite;
     position:relative;
     overflow:hidden;
   }
-  .release-badge::before{
+  .btn-watch::before{
     content:'';
     position:absolute;
     top:0; left:-60%;
@@ -392,15 +398,22 @@
         inset 0 1px 0 rgba(255,255,255,.3);
     }
   }
-  .release-badge svg{
-    width:18px; height:18px;
-    stroke:#fff;
-    stroke-width:2;
-    fill:none;
-    flex-shrink:0;
-    stroke-linecap:round;
-    stroke-linejoin:round;
+  @keyframes btnFlow{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
   }
+  .btn-watch svg{
+    width:16px; height:16px;
+    fill:#fff;
+    flex-shrink:0;
+    transition:transform .25s;
+  }
+  .btn-watch:hover,
+  .btn-watch:active{
+    transform:translateY(-3px);
+  }
+  .btn-watch:hover svg{ transform:scale(1.15); }
 
   @keyframes fadeUp{
     from{ opacity:0; transform:translateY(24px); }
@@ -640,6 +653,80 @@
   }
   .actor-item:hover .actor-name{ color:#fff; }
 
+  /* ================= МОДАЛКИ ================= */
+  .modal{
+    position:fixed;
+    inset:0;
+    z-index:300;
+    background:rgba(2,3,10,.88);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    animation:fadeIn .25s ease both;
+  }
+  .modal.open{ display:flex; }
+  @keyframes fadeIn{
+    from{ opacity:0; }
+    to  { opacity:1; }
+  }
+  .modal-inner{
+    position:relative;
+    width:min(1100px, 100%);
+    aspect-ratio:16/9;
+    background:#000;
+    border-radius:16px;
+    border:1px solid rgba(120,110,255,.28);
+    box-shadow:
+      0 30px 90px rgba(0,0,0,.85),
+      0 0 60px rgba(90,60,255,.25);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    animation:modalIn .35s cubic-bezier(.2,.7,.3,1) both;
+  }
+  @keyframes modalIn{
+    from{ opacity:0; transform:scale(.94); }
+    to  { opacity:1; transform:scale(1);   }
+  }
+  .modal-close{
+    position:absolute;
+    top:14px; right:14px;
+    width:42px; height:42px;
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.16);
+    color:#fff;
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .25s, transform .35s;
+    z-index:2;
+  }
+  .modal-close:hover{
+    background:rgba(255,255,255,.22);
+    transform:rotate(90deg);
+  }
+  .player-placeholder{
+    font-family:'Unbounded',sans-serif;
+    font-size:clamp(16px, 3vw, 26px);
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    background:linear-gradient(135deg, var(--violet), var(--blue));
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:shimmer 4s ease-in-out infinite;
+  }
+
   /* ================= ЛАЙТБОКС ================= */
   .lightbox{
     position:fixed;
@@ -657,10 +744,6 @@
     user-select:none;
   }
   .lightbox.open{ display:flex; }
-  @keyframes fadeIn{
-    from{ opacity:0; }
-    to  { opacity:1; }
-  }
 
   .lightbox img{
     max-width:100%;
@@ -823,7 +906,7 @@
       font-size:clamp(30px, 8.5vw, 52px);
       max-width:90%;
     }
-    .release-badge{
+    .btn-watch{
       margin-top:26px;
       padding:14px 28px;
       font-size:15px;
@@ -846,6 +929,9 @@
     }
     .actor-photo{ border-radius:10px; }
     .actor-name{ font-size:12px; }
+
+    .modal-inner{ border-radius:12px; }
+    .modal-close{ width:38px; height:38px; top:10px; right:10px; }
 
     .lightbox{ padding:14px; }
     .lightbox-close{
@@ -887,9 +973,9 @@
     .film-hero-title{ font-size:clamp(26px, 9vw, 40px); }
     .film-info{ padding:0 16px 60px; }
 
-    .release-badge{
-      padding:12px 22px;
-      font-size:14px;
+    .btn-watch{
+      padding:12px 18px;
+      font-size:13px;
     }
 
     .frames-grid{ grid-template-columns:repeat(2, 1fr); }
@@ -951,13 +1037,12 @@
   <div class="film-hero-content">
     <h1 class="film-hero-title">Северный ветер</h1>
 
-    <div class="release-badge">
+    <button class="btn-watch" id="watchBtn">
       <svg viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="9"/>
-        <polyline points="12 7 12 12 15 14"/>
+        <path d="M8 5v14l11-7z"/>
       </svg>
-      Осень 2026
-    </div>
+      Смотреть
+    </button>
   </div>
 </section>
 
@@ -967,6 +1052,8 @@
     <span>Драма</span>
     <span class="dot"></span>
     <span class="age">16+</span>
+    <span class="dot"></span>
+    <span>15.11.2026</span>
   </div>
 
   <p class="film-desc reveal">
@@ -1003,6 +1090,14 @@
   <div class="actors-grid reveal" id="actorsGrid"></div>
 
 </section>
+
+<!-- ============ ПЛЕЕР ФИЛЬМА (заглушка «Скоро») ============ -->
+<div class="modal" id="playerModal">
+  <div class="modal-inner">
+    <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
+    <div class="player-placeholder">Скоро</div>
+  </div>
+</div>
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
@@ -1056,6 +1151,10 @@
      ================================================================== */
   const burger      = document.getElementById('burger');
   const mobileMenu  = document.getElementById('mobileMenu');
+
+  const playerModal = document.getElementById('playerModal');
+  const watchBtn    = document.getElementById('watchBtn');
+  const playerClose = document.getElementById('playerClose');
 
   const framesGrid      = document.getElementById('framesGrid');
   const lightbox        = document.getElementById('lightbox');
@@ -1135,6 +1234,21 @@
     });
   });
 
+  /* ---------- плеер фильма (заглушка) ---------- */
+  function openPlayer(){
+    playerModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePlayer(){
+    playerModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  watchBtn.addEventListener('click', openPlayer);
+  playerClose.addEventListener('click', closePlayer);
+  playerModal.addEventListener('click', e => {
+    if(e.target === playerModal) closePlayer();
+  });
+
   /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
@@ -1174,7 +1288,9 @@
       if(e.key === 'Escape')     closeLightbox();
       if(e.key === 'ArrowLeft')  showFrame(-1);
       if(e.key === 'ArrowRight') showFrame(1);
+      return;
     }
+    if(playerModal.classList.contains('open') && e.key === 'Escape') closePlayer();
   });
 
   let touchX = 0;
