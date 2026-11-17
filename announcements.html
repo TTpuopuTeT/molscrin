@@ -215,17 +215,7 @@
     filter:drop-shadow(0 0 24px rgba(90,70,255,.45));
   }
 
-  .page-subtitle{
-    font-family:'Manrope',sans-serif;
-    font-size:16px;
-    font-weight:500;
-    line-height:1.5;
-    color:var(--muted);
-    letter-spacing:.02em;
-    max-width:560px;
-  }
-
-  /* ================= ГЛАВНАЯ КАРТОЧКА (вариант A) ================= */
+  /* ================= ГЛАВНАЯ КАРТОЧКА ================= */
   .announcements-list{
     display:flex;
     flex-direction:column;
@@ -433,7 +423,6 @@
 
     .page-inner{ padding:34px 16px 72px; }
     .page-title{ margin-bottom:10px; }
-    .page-subtitle{ font-size:14px; }
 
     .announcement-featured{
       grid-template-columns:minmax(160px, 200px) 1fr;
@@ -551,7 +540,6 @@
 
     <div class="page-header">
       <h1 class="page-title">Премьеры</h1>
-      <p class="page-subtitle">Фильмы, которые скоро выйдут</p>
     </div>
 
     <div class="announcements-list" id="announcementsList"></div>
@@ -617,11 +605,7 @@
         </div>
         <div class="featured-body">
           <div class="featured-badge">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="9"/>
-              <polyline points="12 7 12 12 15 14"/>
-            </svg>
-            ${escapeHtml(item.release)}
+            Смотреть
           </div>
           <h3 class="featured-title">${escapeHtml(item.title)}</h3>
           <div class="featured-meta">
