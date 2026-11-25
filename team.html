@@ -7,7 +7,7 @@
 <title>Команда — МОЛСКРИН</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:      #05060d;
@@ -52,6 +52,7 @@
     border-bottom:1px solid rgba(120,110,255,.12);
   }
 
+  /* ================= ЛОГОТИП: ТЕКСТОВАЯ «М» ================= */
   .logo{
     display:flex;
     align-items:center;
@@ -59,16 +60,29 @@
     line-height:0;
     flex-shrink:0;
   }
-  .logo svg{
+  .logo-letter{
+    display:flex;
+    align-items:center;
+    justify-content:center;
     width:54px;
     height:54px;
-    overflow:visible;
-    display:block;
+    font-family:'Unbounded',sans-serif;
+    font-weight:800;
+    font-size:34px;
+    line-height:1;
+    letter-spacing:-.02em;
+    background:linear-gradient(135deg, #a04dff 0%, #4d7cff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
     filter:drop-shadow(0 0 10px rgba(110,80,255,.55));
-    transition:filter .3s ease;
+    transition:filter .3s ease, transform .3s ease;
+    user-select:none;
+    -webkit-user-select:none;
   }
-  .logo:hover svg{
+  .logo:hover .logo-letter{
     filter:drop-shadow(0 0 18px rgba(150,90,255,.95));
+    transform:scale(1.05);
   }
 
   nav.desktop-nav{
@@ -191,12 +205,14 @@
   .column-track{
     display:flex;
     flex-direction:column;
-    will-change:transform;
     transform:translate3d(0,0,0);
-    backface-visibility:hidden;
     animation-name:revolve;
     animation-timing-function:linear;
     animation-iteration-count:infinite;
+  }
+
+  .columns-bg.paused .column-track{
+    animation-play-state:paused;
   }
 
   @keyframes revolve{
@@ -246,6 +262,75 @@
     padding:56px 34px 100px;
   }
 
+  /* ================= ПОИСК ================= */
+  .team-search{
+    position:relative;
+    display:flex;
+    align-items:center;
+    width:100%;
+    max-width:420px;
+    height:48px;
+    margin-bottom:22px;
+    padding:0 42px 0 16px;
+    border-radius:24px;
+    background:rgba(20,22,45,.85);
+    border:1px solid rgba(140,110,255,.35);
+    box-shadow:0 0 22px rgba(90,60,255,.15);
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .team-search:focus-within{
+    border-color:rgba(170,130,255,.85);
+    box-shadow:0 0 28px rgba(120,80,255,.32);
+  }
+  .team-search svg{
+    width:16px; height:16px;
+    stroke:rgba(200,205,255,.75);
+    stroke-width:2;
+    fill:none;
+    stroke-linecap:round;
+    flex-shrink:0;
+    margin-right:10px;
+  }
+  .team-search input{
+    flex:1;
+    min-width:0;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-family:inherit;
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:.01em;
+  }
+  .team-search input::placeholder{
+    color:rgba(154,160,200,.7);
+  }
+  .team-search .clear{
+    position:absolute;
+    right:8px;
+    top:50%;
+    transform:translateY(-50%);
+    width:30px; height:30px;
+    border-radius:50%;
+    background:transparent;
+    border:none;
+    color:rgba(200,205,255,.7);
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    line-height:1;
+    transition:background .2s, color .2s;
+  }
+  .team-search .clear:hover{
+    background:rgba(120,80,255,.25);
+    color:#fff;
+  }
+  .team-search.has-value .clear{ display:flex; }
+
+  /* ================= ЗАГОЛОВОК ================= */
   .page-title{
     font-family:'Unbounded',sans-serif;
     font-weight:800;
@@ -309,7 +394,6 @@
     transform:translateY(-5px);
   }
 
-  /* Создатели — крупнее и с акцентом */
   .team-card.founder{
     padding:28px;
     border-color:rgba(160,110,255,.35);
@@ -423,12 +507,23 @@
     color:var(--muted);
   }
 
+  /* ================= НИЧЕГО НЕ НАЙДЕНО ================= */
+  .team-empty{
+    display:none;
+    padding:40px 20px;
+    text-align:center;
+    color:var(--muted);
+    font-size:15px;
+    letter-spacing:.02em;
+  }
+  .team-empty.show{ display:block; }
+
   /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
     nav.desktop-nav a{ font-size:14px; }
-    .logo svg{ width:46px; height:46px; }
+    .logo-letter{ width:46px; height:46px; font-size:29px; }
     .page-inner{ padding:42px 22px 90px; }
     .team-photo{ width:120px; height:120px; }
     .team-card.founder .team-photo{ width:140px; height:140px; }
@@ -441,7 +536,7 @@
     nav.desktop-nav{ display:none; }
     .burger{ display:block; }
     .mobile-menu{ display:block; }
-    .logo svg{ width:40px; height:40px; }
+    .logo-letter{ width:40px; height:40px; font-size:25px; }
 
     .page-inner{ padding:34px 16px 72px; }
     .page-title{ margin-bottom:26px; }
@@ -453,6 +548,9 @@
     }
 
     .team-card{
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      background:rgba(20,22,45,.55);
       gap:18px;
       padding:18px;
     }
@@ -468,13 +566,19 @@
     .team-bio{ font-size:13px; }
 
     .team-list-founders{ margin-bottom:34px; }
+
+    .team-search{
+      height:46px;
+      max-width:100%;
+      margin-bottom:18px;
+    }
   }
 
   /* ================= УЗКИЙ ТЕЛЕФОН ================= */
   @media (max-width:520px){
     :root{ --header-h: 60px; }
     header{ padding:0 12px; gap:10px; }
-    .logo svg{ width:36px; height:36px; }
+    .logo-letter{ width:36px; height:36px; font-size:22px; }
 
     .page-inner{ padding:26px 12px 60px; }
 
@@ -518,22 +622,9 @@
 
 <header>
 
+  <!-- ============ ТЕКСТОВАЯ «М» ============ -->
   <a href="index.html" class="logo" aria-label="МОЛСКРИН">
-    <svg viewBox="0 0 64 64" fill="none"
-         stroke="url(#logoGrad)"
-         stroke-width="3.5"
-         stroke-linecap="round">
-      <defs>
-        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"   stop-color="#a04dff"/>
-          <stop offset="100%" stop-color="#4d7cff"/>
-        </linearGradient>
-      </defs>
-      <line x1="12" y1="6"  x2="12" y2="58"/>
-      <line x1="4"  y1="4"  x2="32" y2="42"/>
-      <line x1="60" y1="4"  x2="32" y2="42"/>
-      <line x1="52" y1="6"  x2="52" y2="58"/>
-    </svg>
+    <span class="logo-letter">М</span>
   </a>
 
   <nav class="desktop-nav">
@@ -566,20 +657,31 @@
 <div class="page">
   <div class="page-inner">
 
+    <!-- ============ ПОИСК (над заголовком) ============ -->
+    <div class="team-search" id="teamSearch">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <line x1="16.5" y1="16.5" x2="21" y2="21"/>
+      </svg>
+      <input type="text" id="teamSearchInput" placeholder="Поиск по команде…" autocomplete="off" spellcheck="false">
+      <button class="clear" id="teamSearchClear" aria-label="Очистить" type="button">✕</button>
+    </div>
+
     <h1 class="page-title">Команда</h1>
 
     <div class="team-list team-list-founders" id="foundersList"></div>
     <div class="team-list" id="teamList"></div>
+    <div class="team-empty" id="teamEmpty">Ничего не найдено</div>
 
   </div>
 </div>
 
 <script>
   /* ==================================================================
-     ФОНОВЫЕ КОЛОННЫ
+     СПИСОК НАЗВАНИЙ ДЛЯ ФОНА
      ================================================================== */
   const TITLES = [
-    'Раскол','Весна','Элли','Изумрудный город','Я больше не буду плакать',
+    'Раскол','Северный ветер','Весна','Элли','Изумрудный город','Я больше не буду плакать',
     'Красный кролик','Красный кролик: Первая жертва','Красный кролик: Грехи',
     'Красный кролик: Искупление','Око за око','Нашедший','Нашедший: Принятие',
     'Наказание','Первый ход','Scappa de casa','Не улетай','Пыль','Помощь',
@@ -595,23 +697,31 @@
     }
     return arr;
   }
+
   function columnCount(){
     const w = window.innerWidth;
+    const weak = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+                 (navigator.deviceMemory && navigator.deviceMemory <= 4);
     if (w < 480)  return 2;
-    if (w < 700)  return 3;
-    if (w < 1100) return 4;
-    if (w < 1600) return 5;
-    return 6;
+    if (w < 700)  return weak ? 2 : 3;
+    if (w < 1100) return weak ? 3 : 4;
+    if (w < 1600) return weak ? 4 : 5;
+    return weak ? 4 : 6;
   }
+
+  const TITLES_PER_COLUMN = 12;
+  let currentColumnCount = 0;
+
   function buildColumns(){
-    columnsEl.innerHTML = '';
     const count = columnCount();
+    currentColumnCount = count;
+    columnsEl.innerHTML = '';
     for(let i = 0; i < count; i++){
       const col   = document.createElement('div');
       col.className = 'column';
       const track = document.createElement('div');
       track.className = 'column-track';
-      const seq = shuffle([...TITLES]);
+      const seq = shuffle([...TITLES]).slice(0, TITLES_PER_COLUMN);
       seq.concat(seq).forEach(title => {
         const s = document.createElement('span');
         s.textContent = title;
@@ -629,10 +739,22 @@
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(buildColumns, 250);
+    resizeTimer = setTimeout(() => {
+      if(columnCount() !== currentColumnCount){
+        buildColumns();
+      }
+    }, 250);
   });
   window.addEventListener('orientationchange', () => {
-    setTimeout(buildColumns, 300);
+    setTimeout(() => {
+      if(columnCount() !== currentColumnCount){
+        buildColumns();
+      }
+    }, 300);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    columnsEl.classList.toggle('paused', document.hidden);
   });
 
   /* ==================================================================
@@ -656,125 +778,23 @@
   ];
 
   const TEAM = [
-    {
-      name:  'Полина Рассказова',
-      role:  'Актриса · Помощник режиссёра',
-      bio:   '',
-      photo: 'team/Polina_Rasskazova/Polina_Rasskazova.JPG',
-      link:  'team/Polina_Rasskazova/Polina_Rasskazova.html'
-    },
-    {
-      name:  'Тимофей Семенов',
-      role:  'Главный веб-разработчик',
-      bio:   '',
-      photo: 'team/Timofey_Semenov/Timofey_Semenov.JPG',
-      link:  'team/Timofey_Semenov/Timofey_Semenov.html'
-    },
-    {
-      name:  'Таисия Мартынюк',
-      role:  'Актриса',
-      bio:   '',
-      photo: 'team/Taisia_Martynyuk/Taisia_Martynyuk.JPG',
-      link:  'team/Taisia_Martynyuk/Taisia_Martynyuk.html'
-    },
-    {
-      name:  'Ренат Фаухиев',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Renat_Faukhiev/Renat_Faukhiev.JPG',
-      link:  'team/Renat_Faukhiev/Renat_Faukhiev.html'
-    },
-    {
-      name:  'Торун Аморян',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Torun_Amoryan/Torun_Amoryan.JPG',
-      link:  'team/Torun_Amoryan/Torun_Amoryan.html'
-    },
-    {
-      name:  'Александра Ионова',
-      role:  'Актриса',
-      bio:   '',
-      photo: 'team/Alexandra_Ionova/Alexandra_Ionova.JPG',
-      link:  'team/Alexandra_Ionova/Alexandra_Ionova.html'
-    },
-    {
-      name:  'Александра Кузьмина',
-      role:  'Актриса',
-      bio:   '',
-      photo: 'team/Alexandra_Kuzmina/Alexandra_Kuzmina.JPG',
-      link:  'team/Alexandra_Kuzmina/Alexandra_Kuzmina.html'
-    },
-    {
-      name:  'Дарья Шарафеева',
-      role:  'Актриса',
-      bio:   '',
-      photo: 'team/Daria_Sharafeeva/Daria_Sharafeeva.JPG',
-      link:  'team/Daria_Sharafeeva/Daria_Sharafeeva.html'
-    },
-    {
-      name:  'Ярослав Елфимов',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Yaroslav_Elfimov/Yaroslav_Elfimov.JPG',
-      link:  'team/Yaroslav_Elfimov/Yaroslav_Elfimov.html'
-    },
-    {
-      name:  'Георгий Плотников',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Georgy_Plotnikov/Georgy_Plotnikov.JPG',
-      link:  'team/Georgy_Plotnikov/Georgy_Plotnikov.html'
-    },
-    {
-      name:  'Александр Витюк',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Alexander_Vityuk/Alexander_Vityuk.JPG',
-      link:  'team/Alexander_Vityuk/Alexander_Vityuk.html'
-    },
-    {
-      name:  'Семён Картавых',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Semen_Kartavykh/Semen_Kartavykh.JPG',
-      link:  'team/Semen_Kartavykh/Semen_Kartavykh.html'
-    },
-    {
-      name:  'Дарья Сальникова',
-      role:  'Актриса',
-      bio:   '',
-      photo: 'team/Daria_Salnikova/Daria_Salnikova.JPG',
-      link:  'team/Daria_Salnikova/Daria_Salnikova.html'
-    },
-    {
-      name:  'Сергей Зыков',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Sergey_Zykov/Sergey_Zykov.JPG',
-      link:  'team/Sergey_Zykov/Sergey_Zykov.html'
-    },
-    {
-      name:  'Мария Борисовна',
-      role:  'Актриса',
-      bio:   '',
-      photo: 'team/Maria_Borisovna/Maria_Borisovna.JPG',
-      link:  'team/Maria_Borisovna/Maria_Borisovna.html'
-    },
-    {
-      name:  'Андрей Жигулин',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Andrey_Zhigulin/Andrey_Zhigulin.JPG',
-      link:  'team/Andrey_Zhigulin/Andrey_Zhigulin.html'
-    },
-    {
-      name:  'Иван Колот',
-      role:  'Актёр',
-      bio:   '',
-      photo: 'team/Ivan_Kolot/Ivan_Kolot.JPG',
-      link:  'team/Ivan_Kolot/Ivan_Kolot.html'
-    }
+    { name: 'Полина Рассказова', role: 'Актриса · Помощник режиссёра', bio: '', photo: 'team/Polina_Rasskazova/Polina_Rasskazova.JPG', link: 'team/Polina_Rasskazova/Polina_Rasskazova.html' },
+    { name: 'Тимофей Семенов', role: 'Главный веб-разработчик', bio: '', photo: 'team/Timofey_Semenov/Timofey_Semenov.JPG', link: 'team/Timofey_Semenov/Timofey_Semenov.html' },
+    { name: 'Таисия Мартынюк', role: 'Актриса', bio: '', photo: 'team/Taisia_Martynyuk/Taisia_Martynyuk.JPG', link: 'team/Taisia_Martynyuk/Taisia_Martynyuk.html' },
+    { name: 'Ренат Фаухиев', role: 'Актёр', bio: '', photo: 'team/Renat_Faukhiev/Renat_Faukhiev.JPG', link: 'team/Renat_Faukhiev/Renat_Faukhiev.html' },
+    { name: 'Торун Аморян', role: 'Актёр', bio: '', photo: 'team/Torun_Amoryan/Torun_Amoryan.JPG', link: 'team/Torun_Amoryan/Torun_Amoryan.html' },
+    { name: 'Александра Ионова', role: 'Актриса', bio: '', photo: 'team/Alexandra_Ionova/Alexandra_Ionova.JPG', link: 'team/Alexandra_Ionova/Alexandra_Ionova.html' },
+    { name: 'Александра Кузьмина', role: 'Актриса', bio: '', photo: 'team/Alexandra_Kuzmina/Alexandra_Kuzmina.JPG', link: 'team/Alexandra_Kuzmina/Alexandra_Kuzmina.html' },
+    { name: 'Дарья Шарафеева', role: 'Актриса', bio: '', photo: 'team/Daria_Sharafeeva/Daria_Sharafeeva.JPG', link: 'team/Daria_Sharafeeva/Daria_Sharafeeva.html' },
+    { name: 'Ярослав Елфимов', role: 'Актёр', bio: '', photo: 'team/Yaroslav_Elfimov/Yaroslav_Elfimov.JPG', link: 'team/Yaroslav_Elfimov/Yaroslav_Elfimov.html' },
+    { name: 'Георгий Плотников', role: 'Актёр', bio: '', photo: 'team/Georgy_Plotnikov/Georgy_Plotnikov.JPG', link: 'team/Georgy_Plotnikov/Georgy_Plotnikov.html' },
+    { name: 'Александр Витюк', role: 'Актёр', bio: '', photo: 'team/Alexander_Vityuk/Alexander_Vityuk.JPG', link: 'team/Alexander_Vityuk/Alexander_Vityuk.html' },
+    { name: 'Семён Картавых', role: 'Актёр', bio: '', photo: 'team/Semen_Kartavykh/Semen_Kartavykh.JPG', link: 'team/Semen_Kartavykh/Semen_Kartavykh.html' },
+    { name: 'Дарья Сальникова', role: 'Актриса', bio: '', photo: 'team/Daria_Salnikova/Daria_Salnikova.JPG', link: 'team/Daria_Salnikova/Daria_Salnikova.html' },
+    { name: 'Сергей Зыков', role: 'Актёр', bio: '', photo: 'team/Sergey_Zykov/Sergey_Zykov.JPG', link: 'team/Sergey_Zykov/Sergey_Zykov.html' },
+    { name: 'Мария Борисовна', role: 'Актриса', bio: '', photo: 'team/Maria_Borisovna/Maria_Borisovna.JPG', link: 'team/Maria_Borisovna/Maria_Borisovna.html' },
+    { name: 'Андрей Жигулин', role: 'Актёр', bio: '', photo: 'team/Andrey_Zhigulin/Andrey_Zhigulin.JPG', link: 'team/Andrey_Zhigulin/Andrey_Zhigulin.html' },
+    { name: 'Иван Колот', role: 'Актёр', bio: '', photo: 'team/Ivan_Kolot/Ivan_Kolot.JPG', link: 'team/Ivan_Kolot/Ivan_Kolot.html' }
   ];
 
   /* ==================================================================
@@ -782,6 +802,7 @@
      ================================================================== */
   const foundersList = document.getElementById('foundersList');
   const teamList     = document.getElementById('teamList');
+  const teamEmpty    = document.getElementById('teamEmpty');
 
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, c => ({
@@ -801,14 +822,18 @@
     const photoHtml = person.photo
       ? `<div class="team-photo">
            <img src="${person.photo}" alt="${escapeHtml(person.name)}"
+                width="140" height="140"
+                loading="lazy" decoding="async"
                 onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">
          </div>`
       : `<div class="team-photo"><span class="soon">Скоро</span></div>`;
 
+    const nameTag = isFounder ? 'h2' : 'h3';
+
     const inner = `
       ${photoHtml}
       <div class="team-info">
-        <h2 class="team-name">${escapeHtml(person.name)}</h2>
+        <${nameTag} class="team-name">${escapeHtml(person.name)}</${nameTag}>
         ${roleHtml}
         ${bioHtml}
       </div>
@@ -821,33 +846,85 @@
       : `<div class="${cls}">${inner}</div>`;
   }
 
-  function renderTeam(){
-    foundersList.innerHTML = FOUNDERS.map(p => renderPerson(p, true)).join('');
-    teamList.innerHTML     = TEAM.map(p => renderPerson(p, false)).join('');
+  /* ==================================================================
+     ПОИСК ПО ИМЕНИ И ФАМИЛИИ
+     ================================================================== */
+  function normalize(s){
+    return String(s).toLowerCase().replace(/ё/g, 'е');
   }
+
+  const searchWrap  = document.getElementById('teamSearch');
+  const searchInput = document.getElementById('teamSearchInput');
+  const searchClear = document.getElementById('teamSearchClear');
+
+  let currentQuery = '';
+
+  function matchesQuery(person){
+    if(!currentQuery) return true;
+    return normalize(person.name).includes(currentQuery);
+  }
+
+  function renderTeam(){
+    const founders = FOUNDERS.filter(matchesQuery);
+    const members  = TEAM.filter(matchesQuery);
+
+    foundersList.innerHTML = founders.map(p => renderPerson(p, true)).join('');
+    teamList.innerHTML     = members.map(p => renderPerson(p, false)).join('');
+
+    const any = founders.length + members.length > 0;
+    teamEmpty.classList.toggle('show', !any);
+
+    const cards = document.querySelectorAll('.team-card');
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if(en.isIntersecting){
+            en.target.classList.add('visible');
+            io.unobserve(en.target);
+          }
+        });
+      }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+      cards.forEach((el, i) => {
+        el.style.transitionDelay = ((i % 6) * 60) + 'ms';
+        io.observe(el);
+      });
+    } else {
+      cards.forEach(el => el.classList.add('visible'));
+    }
+  }
+
+  let searchTimer = null;
+  searchInput.addEventListener('input', () => {
+    const val = searchInput.value;
+    searchWrap.classList.toggle('has-value', val.length > 0);
+
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      currentQuery = normalize(val.trim());
+      renderTeam();
+    }, 120);
+  });
+
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    searchWrap.classList.remove('has-value');
+    currentQuery = '';
+    renderTeam();
+    searchInput.focus();
+  });
+
+  searchInput.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){
+      if(searchInput.value){
+        searchInput.value = '';
+        searchWrap.classList.remove('has-value');
+        currentQuery = '';
+        renderTeam();
+      }
+    }
+  });
 
   renderTeam();
-
-  /* ==================================================================
-     ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
-     ================================================================== */
-  const cards = document.querySelectorAll('.team-card');
-  if('IntersectionObserver' in window){
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if(en.isIntersecting){
-          en.target.classList.add('visible');
-          io.unobserve(en.target);
-        }
-      });
-    }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
-    cards.forEach((el, i) => {
-      el.style.transitionDelay = (i * 60) + 'ms';
-      io.observe(el);
-    });
-  } else {
-    cards.forEach(el => el.classList.add('visible'));
-  }
 
   /* ==================================================================
      БУРГЕР
