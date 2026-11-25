@@ -1086,15 +1086,15 @@
 
 </section>
 
+<!-- ============ ПЛЕЕР ФИЛЬМА (как у «Последнего глотка») ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
     <video 
       id="filmVideo"
       controls 
-      preload="none"
+      preload="metadata"
       playsinline
-      crossorigin="anonymous"
       style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
       <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/mors-certa-movie-v1.0/mors_certa_movie.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
@@ -1102,6 +1102,7 @@
   </div>
 </div>
 
+<!-- ============ ЛАЙТБОКС ============ -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">✕</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Назад">‹</button>
@@ -1232,12 +1233,12 @@
     });
   });
 
+  /* ---------- плеер фильма (как у «Последнего глотка») ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     if(filmVideo){
       filmVideo.currentTime = 0;
-      filmVideo.load();
       const p = filmVideo.play();
       if(p && p.catch) p.catch(() => {});
     }
@@ -1256,6 +1257,7 @@
     if(e.target === playerModal) closePlayer();
   });
 
+  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
