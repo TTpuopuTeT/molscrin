@@ -7,7 +7,7 @@
 <title>Биография — МОЛСКРИН</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:      #05060d;
@@ -52,6 +52,7 @@
     border-bottom:1px solid rgba(120,110,255,.12);
   }
 
+  /* ================= ЛОГОТИП: ТЕКСТОВАЯ «М» ================= */
   .logo{
     display:flex;
     align-items:center;
@@ -59,16 +60,29 @@
     line-height:0;
     flex-shrink:0;
   }
-  .logo svg{
+  .logo-letter{
+    display:flex;
+    align-items:center;
+    justify-content:center;
     width:54px;
     height:54px;
-    overflow:visible;
-    display:block;
+    font-family:'Unbounded',sans-serif;
+    font-weight:800;
+    font-size:34px;
+    line-height:1;
+    letter-spacing:-.02em;
+    background:linear-gradient(135deg, #a04dff 0%, #4d7cff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
     filter:drop-shadow(0 0 10px rgba(110,80,255,.55));
-    transition:filter .3s ease;
+    transition:filter .3s ease, transform .3s ease;
+    user-select:none;
+    -webkit-user-select:none;
   }
-  .logo:hover svg{
+  .logo:hover .logo-letter{
     filter:drop-shadow(0 0 18px rgba(150,90,255,.95));
+    transform:scale(1.05);
   }
 
   nav.desktop-nav{
@@ -191,12 +205,14 @@
   .column-track{
     display:flex;
     flex-direction:column;
-    will-change:transform;
     transform:translate3d(0,0,0);
-    backface-visibility:hidden;
     animation-name:revolve;
     animation-timing-function:linear;
     animation-iteration-count:infinite;
+  }
+
+  .columns-bg.paused .column-track{
+    animation-play-state:paused;
   }
 
   @keyframes revolve{
@@ -257,7 +273,7 @@
     font-size:clamp(30px, 4.2vw, 48px);
     letter-spacing:.02em;
     line-height:1.1;
-    margin-bottom:40px;
+    margin-bottom:32px;
     background:linear-gradient(180deg,
       #ffffff 0%,
       #c3cbff 55%,
@@ -268,55 +284,48 @@
     filter:drop-shadow(0 0 24px rgba(90,70,255,.45));
   }
 
-  /* ================= «В РАЗРАБОТКЕ» ================= */
+  /* ================= «В РАЗРАБОТКЕ» — ПРИГЛУШЕННАЯ ================= */
   .dev-box{
     position:relative;
     display:inline-flex;
     align-items:center;
-    gap:14px;
-    padding:22px 40px;
-    border-radius:60px;
-    background:
-      linear-gradient(135deg, rgba(80,50,180,.18) 0%, rgba(30,20,60,.12) 100%);
-    border:1px solid rgba(140,110,255,.35);
-    box-shadow:
-      0 0 0 1px rgba(140,110,255,.08),
-      0 20px 60px rgba(90,60,255,.25),
-      0 0 50px rgba(140,90,255,.15);
-    font-family:'Unbounded',sans-serif;
-    font-weight:600;
-    font-size:clamp(18px, 2.4vw, 24px);
-    letter-spacing:.04em;
-    color:#fff;
-    overflow:hidden;
-  }
-  .dev-box::before{
-    content:'';
-    position:absolute;
-    top:0; left:-60%;
-    width:40%;
-    height:100%;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
-    transform:skewX(-20deg);
-    animation:sheen 3.5s ease-in-out infinite;
-  }
-  @keyframes sheen{
-    0%   { left:-60%; }
-    50%  { left:120%; }
-    100% { left:120%; }
+    gap:10px;
+    padding:14px 26px;
+    border-radius:40px;
+    background:rgba(20,22,45,.5);
+    border:1px solid rgba(120,110,255,.22);
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:15px;
+    letter-spacing:.02em;
+    color:var(--muted);
   }
 
   .dev-dot{
-    width:10px; height:10px;
+    width:7px; height:7px;
     border-radius:50%;
-    background:linear-gradient(135deg, var(--violet), var(--blue));
-    box-shadow:0 0 14px rgba(160,90,255,.9);
-    animation:dotPulse 1.6s ease-in-out infinite;
+    background:rgba(160,170,235,.5);
     flex-shrink:0;
   }
-  @keyframes dotPulse{
-    0%,100%{ transform:scale(1); opacity:1; }
-    50%    { transform:scale(1.3); opacity:.6; }
+
+  /* ================= ССЫЛКА «ПОКА — СМОТРЕТЬ» ================= */
+  .next-link{
+    margin-top:36px;
+    font-size:15px;
+    color:var(--muted);
+    letter-spacing:.01em;
+  }
+  .next-link a{
+    color:#c3b0ff;
+    text-decoration:none;
+    font-weight:500;
+    border-bottom:1px solid rgba(160,120,255,.35);
+    transition:color .2s, border-color .2s, text-shadow .2s;
+  }
+  .next-link a:hover{
+    color:#fff;
+    border-bottom-color:rgba(200,160,255,.8);
+    text-shadow:0 0 14px rgba(150,110,255,.8);
   }
 
   /* ================= ПЛАНШЕТ ================= */
@@ -324,7 +333,7 @@
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
     nav.desktop-nav a{ font-size:14px; }
-    .logo svg{ width:46px; height:46px; }
+    .logo-letter{ width:46px; height:46px; font-size:29px; }
     .page-inner{ padding:42px 22px 90px; }
   }
 
@@ -335,10 +344,10 @@
     nav.desktop-nav{ display:none; }
     .burger{ display:block; }
     .mobile-menu{ display:block; }
-    .logo svg{ width:40px; height:40px; }
+    .logo-letter{ width:40px; height:40px; font-size:25px; }
 
     .page-inner{ padding:34px 16px 72px; }
-    .page-title{ margin-bottom:32px; }
+    .page-title{ margin-bottom:26px; }
 
     .column-track span{
       font-size:13px;
@@ -347,9 +356,13 @@
     }
 
     .dev-box{
-      padding:18px 30px;
-      border-radius:50px;
-      gap:12px;
+      padding:12px 22px;
+      border-radius:36px;
+      font-size:14px;
+    }
+    .next-link{
+      margin-top:28px;
+      font-size:14px;
     }
   }
 
@@ -357,7 +370,7 @@
   @media (max-width:520px){
     :root{ --header-h: 60px; }
     header{ padding:0 12px; gap:10px; }
-    .logo svg{ width:36px; height:36px; }
+    .logo-letter{ width:36px; height:36px; font-size:22px; }
 
     .page-inner{ padding:26px 12px 60px; }
 
@@ -367,12 +380,17 @@
     }
 
     .dev-box{
-      padding:16px 26px;
-      border-radius:44px;
-      gap:10px;
-      font-size:16px;
+      padding:11px 18px;
+      border-radius:32px;
+      font-size:13px;
+      gap:8px;
     }
-    .dev-dot{ width:8px; height:8px; }
+    .dev-dot{ width:6px; height:6px; }
+
+    .next-link{
+      margin-top:24px;
+      font-size:13px;
+    }
 
     .burger{ width:40px; height:40px; }
     .burger span{ left:9px; right:9px; }
@@ -396,22 +414,9 @@
 
 <header>
 
+  <!-- ============ ТЕКСТОВАЯ «М» ============ -->
   <a href="index.html" class="logo" aria-label="МОЛСКРИН">
-    <svg viewBox="0 0 64 64" fill="none"
-         stroke="url(#logoGrad)"
-         stroke-width="3.5"
-         stroke-linecap="round">
-      <defs>
-        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"   stop-color="#a04dff"/>
-          <stop offset="100%" stop-color="#4d7cff"/>
-        </linearGradient>
-      </defs>
-      <line x1="12" y1="6"  x2="12" y2="58"/>
-      <line x1="4"  y1="4"  x2="32" y2="42"/>
-      <line x1="60" y1="4"  x2="32" y2="42"/>
-      <line x1="52" y1="6"  x2="52" y2="58"/>
-    </svg>
+    <span class="logo-letter">М</span>
   </a>
 
   <nav class="desktop-nav">
@@ -448,16 +453,22 @@
 
     <div class="dev-box">
       <span class="dev-dot"></span>
-      В разработке
-      <span class="dev-dot"></span>
+      Раздел в разработке
     </div>
+
+    <p class="next-link">
+      А пока — загляните в раздел <a href="watch.html">«Смотреть»</a>
+    </p>
 
   </div>
 </div>
 
 <script>
+  /* ==================================================================
+     СПИСОК НАЗВАНИЙ ДЛЯ ФОНА
+     ================================================================== */
   const TITLES = [
-    'Раскол','Весна','Элли','Изумрудный город','Я больше не буду плакать',
+    'Раскол','Северный ветер','Весна','Элли','Изумрудный город','Я больше не буду плакать',
     'Красный кролик','Красный кролик: Первая жертва','Красный кролик: Грехи',
     'Красный кролик: Искупление','Око за око','Нашедший','Нашедший: Принятие',
     'Наказание','Первый ход','Scappa de casa','Не улетай','Пыль','Помощь',
@@ -473,23 +484,31 @@
     }
     return arr;
   }
+
   function columnCount(){
     const w = window.innerWidth;
+    const weak = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+                 (navigator.deviceMemory && navigator.deviceMemory <= 4);
     if (w < 480)  return 2;
-    if (w < 700)  return 3;
-    if (w < 1100) return 4;
-    if (w < 1600) return 5;
-    return 6;
+    if (w < 700)  return weak ? 2 : 3;
+    if (w < 1100) return weak ? 3 : 4;
+    if (w < 1600) return weak ? 4 : 5;
+    return weak ? 4 : 6;
   }
+
+  const TITLES_PER_COLUMN = 12;
+  let currentColumnCount = 0;
+
   function buildColumns(){
-    columnsEl.innerHTML = '';
     const count = columnCount();
+    currentColumnCount = count;
+    columnsEl.innerHTML = '';
     for(let i = 0; i < count; i++){
       const col   = document.createElement('div');
       col.className = 'column';
       const track = document.createElement('div');
       track.className = 'column-track';
-      const seq = shuffle([...TITLES]);
+      const seq = shuffle([...TITLES]).slice(0, TITLES_PER_COLUMN);
       seq.concat(seq).forEach(title => {
         const s = document.createElement('span');
         s.textContent = title;
@@ -507,12 +526,27 @@
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(buildColumns, 250);
+    resizeTimer = setTimeout(() => {
+      if(columnCount() !== currentColumnCount){
+        buildColumns();
+      }
+    }, 250);
   });
   window.addEventListener('orientationchange', () => {
-    setTimeout(buildColumns, 300);
+    setTimeout(() => {
+      if(columnCount() !== currentColumnCount){
+        buildColumns();
+      }
+    }, 300);
   });
 
+  document.addEventListener('visibilitychange', () => {
+    columnsEl.classList.toggle('paused', document.hidden);
+  });
+
+  /* ==================================================================
+     БУРГЕР
+     ================================================================== */
   const burger     = document.getElementById('burger');
   const mobileMenu = document.getElementById('mobileMenu');
 
