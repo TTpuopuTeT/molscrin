@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#05060d">
-<title>Премьеры — МОЛСКРИН</title>
+<title>Анонсы — МОЛСКРИН</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:      #05060d;
@@ -53,6 +53,7 @@
     border-bottom:1px solid rgba(120,110,255,.12);
   }
 
+  /* ================= ЛОГОТИП: ТЕКСТОВАЯ «М» ================= */
   .logo{
     display:flex;
     align-items:center;
@@ -60,16 +61,29 @@
     line-height:0;
     flex-shrink:0;
   }
-  .logo svg{
+  .logo-letter{
+    display:flex;
+    align-items:center;
+    justify-content:center;
     width:54px;
     height:54px;
-    overflow:visible;
-    display:block;
+    font-family:'Unbounded',sans-serif;
+    font-weight:800;
+    font-size:34px;
+    line-height:1;
+    letter-spacing:-.02em;
+    background:linear-gradient(135deg, #a04dff 0%, #4d7cff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
     filter:drop-shadow(0 0 10px rgba(110,80,255,.55));
-    transition:filter .3s ease;
+    transition:filter .3s ease, transform .3s ease;
+    user-select:none;
+    -webkit-user-select:none;
   }
-  .logo:hover svg{
+  .logo:hover .logo-letter{
     filter:drop-shadow(0 0 18px rgba(150,90,255,.95));
+    transform:scale(1.05);
   }
 
   nav.desktop-nav{
@@ -168,7 +182,7 @@
     background:rgba(120,80,255,.12);
   }
 
-  /* ================= ФОН ================= */
+  /* ================= ФОН: ЧУТЬ УСИЛЕННОЕ СВЕЧЕНИЕ ================= */
   .bg-glow{
     position:fixed;
     inset:0;
@@ -176,10 +190,10 @@
     pointer-events:none;
     background:
       radial-gradient(ellipse 60% 50% at 20% 10%,
-        rgba(120,60,220,.18) 0%,
+        rgba(120,60,220,.24) 0%,
         transparent 60%),
       radial-gradient(ellipse 50% 50% at 85% 80%,
-        rgba(60,90,220,.16) 0%,
+        rgba(60,90,220,.22) 0%,
         transparent 65%);
   }
 
@@ -215,201 +229,149 @@
     filter:drop-shadow(0 0 24px rgba(90,70,255,.45));
   }
 
-  /* ================= ГЛАВНАЯ КАРТОЧКА ================= */
-  .announcements-list{
-    display:flex;
-    flex-direction:column;
-    gap:32px;
-    align-items:center;
-  }
-
-  .announcement-featured{
+  /* ================= КРАСИВОЕ ПУСТОЕ СОСТОЯНИЕ ================= */
+  .empty-state{
     position:relative;
-    width:100%;
-    max-width:920px;
-    display:grid;
-    grid-template-columns:minmax(220px, 300px) 1fr;
-    gap:0;
-    background:rgba(20,22,45,.55);
-    border:1px solid rgba(120,110,255,.18);
-    border-radius:24px;
-    overflow:hidden;
-    text-decoration:none;
-    color:inherit;
-    transition:transform .4s cubic-bezier(.2,.7,.3,1),
-               border-color .4s,
-               box-shadow .4s;
-    box-shadow:
-      0 24px 60px rgba(0,0,0,.5),
-      0 0 40px rgba(90,60,255,.15);
-  }
-  .announcement-featured:hover{
-    transform:translateY(-6px);
-    border-color:rgba(170,130,255,.75);
-    box-shadow:
-      0 32px 80px rgba(90,60,255,.45),
-      0 0 60px rgba(140,90,255,.3);
-  }
-
-  /* Постер слева */
-  .featured-poster{
-    position:relative;
-    aspect-ratio:2/3;
+    max-width:640px;
+    margin:40px auto 0;
+    padding:56px 40px;
+    text-align:center;
+    border-radius:28px;
     background:
-      linear-gradient(135deg, rgba(60,40,120,.5), rgba(20,22,45,.9)),
-      radial-gradient(circle at 30% 30%, rgba(120,80,255,.25), transparent 60%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
+      linear-gradient(135deg,
+        rgba(60,40,120,.16) 0%,
+        rgba(20,22,45,.5) 50%,
+        rgba(60,90,220,.12) 100%);
+    border:1px solid rgba(120,110,255,.22);
+    box-shadow:
+      0 24px 70px rgba(0,0,0,.4),
+      0 0 60px rgba(90,60,255,.18),
+      inset 0 1px 0 rgba(255,255,255,.05);
     overflow:hidden;
+
+    /* плавное быстрое появление */
+    opacity:0;
+    transform:translateY(10px);
+    animation:emptyIn .35s cubic-bezier(.2,.7,.3,1) .05s forwards;
   }
-  .featured-poster img{
-    width:100%; height:100%;
-    object-fit:cover;
-    display:block;
-    transition:transform .6s cubic-bezier(.2,.7,.3,1);
+  @keyframes emptyIn{
+    to{ opacity:1; transform:translateY(0); }
   }
-  .announcement-featured:hover .featured-poster img{
-    transform:scale(1.04);
-  }
-  .featured-poster .soon{
-    font-size:13px;
-    font-weight:600;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:rgba(180,170,255,.6);
-    border:1px solid rgba(120,110,255,.35);
-    padding:8px 18px;
-    border-radius:20px;
-    position:relative;
-    z-index:2;
-  }
-  .featured-poster::after{
+
+  .empty-state::before{
     content:'';
     position:absolute;
-    inset:0;
-    background:linear-gradient(to right,
-      transparent 70%,
-      rgba(20,22,45,.7) 100%);
+    top:-50%; left:-50%;
+    width:200%; height:200%;
+    background:conic-gradient(from 0deg,
+      transparent 0%,
+      rgba(160,90,255,.08) 25%,
+      transparent 50%,
+      rgba(80,120,255,.08) 75%,
+      transparent 100%);
+    animation:emptySpin 18s linear infinite;
     pointer-events:none;
   }
-
-  /* Контент справа */
-  .featured-body{
-    position:relative;
-    padding:44px 48px 44px 44px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    gap:18px;
-    background:
-      radial-gradient(ellipse 80% 100% at 100% 50%,
-        rgba(120,80,255,.12) 0%,
-        transparent 70%),
-      linear-gradient(135deg,
-        rgba(20,22,45,.4) 0%,
-        rgba(10,12,26,.6) 100%);
+  @keyframes emptySpin{
+    to{ transform:rotate(360deg); }
   }
 
-  .featured-badge{
+  .empty-state > *{ position:relative; z-index:1; }
+
+  .empty-icon{
+    width:72px; height:72px;
+    margin:0 auto 22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:
+      linear-gradient(135deg, rgba(160,90,255,.22), rgba(80,120,255,.22));
+    border:1px solid rgba(160,120,255,.4);
+    box-shadow:
+      0 0 30px rgba(140,90,255,.35),
+      inset 0 1px 0 rgba(255,255,255,.1);
+    /* лёгкое мерцание */
+    animation:iconGlow 3s ease-in-out infinite;
+  }
+  @keyframes iconGlow{
+    0%,100%{ transform:scale(1);    }
+    50%    { transform:scale(1.04); }
+  }
+  .empty-icon svg{
+    width:32px; height:32px;
+    stroke:url(#emptyGrad);
+    stroke-width:1.8;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .empty-title{
+    font-family:'Unbounded',sans-serif;
+    font-weight:600;
+    font-size:clamp(20px, 2.4vw, 26px);
+    letter-spacing:.01em;
+    line-height:1.25;
+    margin-bottom:12px;
+    background:linear-gradient(180deg, #ffffff 0%, #c3cbff 60%, #9c7dff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .empty-text{
+    font-size:15px;
+    line-height:1.6;
+    color:var(--muted);
+    max-width:460px;
+    margin:0 auto;
+  }
+
+  .empty-link{
     display:inline-flex;
     align-items:center;
     gap:8px;
-    align-self:flex-start;
-    padding:8px 16px;
-    border-radius:20px;
-    font-family:'Manrope',sans-serif;
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:.12em;
-    text-transform:uppercase;
+    margin-top:26px;
+    padding:12px 24px;
+    border-radius:24px;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.02em;
+    text-decoration:none;
     color:#fff;
     background:linear-gradient(135deg, var(--violet), var(--blue));
+    background-size:180% 180%;
     box-shadow:
-      0 6px 20px rgba(120,80,255,.45),
-      inset 0 1px 0 rgba(255,255,255,.25);
-    animation:badgePulse 3s ease-in-out infinite;
+      0 10px 28px rgba(120,80,255,.4),
+      inset 0 1px 0 rgba(255,255,255,.2);
+    transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .3s;
   }
-  .featured-badge svg{
-    width:13px; height:13px;
+  .empty-link:hover{
+    transform:translateY(-3px);
+    box-shadow:
+      0 16px 40px rgba(140,90,255,.6),
+      inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .empty-link svg{
+    width:14px; height:14px;
     stroke:#fff;
     stroke-width:2.2;
     fill:none;
     stroke-linecap:round;
     stroke-linejoin:round;
+    transition:transform .25s;
   }
-  @keyframes badgePulse{
-    0%,100%{ box-shadow:
-      0 6px 20px rgba(120,80,255,.45),
-      inset 0 1px 0 rgba(255,255,255,.25); }
-    50%{ box-shadow:
-      0 10px 30px rgba(140,90,255,.7),
-      inset 0 1px 0 rgba(255,255,255,.35); }
-  }
-
-  .featured-title{
-    font-family:'Unbounded',sans-serif;
-    font-weight:800;
-    font-size:clamp(28px, 3.4vw, 44px);
-    line-height:1.05;
-    letter-spacing:.01em;
-    background:linear-gradient(180deg, #ffffff 0%, #c3cbff 60%, #9c7dff 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-    filter:drop-shadow(0 0 24px rgba(90,70,255,.35));
-    margin:0;
-  }
-
-  .featured-meta{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
-    font-size:15px;
-    font-weight:500;
-    color:#c3cbff;
-  }
-  .featured-meta .age{
-    padding:3px 10px;
-    border:1px solid rgba(140,120,255,.55);
-    border-radius:6px;
-    font-size:13px;
-    color:#d6c8ff;
-    font-weight:600;
-    letter-spacing:.02em;
-  }
-  .featured-meta .dot{
-    width:4px; height:4px;
-    border-radius:50%;
-    background:rgba(160,170,235,.5);
-  }
-
-  /* ================= НИЧЕГО НЕТ ================= */
-  .empty{
-    padding:70px 20px;
-    text-align:center;
-    color:var(--muted);
-    font-size:15px;
-    letter-spacing:.02em;
-  }
-  .empty span{
-    display:block;
-    font-family:'Unbounded',sans-serif;
-    font-size:18px;
-    font-weight:600;
-    color:var(--text);
-    margin-bottom:8px;
-  }
+  .empty-link:hover svg{ transform:translateX(3px); }
 
   /* ================= ПЛАНШЕТ ================= */
   @media (max-width:1100px){
     header{ padding:0 20px; gap:16px; }
     nav.desktop-nav{ gap:16px; }
     nav.desktop-nav a{ font-size:14px; }
-    .logo svg{ width:46px; height:46px; }
+    .logo-letter{ width:46px; height:46px; font-size:29px; }
     .page-inner{ padding:42px 22px 90px; }
-    .featured-body{ padding:36px 36px 36px 32px; }
   }
 
   /* ================= МОБИЛЬНЫЙ ================= */
@@ -419,52 +381,31 @@
     nav.desktop-nav{ display:none; }
     .burger{ display:block; }
     .mobile-menu{ display:block; }
-    .logo svg{ width:40px; height:40px; }
+    .logo-letter{ width:40px; height:40px; font-size:25px; }
 
     .page-inner{ padding:34px 16px 72px; }
     .page-title{ margin-bottom:10px; }
 
-    .announcement-featured{
-      grid-template-columns:minmax(160px, 200px) 1fr;
-      border-radius:20px;
+    .empty-state{
+      padding:44px 28px;
+      border-radius:22px;
+      margin-top:28px;
     }
-    .featured-body{
-      padding:26px 24px;
-      gap:14px;
+    .empty-icon{ width:62px; height:62px; margin-bottom:18px; }
+    .empty-icon svg{ width:28px; height:28px; }
+    .empty-text{ font-size:14px; }
+    .empty-link{
+      padding:11px 20px;
+      font-size:13px;
+      margin-top:22px;
     }
-    .featured-title{ font-size:clamp(22px, 4.2vw, 32px); }
-    .featured-meta{ font-size:13px; }
-    .featured-meta .age{ font-size:12px; }
-    .featured-badge{ font-size:11px; padding:7px 14px; }
   }
 
   /* ================= УЗКИЙ ТЕЛЕФОН ================= */
-  @media (max-width:640px){
-    .announcement-featured{
-      grid-template-columns:1fr;
-    }
-    .featured-poster{
-      aspect-ratio:16/9;
-    }
-    .featured-poster::after{
-      background:linear-gradient(to bottom,
-        transparent 60%,
-        rgba(20,22,45,.85) 100%);
-    }
-    .featured-body{
-      padding:24px 22px 26px;
-      text-align:center;
-      align-items:center;
-    }
-    .featured-badge{ align-self:center; }
-    .featured-title{ text-align:center; }
-    .featured-meta{ justify-content:center; }
-  }
-
   @media (max-width:520px){
     :root{ --header-h: 60px; }
     header{ padding:0 12px; gap:10px; }
-    .logo svg{ width:36px; height:36px; }
+    .logo-letter{ width:36px; height:36px; font-size:22px; }
     .page-inner{ padding:26px 12px 60px; }
 
     .burger{ width:40px; height:40px; }
@@ -475,7 +416,14 @@
     .burger.open span:nth-child(1),
     .burger.open span:nth-child(3){ top:19px; }
 
-    .featured-title{ font-size:clamp(22px, 7.5vw, 30px); }
+    .empty-state{
+      padding:36px 22px;
+      border-radius:20px;
+    }
+    .empty-icon{ width:54px; height:54px; }
+    .empty-icon svg{ width:24px; height:24px; }
+    .empty-title{ font-size:18px; }
+    .empty-text{ font-size:13px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -491,22 +439,9 @@
 
 <header>
 
+  <!-- ============ ТЕКСТОВАЯ «М» ============ -->
   <a href="index.html" class="logo" aria-label="МОЛСКРИН">
-    <svg viewBox="0 0 64 64" fill="none"
-         stroke="url(#logoGrad)"
-         stroke-width="3.5"
-         stroke-linecap="round">
-      <defs>
-        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"   stop-color="#a04dff"/>
-          <stop offset="100%" stop-color="#4d7cff"/>
-        </linearGradient>
-      </defs>
-      <line x1="12" y1="6"  x2="12" y2="58"/>
-      <line x1="4"  y1="4"  x2="32" y2="42"/>
-      <line x1="60" y1="4"  x2="32" y2="42"/>
-      <line x1="52" y1="6"  x2="52" y2="58"/>
-    </svg>
+    <span class="logo-letter">М</span>
   </a>
 
   <nav class="desktop-nav">
@@ -533,96 +468,51 @@
   <a href="biography.html">Биография</a>
 </div>
 
+<!-- ФОН -->
 <div class="bg-glow"></div>
 
 <div class="page">
   <div class="page-inner">
 
     <div class="page-header">
-      <h1 class="page-title">Премьеры</h1>
+      <h1 class="page-title">Анонсы</h1>
     </div>
 
-    <div class="announcements-list" id="announcementsList"></div>
+    <!-- ============ КРАСИВОЕ ПУСТОЕ СОСТОЯНИЕ ============ -->
+    <div class="empty-state">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <linearGradient id="emptyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stop-color="#a04dff"/>
+              <stop offset="100%" stop-color="#4d7cff"/>
+            </linearGradient>
+          </defs>
+          <!-- колокольчик -->
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </div>
+
+      <h2 class="empty-title">Скоро здесь появятся анонсы новых фильмов</h2>
+      <p class="empty-text">
+        Мы готовим новые фильмы. Как только анонсируем новый фильм,
+        он появится здесь. Следите за обновлениями
+      </p>
+
+      <a href="watch.html" class="empty-link">
+        Смотреть фильмы
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="13 6 19 12 13 18"/>
+        </svg>
+      </a>
+    </div>
 
   </div>
 </div>
 
 <script>
-  /* ==================================================================
-     ДАННЫЕ ПРЕМЬЕР
-     ================================================================== */
-  const ANNOUNCEMENTS = [
-    {
-      title:   'Северный ветер',
-      genres:  ['Драма'],
-      age:     16,
-      release: 'Осень 2026',
-      poster:  'North_wind/North_wind1.jpg',
-      link:    'North_wind/North_wind_film.html'
-    }
-  ];
-
-  const list = document.getElementById('announcementsList');
-
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[c]));
-  }
-
-  function renderAnnouncements(){
-    if(!ANNOUNCEMENTS.length){
-      list.innerHTML = `
-        <div class="empty">
-          <span>Пока премьер нет</span>
-          Скоро здесь появятся новые фильмы
-        </div>
-      `;
-      return;
-    }
-
-    list.innerHTML = ANNOUNCEMENTS.map(item => {
-      const posterHtml = item.poster
-        ? `<img src="${item.poster}" alt="${escapeHtml(item.title)}"
-                onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>Скоро</span>')">`
-        : `<span class="soon">Скоро</span>`;
-
-      const genresText = item.genres && item.genres.length
-        ? item.genres.join(', ')
-        : '';
-
-      const metaHtml = genresText
-        ? `<span>${escapeHtml(genresText)}</span><span class="dot"></span>`
-        : '';
-
-      const ageHtml = item.age
-        ? `<span class="age">${item.age}+</span>`
-        : '';
-
-      const inner = `
-        <div class="featured-poster">
-          ${posterHtml}
-        </div>
-        <div class="featured-body">
-          <div class="featured-badge">
-            Смотреть
-          </div>
-          <h3 class="featured-title">${escapeHtml(item.title)}</h3>
-          <div class="featured-meta">
-            ${metaHtml}
-            ${ageHtml}
-          </div>
-        </div>
-      `;
-
-      return item.link
-        ? `<a class="announcement-featured" href="${item.link}">${inner}</a>`
-        : `<div class="announcement-featured">${inner}</div>`;
-    }).join('');
-  }
-
-  renderAnnouncements();
-
   /* ==================================================================
      БУРГЕР
      ================================================================== */
