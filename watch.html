@@ -205,7 +205,7 @@
     justify-content:space-between;
     align-items:center;
     gap:14px;
-    margin-bottom:30px;
+    margin-bottom:22px;
     flex-wrap:wrap;
   }
 
@@ -265,6 +265,119 @@
   .filter-dropdown.open .arrow{
     transform:rotate(-135deg) translate(-3px, -3px);
   }
+
+  /* ================= КНОПКА-ЛУПА ================= */
+  .search-toggle{
+    width:42px; height:42px;
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(20,22,45,.65);
+    border:1px solid rgba(120,110,255,.22);
+    color:var(--text);
+    cursor:pointer;
+    transition:background .2s, border-color .2s, box-shadow .2s, color .2s, transform .2s;
+  }
+  .search-toggle:hover{
+    background:rgba(28,30,55,.85);
+    border-color:rgba(140,110,255,.5);
+  }
+  .search-toggle.active{
+    border-color:rgba(160,120,255,.9);
+    color:#fff;
+    box-shadow:0 0 22px rgba(120,80,255,.35);
+  }
+  .search-toggle svg{
+    width:18px; height:18px;
+    stroke:currentColor;
+    stroke-width:2;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  /* ================= ВЫДВИЖНАЯ СТРОКА ПОИСКА ================= */
+  .search-wrap{
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+    height:42px;
+    width:0;
+    opacity:0;
+    pointer-events:none;
+    transition:width .32s cubic-bezier(.2,.7,.3,1), opacity .22s ease;
+  }
+  .search-wrap.open{
+    width:260px;
+    opacity:1;
+    pointer-events:auto;
+  }
+  .search-field{
+    position:relative;
+    display:flex;
+    align-items:center;
+    width:100%;
+    height:42px;
+    padding:0 38px 0 14px;
+    border-radius:21px;
+    background:rgba(20,22,45,.9);
+    border:1px solid rgba(140,110,255,.55);
+    box-shadow:0 0 22px rgba(90,60,255,.22);
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .search-field:focus-within{
+    border-color:rgba(170,130,255,.9);
+    box-shadow:0 0 26px rgba(120,80,255,.35);
+  }
+  .search-field svg{
+    width:15px; height:15px;
+    stroke:rgba(200,205,255,.75);
+    stroke-width:2;
+    fill:none;
+    stroke-linecap:round;
+    flex-shrink:0;
+    margin-right:8px;
+  }
+  .search-field input{
+    flex:1;
+    min-width:0;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-family:inherit;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:.02em;
+  }
+  .search-field input::placeholder{
+    color:rgba(154,160,200,.7);
+  }
+  .search-clear{
+    position:absolute;
+    right:6px;
+    top:50%;
+    transform:translateY(-50%);
+    width:28px; height:28px;
+    border-radius:50%;
+    background:transparent;
+    border:none;
+    color:rgba(200,205,255,.7);
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    line-height:1;
+    transition:background .2s, color .2s;
+  }
+  .search-clear:hover{
+    background:rgba(120,80,255,.25);
+    color:#fff;
+  }
+  .search-wrap.has-value .search-clear{ display:flex; }
 
   .filter-menu{
     position:absolute;
@@ -365,11 +478,68 @@
     box-shadow:0 0 18px rgba(140,100,255,.35);
   }
 
+  /* ================= СЧЁТЧИК + СБРОС ================= */
+  .results-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:16px;
+    min-height:24px;
+  }
+  .results-count{
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:.02em;
+    color:var(--muted);
+  }
+  .results-count strong{
+    color:var(--text);
+    font-weight:600;
+  }
+  .reset-all{
+    display:none;
+    align-items:center;
+    gap:6px;
+    height:32px;
+    padding:0 14px;
+    border-radius:16px;
+    font-family:inherit;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:.02em;
+    color:#fff;
+    background:rgba(160,140,255,.14);
+    border:1px solid rgba(160,130,255,.35);
+    cursor:pointer;
+    transition:background .2s, box-shadow .2s, border-color .2s;
+  }
+  .reset-all.show{ display:inline-flex; }
+  .reset-all:hover{
+    background:rgba(180,150,255,.22);
+    border-color:rgba(180,150,255,.55);
+    box-shadow:0 0 18px rgba(140,100,255,.35);
+  }
+  .reset-all svg{
+    width:12px; height:12px;
+    stroke:currentColor;
+    stroke-width:2.2;
+    fill:none;
+    stroke-linecap:round;
+  }
+
   /* ================= СЕТКА КАРТОЧЕК ================= */
   .cards-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
     gap:22px;
+    opacity:1;
+    transform:translateY(0);
+    transition:opacity .28s ease, transform .28s cubic-bezier(.2,.7,.3,1);
+  }
+  .cards-grid.is-rendering{
+    opacity:0;
+    transform:translateY(6px);
   }
 
   .card{
@@ -423,111 +593,6 @@
     border:1px solid rgba(120,110,255,.35);
     padding:6px 14px;
     border-radius:20px;
-  }
-
-  /* ================================================================
-     ПЛАШКА «НОВЫЙ» — ОЧЕНЬ ТЁМНЫЙ ФИОЛЕТОВЫЙ НЕОН
-     ================================================================ */
-  .badge-new{
-    position:absolute;
-    top:12px; left:12px;
-    z-index:3;
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    padding:7px 14px 7px 10px;
-    border-radius:30px;
-    font-family:'Unbounded',sans-serif;
-    font-size:10px;
-    font-weight:700;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:#a98bff;
-    background:
-      linear-gradient(120deg,
-        #1a0d3d 0%,
-        #24114f 25%,
-        #2e1660 50%,
-        #24114f 75%,
-        #1a0d3d 100%);
-    background-size:300% 100%;
-    animation:badgeFlow 4s linear infinite,
-              badgePulse 2.2s ease-in-out infinite;
-    box-shadow:
-      0 0 4px rgba(60,30,120,.6),
-      0 0 8px rgba(50,20,100,.45),
-      0 0 14px rgba(90,40,170,.2),
-      inset 0 0 4px rgba(140,100,220,.1);
-    border:1px solid rgba(110,70,190,.35);
-    text-shadow:0 0 3px rgba(140,100,220,.5);
-    pointer-events:none;
-    overflow:hidden;
-  }
-
-  .badge-new::before{
-    content:'';
-    position:absolute;
-    top:0; left:-60%;
-    width:45%;
-    height:100%;
-    background:linear-gradient(90deg,
-      transparent,
-      rgba(140,100,220,.35),
-      transparent);
-    transform:skewX(-25deg);
-    animation:badgeSheen 2.8s ease-in-out infinite;
-  }
-
-  .badge-new::after{
-    content:'';
-    position:absolute;
-    inset:-3px;
-    border-radius:inherit;
-    background:conic-gradient(from 0deg,
-      #1a0d3d, #24114f, #2e1660, #24114f, #1a0d3d);
-    filter:blur(12px);
-    opacity:.3;
-    z-index:-1;
-    animation:badgeSpin 5s linear infinite;
-  }
-
-  @keyframes badgeFlow{
-    0%  { background-position:0% 50%; }
-    100%{ background-position:300% 50%; }
-  }
-  @keyframes badgePulse{
-    0%,100%{ transform:scale(1);    }
-    50%    { transform:scale(1.06); }
-  }
-  @keyframes badgeSheen{
-    0%  { left:-60%; }
-    60% { left:130%; }
-    100%{ left:130%; }
-  }
-  @keyframes badgeSpin{
-    to{ transform:rotate(360deg); }
-  }
-
-  .badge-dot{
-    position:relative;
-    width:7px; height:7px;
-    border-radius:50%;
-    background:#9d80ff;
-    box-shadow:0 0 4px #9d80ff, 0 0 8px #5a2fb8;
-    flex-shrink:0;
-  }
-  .badge-dot::after{
-    content:'';
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    background:#9d80ff;
-    animation:pulse 1.6s ease-out infinite;
-  }
-  @keyframes pulse{
-    0%  { transform:scale(1);   opacity:.9; }
-    70% { transform:scale(2.8); opacity:0;  }
-    100%{ transform:scale(2.8); opacity:0;  }
   }
 
   .card-info{
@@ -609,7 +674,7 @@
       flex-direction:column;
       align-items:stretch;
       gap:12px;
-      margin-bottom:22px;
+      margin-bottom:18px;
     }
     .filter-left,
     .filter-right{
@@ -632,6 +697,28 @@
       width:100%;
     }
 
+    /* Поиск на мобиле: кнопка в правой колонке, строка — на всю ширину */
+    .filter-right{
+      grid-template-columns:1fr 1fr auto;
+    }
+    .search-toggle{
+      width:44px; height:44px;
+      border-radius:22px;
+    }
+    .search-wrap{
+      grid-column:1 / -1;
+      width:100%;
+      height:0;
+      transition:height .3s cubic-bezier(.2,.7,.3,1), opacity .22s ease;
+    }
+    .search-wrap.open{
+      width:100%;
+      height:44px;
+    }
+    .search-field{ height:44px; border-radius:22px; }
+
+    .results-bar{ margin-bottom:12px; }
+
     .cards-grid{
       grid-template-columns:repeat(2, 1fr);
       gap:14px;
@@ -639,14 +726,6 @@
     .card-info{ padding:10px 12px 12px; }
     .card-title{ font-size:13px; }
     .card-meta{ font-size:11px; }
-
-    .badge-new{
-      top:8px; left:8px;
-      padding:6px 11px 6px 8px;
-      font-size:9px;
-      letter-spacing:.14em;
-    }
-    .badge-dot{ width:6px; height:6px; }
   }
 
   /* ================= УЗКИЙ ТЕЛЕФОН ================= */
@@ -658,12 +737,13 @@
     .page-inner{ padding:16px 12px 60px; }
     .page-title{ font-size:24px; }
 
-    .filter-right{ grid-template-columns:1fr 1fr; }
+    .filter-right{ grid-template-columns:1fr 1fr auto; }
     .filter-btn{
       font-size:13px;
       height:42px;
       padding:0 14px;
     }
+    .search-toggle{ width:42px; height:42px; }
 
     .cards-grid{
       grid-template-columns:repeat(2, 1fr);
@@ -773,8 +853,40 @@
           <div class="filter-menu" id="ageMenu"></div>
         </div>
 
+        <!-- Кнопка-лупа -->
+        <button class="search-toggle" id="searchToggle" aria-label="Поиск фильмов" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="16.5" y1="16.5" x2="21" y2="21"/>
+          </svg>
+        </button>
+
+        <!-- Выдвижная строка поиска -->
+        <div class="search-wrap" id="searchWrap">
+          <div class="search-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/>
+              <line x1="16.5" y1="16.5" x2="21" y2="21"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск фильмов…" autocomplete="off" spellcheck="false">
+            <button class="search-clear" id="searchClear" aria-label="Очистить" type="button">✕</button>
+          </div>
+        </div>
+
       </div>
 
+    </div>
+
+    <!-- ============ СЧЁТЧИК + СБРОС ============ -->
+    <div class="results-bar">
+      <div class="results-count" id="resultsCount"></div>
+      <button class="reset-all" id="resetAll" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="6" y1="6" x2="18" y2="18"/>
+          <line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+        Сбросить всё
+      </button>
     </div>
 
     <!-- ============ КАРТОЧКИ ============ -->
@@ -800,12 +912,11 @@
     },
     {
       ready: true,
-      isNew: true,
       title: 'Северный ветер',
       poster: 'North_wind/North_wind1.jpg',
       link: 'North_wind/North_wind_film.html',
-      date: 'Осень 2026',
-      dateKey: '2026-09-01',
+      date: '15.11.2026',
+      dateKey: '2026-11-15',
       genres: ['Драма'],
       age: 16
     },
@@ -1037,7 +1148,8 @@
   const state = {
     sort:   null,
     genres: [],
-    ages:   []
+    ages:   [],
+    query:  ''
   };
 
   /* ==============================================================
@@ -1056,6 +1168,14 @@
   const sortLabel     = document.getElementById('sortLabel');
   const genreLabel    = document.getElementById('genreLabel');
   const ageLabel      = document.getElementById('ageLabel');
+
+  const searchToggle  = document.getElementById('searchToggle');
+  const searchWrap    = document.getElementById('searchWrap');
+  const searchInput   = document.getElementById('searchInput');
+  const searchClear   = document.getElementById('searchClear');
+
+  const resultsCount  = document.getElementById('resultsCount');
+  const resetAll      = document.getElementById('resetAll');
 
   /* ==============================================================
      ВСПОМОГАТЕЛЬНОЕ
@@ -1078,7 +1198,8 @@
   function hasActiveFilters(){
     return state.sort !== null ||
            state.genres.length > 0 ||
-           state.ages.length > 0;
+           state.ages.length > 0 ||
+           state.query.trim() !== '';
   }
 
   /* ==============================================================
@@ -1086,6 +1207,11 @@
      ============================================================== */
   function applyFiltersAndSort(){
     let list = FILMS.slice();
+
+    const q = state.query.trim().toLowerCase();
+    if(q){
+      list = list.filter(f => f.title.toLowerCase().includes(q));
+    }
 
     if(state.genres.length > 0 || state.ages.length > 0){
       list = list.filter(film => {
@@ -1149,7 +1275,7 @@
       cardsGrid.innerHTML = `
         <div class="empty">
           <span>Ничего не найдено</span>
-          Попробуй изменить фильтры
+          Попробуй изменить фильтры или запрос
         </div>
       `;
       return;
@@ -1166,15 +1292,10 @@
           meta = `<div class="card-meta">${escapeHtml(film.genres.join(', '))}</div>`;
         }
 
-        const badge = film.isNew
-          ? `<span class="badge-new"><span class="badge-dot"></span>Новый</span>`
-          : '';
-
         return `
           <a href="${film.link}" class="card link">
             <div class="card-poster">
-              ${badge}
-              <img src="${film.poster}" alt="${escapeHtml(film.title)}"
+              <img src="${film.poster}" alt="${escapeHtml(film.title)}" loading="lazy"
                    onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend','<span class=&quot;soon&quot;>СКОРО</span>')">
             </div>
             <div class="card-info">
@@ -1246,7 +1367,7 @@
   }
 
   /* ==============================================================
-     ОБНОВЛЕНИЕ ЛЕЙБЛОВ
+     ОБНОВЛЕНИЕ ЛЕЙБЛОВ + СЧЁТЧИКА
      ============================================================== */
   function updateLabels(){
     if(state.sort){
@@ -1273,17 +1394,46 @@
       ageLabel.textContent = 'Возраст';
       ageBtn.classList.remove('active');
     }
+
+    const hasQuery = state.query.trim() !== '';
+    searchToggle.classList.toggle('active', hasQuery || searchWrap.classList.contains('open'));
+    searchWrap.classList.toggle('has-value', hasQuery);
+  }
+
+  function updateResultsCount(list){
+    const n = list.length;
+    let word = 'фильмов';
+    if(n % 10 === 1 && n % 100 !== 11) word = 'фильм';
+    else if(n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) word = 'фильма';
+
+    resultsCount.innerHTML = n === 0
+      ? `Ничего не найдено`
+      : `Найдено: <strong>${n}</strong> ${word}`;
+
+    resetAll.classList.toggle('show', hasActiveFilters());
   }
 
   /* ==============================================================
      ПОЛНОЕ ОБНОВЛЕНИЕ UI
      ============================================================== */
   function update(){
+    /* лёгкая анимация: сетка плавно появляется после рендера */
+    cardsGrid.classList.add('is-rendering');
+
     renderCards();
     renderSortMenu();
     renderGenreMenu();
     renderAgeMenu();
     updateLabels();
+
+    const list = applyFiltersAndSort();
+    updateResultsCount(list);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        cardsGrid.classList.remove('is-rendering');
+      });
+    });
   }
 
   /* ==============================================================
@@ -1319,6 +1469,9 @@
       state.sort   = null;
       state.genres = [];
       state.ages   = [];
+      state.query  = '';
+      searchInput.value = '';
+      searchWrap.classList.remove('has-value');
       update();
       closeAllDropdowns();
       return;
@@ -1353,6 +1506,97 @@
     if(idx === -1) state.ages.push(a);
     else state.ages.splice(idx, 1);
     update();
+  });
+
+  /* ==============================================================
+     ПОИСК
+     ============================================================== */
+  function openSearch(){
+    searchWrap.classList.add('open');
+    searchToggle.setAttribute('aria-expanded', 'true');
+    searchToggle.classList.add('active');
+    /* фокус после анимации */
+    setTimeout(() => searchInput.focus(), 180);
+  }
+
+  function closeSearch(clearValue){
+    searchWrap.classList.remove('open');
+    searchToggle.setAttribute('aria-expanded', 'false');
+    if(clearValue){
+      searchInput.value = '';
+      state.query = '';
+      searchWrap.classList.remove('has-value');
+      update();
+    }
+    if(state.query.trim() === ''){
+      searchToggle.classList.remove('active');
+    }
+  }
+
+  searchToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    if(searchWrap.classList.contains('open')){
+      closeSearch(false);
+    } else {
+      openSearch();
+    }
+  });
+
+  let searchTimer = null;
+  searchInput.addEventListener('input', () => {
+    const val = searchInput.value;
+    searchWrap.classList.toggle('has-value', val.length > 0);
+
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.query = val;
+      update();
+    }, 120);
+  });
+
+  searchInput.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){
+      if(searchInput.value){
+        searchInput.value = '';
+        state.query = '';
+        searchWrap.classList.remove('has-value');
+        update();
+      } else {
+        closeSearch(false);
+      }
+    }
+  });
+
+  searchClear.addEventListener('click', e => {
+    e.stopPropagation();
+    searchInput.value = '';
+    state.query = '';
+    searchWrap.classList.remove('has-value');
+    searchInput.focus();
+    update();
+  });
+
+  /* клик вне поиска — закрыть (но не если ввели текст) */
+  document.addEventListener('click', e => {
+    if(!searchWrap.contains(e.target) && e.target !== searchToggle && !searchToggle.contains(e.target)){
+      if(searchWrap.classList.contains('open') && state.query.trim() === ''){
+        closeSearch(false);
+      }
+    }
+  });
+
+  /* ==============================================================
+     СБРОС ВСЕГО
+     ============================================================== */
+  resetAll.addEventListener('click', () => {
+    state.sort   = null;
+    state.genres = [];
+    state.ages   = [];
+    state.query  = '';
+    searchInput.value = '';
+    searchWrap.classList.remove('has-value');
+    update();
+    closeAllDropdowns();
   });
 
   /* ==============================================================
