@@ -1179,16 +1179,15 @@
 
 </section>
 
-<!-- ============ ПЛЕЕР ФИЛЬМА ============ -->
+<!-- ============ ПЛЕЕР ФИЛЬМА (как у «Последнего глотка») ============ -->
 <div class="modal" id="playerModal">
   <div class="modal-inner">
     <button class="modal-close" id="playerClose" aria-label="Закрыть">✕</button>
     <video 
       id="filmVideo"
       controls 
-      preload="none"
+      preload="metadata"
       playsinline
-      crossorigin="anonymous"
       style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
       <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/red-rabbit-first-victim-movie-v1.0/red_rabbit_first_victim_movie.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
@@ -1196,16 +1195,15 @@
   </div>
 </div>
 
-<!-- ============ ПЛЕЕР ТРЕЙЛЕРА ============ -->
+<!-- ============ ПЛЕЕР ТРЕЙЛЕРА (как у «Последнего глотка») ============ -->
 <div class="modal" id="trailerModal">
   <div class="modal-inner">
     <button class="modal-close" id="trailerClose" aria-label="Закрыть">✕</button>
     <video 
       id="trailerVideo"
       controls 
-      preload="none"
+      preload="metadata"
       playsinline
-      crossorigin="anonymous"
       style="width:100%; height:100%; object-fit:contain; background:#000; border-radius:16px;">
       <source src="https://github.com/TTpuopuTeT/molscrin/releases/download/v1.0/Red_rabbit_first_victim_trailer.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
@@ -1364,12 +1362,12 @@
     });
   });
 
+  /* ---------- плеер фильма (как у «Последнего глотка») ---------- */
   function openPlayer(){
     playerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     if(filmVideo){
       filmVideo.currentTime = 0;
-      filmVideo.load();
       const p = filmVideo.play();
       if(p && p.catch) p.catch(() => {});
     }
@@ -1388,12 +1386,12 @@
     if(e.target === playerModal) closePlayer();
   });
 
+  /* ---------- плеер трейлера (как у «Последнего глотка») ---------- */
   function openTrailer(){
     trailerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     if(trailerVideo){
       trailerVideo.currentTime = 0;
-      trailerVideo.load();
       const p = trailerVideo.play();
       if(p && p.catch) p.catch(() => {});
     }
@@ -1412,6 +1410,7 @@
     if(e.target === trailerModal) closeTrailer();
   });
 
+  /* ---------- просмотр кадров ---------- */
   const frames    = framesGrid ? Array.from(framesGrid.querySelectorAll('.frame-item[data-src]')) : [];
   const frameSrcs = frames.map(f => f.dataset.src);
   let currentFrame = 0;
